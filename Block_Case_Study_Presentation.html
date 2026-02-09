@@ -1,0 +1,2554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Angi Enrollment Transformation | Block PM Case Study</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+  :root {
+    --block-black: #1a1a2e;
+    --block-dark: #16213e;
+    --block-blue: #0f3460;
+    --block-accent: #e94560;
+    --block-green: #00b894;
+    --block-yellow: #fdcb6e;
+    --block-light: #f8f9fa;
+    --block-white: #ffffff;
+    --block-gray: #6c757d;
+    --block-mid: #dee2e6;
+    --text-primary: #1a1a2e;
+    --text-secondary: #495057;
+    --text-muted: #868e96;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #0d1117;
+    color: var(--text-primary);
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  .presentation {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+  }
+
+  .slide {
+    width: 100vw;
+    height: calc(100vh - 48px);
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+  }
+
+  .slide.active { display: flex; }
+
+  /* ═══════════════════════════════════════════════
+     NAVIGATION
+     ═══════════════════════════════════════════════ */
+  .nav-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 48px;
+    background: rgba(26, 26, 46, 0.95);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+    z-index: 1000;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .nav-bar .slide-counter {
+    color: rgba(255,255,255,0.6);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+
+  .nav-bar .nav-dots {
+    display: flex;
+    gap: 8px;
+  }
+
+  .nav-bar .nav-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    cursor: pointer;
+    transition: background 0.3s, width 0.3s, border-radius 0.3s;
+  }
+
+  .nav-bar .nav-dot.active {
+    background: var(--block-accent);
+    width: 24px;
+    border-radius: 4px;
+  }
+
+  .nav-btn {
+    background: none;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.7);
+    padding: 6px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+
+  .nav-btn:hover {
+    background: rgba(255,255,255,0.1);
+    color: white;
+  }
+
+  /* ═══════════════════════════════════════════════
+     SLIDE 1: TITLE
+     ═══════════════════════════════════════════════ */
+  .slide-title {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    color: white;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 80px;
+    text-align: center;
+    position: relative;
+  }
+
+  .slide-title::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(circle at 30% 40%, rgba(233,69,96,0.15) 0%, transparent 50%),
+                radial-gradient(circle at 70% 60%, rgba(15,52,96,0.3) 0%, transparent 50%);
+  }
+
+  .slide-title .content { position: relative; z-index: 1; max-width: 900px; }
+
+  .slide-title .tag {
+    display: inline-block;
+    background: rgba(233,69,96,0.15);
+    border: 1px solid rgba(233,69,96,0.3);
+    color: var(--block-accent);
+    padding: 6px 20px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .slide-title h1 {
+    font-size: 46px;
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 14px;
+    letter-spacing: -1px;
+  }
+
+  .slide-title h1 span { color: var(--block-accent); }
+
+  .slide-title .subtitle {
+    font-size: 20px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 28px;
+    line-height: 1.4;
+  }
+
+  .title-metrics {
+    display: flex;
+    gap: 48px;
+    justify-content: center;
+    margin-top: 8px;
+  }
+
+  .title-metric {
+    text-align: center;
+  }
+
+  .title-metric .value {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--block-accent);
+  }
+
+  .title-metric .label {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 4px;
+  }
+
+  .title-context {
+    margin-top: 28px;
+    padding: 18px 28px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.08);
+    text-align: left;
+  }
+
+  .title-context .context-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--block-accent);
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  .title-context p {
+    font-size: 15px;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.6;
+  }
+
+  /* ═══════════════════════════════════════════════
+     COMMON SLIDE LAYOUT
+     ═══════════════════════════════════════════════ */
+  .content-slide {
+    background: var(--block-white);
+    padding: 36px 56px 24px;
+  }
+
+  .slide-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .slide-number {
+    width: 40px;
+    height: 40px;
+    background: var(--block-black);
+    color: white;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .slide-header h2 {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--text-primary);
+    letter-spacing: -0.5px;
+  }
+
+  .slide-header .section-tag {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--block-accent);
+    font-weight: 600;
+    background: rgba(233,69,96,0.08);
+    padding: 4px 12px;
+    border-radius: 4px;
+  }
+
+  /* ═══════════════════════════════════════════════
+     SLIDE 2: CUSTOMER EMPATHY
+     ═══════════════════════════════════════════════ */
+  .empathy-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .empathy-left { display: flex; flex-direction: column; gap: 12px; }
+
+  .customer-card {
+    background: var(--block-light);
+    border-radius: 10px;
+    padding: 16px 20px;
+    border: 1px solid var(--block-mid);
+  }
+
+  .customer-card.primary {
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    color: white;
+    border: none;
+  }
+
+  .customer-card .card-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .customer-card.primary .card-label { color: var(--block-accent); }
+  .customer-card .card-label { color: var(--text-muted); }
+
+  .customer-card h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .customer-card ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .customer-card ul li {
+    font-size: 13px;
+    line-height: 1.5;
+    padding-left: 16px;
+    position: relative;
+  }
+
+  .customer-card ul li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 7px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+  }
+
+  .customer-card.primary ul li::before { background: var(--block-accent); }
+  .customer-card ul li::before { background: var(--block-blue); }
+  .customer-card.primary ul li { color: rgba(255,255,255,0.85); }
+
+  .empathy-right { display: flex; flex-direction: column; gap: 12px; }
+
+  .methodology-box {
+    background: var(--block-light);
+    border-radius: 10px;
+    padding: 14px 18px;
+    border-left: 4px solid var(--block-accent);
+  }
+
+  .methodology-box h4 {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--block-accent);
+    margin-bottom: 10px;
+  }
+
+  .methodology-box .research-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+  }
+
+  .research-item .num {
+    width: 22px;
+    height: 22px;
+    background: var(--block-black);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .insight-box {
+    background: linear-gradient(135deg, rgba(233,69,96,0.08), rgba(233,69,96,0.03));
+    border: 1px solid rgba(233,69,96,0.15);
+    border-radius: 10px;
+    padding: 14px 18px;
+  }
+
+  .insight-box h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--block-accent);
+    margin-bottom: 8px;
+  }
+
+  .insight-box .quote {
+    font-style: italic;
+    font-size: 15px;
+    color: var(--text-primary);
+    line-height: 1.5;
+    margin-bottom: 8px;
+    padding-left: 16px;
+    border-left: 3px solid var(--block-accent);
+  }
+
+  .insight-box .analysis {
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .values-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .value-chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: white;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--block-mid);
+  }
+
+  .value-chip .rank {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--block-accent);
+  }
+
+  .value-chip .value-text {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.3;
+  }
+
+  /* ═══════════════════════════════════════════════
+     SLIDE 3: PROBLEM DEFINITION
+     ═══════════════════════════════════════════════ */
+  .problem-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 24px;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .surface-problems {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .problem-stat {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    background: var(--block-light);
+    border-radius: 10px;
+    border: 1px solid var(--block-mid);
+  }
+
+  .problem-stat .stat-value {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--block-accent);
+    min-width: 80px;
+  }
+
+  .problem-stat .stat-desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+  }
+
+  .process-flow {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    padding: 14px 18px;
+    background: rgba(233,69,96,0.05);
+    border: 1px solid rgba(233,69,96,0.15);
+    border-radius: 10px;
+  }
+
+  .process-step {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 6px 10px;
+    background: white;
+    border-radius: 6px;
+    border: 1px solid var(--block-mid);
+    color: var(--text-primary);
+  }
+
+  .process-arrow {
+    color: var(--block-accent);
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .supply-chain-framework {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .framework-label {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--block-accent);
+    margin-bottom: 4px;
+  }
+
+  .sc-dimension {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: var(--block-light);
+    border: 1px solid var(--block-mid);
+  }
+
+  .sc-dimension .sc-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+    font-weight: 700;
+    color: white;
+  }
+
+  .sc-dimension h4 {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+  }
+
+  .sc-dimension p {
+    font-size: 11px;
+    color: var(--text-secondary);
+    line-height: 1.35;
+  }
+
+  .tradeoff-box {
+    padding: 14px;
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    border-radius: 10px;
+    color: white;
+  }
+
+  .tradeoff-box h4 {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--block-accent);
+    margin-bottom: 12px;
+  }
+
+  .tradeoff-diagram {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+  }
+
+  .tradeoff-axis {
+    text-align: center;
+  }
+
+  .tradeoff-axis .axis-label {
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+
+  .tradeoff-axis .axis-status {
+    font-size: 16px;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 6px;
+  }
+
+  .status-bad { background: rgba(233,69,96,0.2); color: var(--block-accent); }
+  .status-good { background: rgba(0,184,148,0.2); color: var(--block-green); }
+
+  .tradeoff-middle {
+    font-size: 24px;
+    color: rgba(255,255,255,0.3);
+  }
+
+  /* ═══════════════════════════════════════════════
+     SLIDE 4: PROBLEM - STRATEGIC VALUE
+     ═══════════════════════════════════════════════ */
+  .strategic-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .chain-reaction {
+    padding: 16px 20px;
+    background: var(--block-light);
+    border-radius: 12px;
+    border: 1px solid var(--block-mid);
+  }
+
+  .chain-reaction h3 {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--text-primary);
+  }
+
+  .chain-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .chain-step {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--block-mid);
+    position: relative;
+  }
+
+  .chain-step:last-child { border-bottom: none; }
+
+  .chain-step .step-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .chain-step .step-text {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+  }
+
+  .chain-step .step-text strong {
+    color: var(--text-primary);
+  }
+
+  .chain-connector {
+    width: 2px;
+    height: 12px;
+    background: var(--block-mid);
+    margin-left: 17px;
+  }
+
+  .strategy-box {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .strategy-context {
+    padding: 16px 20px;
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    color: white;
+    border-radius: 12px;
+  }
+
+  .strategy-context h3 {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--block-accent);
+  }
+
+  .strategy-context p {
+    font-size: 12px;
+    color: rgba(255,255,255,0.8);
+    line-height: 1.5;
+    margin-bottom: 8px;
+  }
+
+  .strategy-goals {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .strategy-goal {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.85);
+  }
+
+  .strategy-goal .goal-num {
+    width: 24px;
+    height: 24px;
+    background: rgba(233,69,96,0.2);
+    color: var(--block-accent);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  /* SC Mapping Visual */
+  .sc-mapping {
+    padding: 16px 20px;
+    background: var(--block-light);
+    border-radius: 12px;
+    border: 1px solid var(--block-mid);
+  }
+
+  .sc-mapping h3 {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--text-primary);
+  }
+
+  .sc-map-items {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .sc-map-item {
+    display: grid;
+    grid-template-columns: 28px 1fr 24px 1fr;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid var(--block-mid);
+    font-size: 12px;
+  }
+
+  .sc-map-item .map-icon {
+    font-size: 18px;
+    text-align: center;
+  }
+
+  .sc-map-item .map-finding {
+    color: var(--text-secondary);
+    line-height: 1.3;
+  }
+
+  .sc-map-item .map-arrow {
+    color: var(--block-accent);
+    text-align: center;
+    font-weight: 700;
+  }
+
+  .sc-map-item .map-impact {
+    color: var(--block-accent);
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  /* ═══════════════════════════════════════════════
+     SLIDE 5: SOLUTION ARCHITECTURE
+     ═══════════════════════════════════════════════ */
+  .arch-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 20px;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .arch-principles {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .principle-card {
+    padding: 12px 16px;
+    background: var(--block-light);
+    border-radius: 10px;
+    border: 1px solid var(--block-mid);
+    border-left: 4px solid var(--block-blue);
+  }
+
+  .principle-card h4 {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+  }
+
+  .principle-card .vs {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  .principle-card p {
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+    margin-top: 6px;
+  }
+
+  .arch-diagram {
+    background: linear-gradient(135deg, #1a1a2e, #0f3460);
+    border-radius: 14px;
+    padding: 20px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .arch-diagram h3 {
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--block-accent);
+    margin-bottom: 20px;
+  }
+
+  .arch-layers {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+  }
+
+  .arch-layer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .arch-layer .layer-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: rgba(255,255,255,0.4);
+    width: 80px;
+    flex-shrink: 0;
+  }
+
+  .arch-layer .layer-items {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .layer-item {
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .layer-item.frontend { background: rgba(108,92,231,0.3); color: #a29bfe; border: 1px solid rgba(108,92,231,0.4); }
+  .layer-item.api { background: rgba(0,184,148,0.3); color: #55efc4; border: 1px solid rgba(0,184,148,0.4); }
+  .layer-item.event { background: rgba(253,203,110,0.3); color: #fdcb6e; border: 1px solid rgba(253,203,110,0.4); }
+  .layer-item.service { background: rgba(233,69,96,0.3); color: #fab1a0; border: 1px solid rgba(233,69,96,0.4); }
+  .layer-item.data { background: rgba(9,132,227,0.3); color: #74b9ff; border: 1px solid rgba(9,132,227,0.4); }
+
+  .arch-flow-arrows {
+    display: flex;
+    justify-content: center;
+    padding: 4px 0;
+  }
+
+  .arch-flow-arrows span {
+    color: rgba(255,255,255,0.3);
+    font-size: 18px;
+  }
+
+  .arch-decisions {
+    margin-top: 12px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .arch-decision {
+    padding: 10px 14px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .arch-decision h5 {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--block-accent);
+    margin-bottom: 4px;
+  }
+
+  .arch-decision p {
+    font-size: 11px;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.3;
+  }
+
+  /* ═══════════════════════════════════════════════
+     SLIDE 6: SOLUTION PRODUCT + DATA FLOW
+     ═══════════════════════════════════════════════ */
+  .product-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 20px;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .user-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .flow-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 6px 0;
+    position: relative;
+  }
+
+  .flow-step-num {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--block-black);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .flow-step-content h4 {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+  }
+
+  .flow-step-content p {
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.3;
+  }
+
+  .flow-step-content .time-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--block-green);
+    background: rgba(0,184,148,0.1);
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-left: 6px;
+  }
+
+  .flow-total {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: linear-gradient(135deg, rgba(0,184,148,0.1), rgba(0,184,148,0.05));
+    border: 1px solid rgba(0,184,148,0.2);
+    border-radius: 10px;
+    margin-top: 10px;
+  }
+
+  .flow-total .total-value {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--block-green);
+  }
+
+  .flow-total .total-compare {
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+  }
+
+  .data-flow-diagram {
+    background: linear-gradient(135deg, #1a1a2e, #0f3460);
+    border-radius: 14px;
+    padding: 18px;
+    color: white;
+  }
+
+  .data-flow-diagram h3 {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--block-accent);
+    margin-bottom: 16px;
+  }
+
+  .data-flow-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .df-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 14px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .df-step .df-num {
+    width: 22px;
+    height: 22px;
+    background: var(--block-accent);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .df-step .df-text {
+    font-size: 11px;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.4;
+  }
+
+  .df-step .df-text strong {
+    color: white;
+  }
+
+  .df-step .df-text code {
+    background: rgba(253,203,110,0.2);
+    color: var(--block-yellow);
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-size: 10px;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+  }
+
+  .df-parallel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding: 10px 14px;
+    background: rgba(253,203,110,0.08);
+    border: 1px dashed rgba(253,203,110,0.3);
+    border-radius: 8px;
+  }
+
+  .df-parallel-label {
+    grid-column: 1 / -1;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--block-yellow);
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+
+  .df-parallel-item {
+    padding: 8px 10px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 6px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .df-parallel-item h5 {
+    font-size: 11px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 4px;
+  }
+
+  .df-parallel-item p {
+    font-size: 10px;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.3;
+  }
+
+  /* ═══════════════════════════════════════════════
+     SLIDE 7: TECHNICAL CHALLENGES
+     ═══════════════════════════════════════════════ */
+  .challenges-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .challenge-card {
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid var(--block-mid);
+    background: var(--block-light);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .challenge-card .challenge-num {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--block-accent);
+    margin-bottom: 6px;
+  }
+
+  .challenge-card h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+  }
+
+  .challenge-section {
+    margin-bottom: 6px;
+  }
+
+  .challenge-section .cs-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+
+  .challenge-section p {
+    font-size: 11px;
+    color: var(--text-secondary);
+    line-height: 1.35;
+  }
+
+  .challenge-result {
+    margin-top: auto;
+    padding: 8px 12px;
+    background: rgba(0,184,148,0.08);
+    border: 1px solid rgba(0,184,148,0.15);
+    border-radius: 8px;
+    font-size: 12px;
+    color: var(--block-green);
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  /* ═══════════════════════════════════════════════
+     SLIDE 8: EXECUTION
+     ═══════════════════════════════════════════════ */
+  .execution-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 20px;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .phase-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .phase-card {
+    padding: 14px 18px;
+    border-radius: 12px;
+    border: 1px solid var(--block-mid);
+    background: white;
+    position: relative;
+  }
+
+  .phase-card.active-phase {
+    border-color: var(--block-accent);
+    background: rgba(233,69,96,0.02);
+  }
+
+  .phase-card .phase-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 3px 10px;
+    border-radius: 4px;
+    margin-bottom: 8px;
+  }
+
+  .phase-1 .phase-badge { background: rgba(15,52,96,0.1); color: var(--block-blue); }
+  .phase-2 .phase-badge { background: rgba(233,69,96,0.1); color: var(--block-accent); }
+  .phase-3 .phase-badge { background: rgba(0,184,148,0.1); color: var(--block-green); }
+
+  .phase-card h4 {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+  }
+
+  .phase-card p {
+    font-size: 11px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+  }
+
+  .phase-detail {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 4px;
+    padding-top: 4px;
+    border-top: 1px solid var(--block-mid);
+    line-height: 1.4;
+  }
+
+  .stakeholder-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .stakeholder-card {
+    padding: 12px 16px;
+    border-radius: 10px;
+    background: var(--block-light);
+    border: 1px solid var(--block-mid);
+  }
+
+  .stakeholder-card h4 {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+  }
+
+  .stakeholder-card p {
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .experiment-box {
+    padding: 14px 18px;
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    border-radius: 12px;
+    color: white;
+  }
+
+  .experiment-box h4 {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--block-accent);
+    margin-bottom: 10px;
+  }
+
+  .experiment-terms {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .experiment-term {
+    font-size: 12px;
+    color: rgba(255,255,255,0.8);
+    padding-left: 16px;
+    position: relative;
+    line-height: 1.4;
+  }
+
+  .experiment-term::before {
+    content: '>';
+    position: absolute;
+    left: 0;
+    color: var(--block-accent);
+    font-weight: 700;
+  }
+
+  /* ═══════════════════════════════════════════════
+     SLIDE 9: IMPACT
+     ═══════════════════════════════════════════════ */
+  .impact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .impact-layer {
+    padding: 14px 18px;
+    border-radius: 12px;
+    border: 1px solid var(--block-mid);
+    background: white;
+  }
+
+  .impact-layer .layer-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .impact-layer .layer-tag {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 3px 10px;
+    border-radius: 4px;
+  }
+
+  .layer-1 .layer-tag { background: rgba(108,92,231,0.1); color: #6c5ce7; }
+  .layer-2 .layer-tag { background: rgba(0,184,148,0.1); color: var(--block-green); }
+  .layer-3 .layer-tag { background: rgba(253,203,110,0.2); color: #e17055; }
+  .layer-4 .layer-tag { background: rgba(233,69,96,0.1); color: var(--block-accent); }
+
+  .impact-layer h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .metric-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .metric-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 10px;
+    background: var(--block-light);
+    border-radius: 8px;
+  }
+
+  .metric-row .metric-name {
+    font-size: 12px;
+    color: var(--text-secondary);
+    flex: 1;
+  }
+
+  .metric-row .metric-change {
+    font-size: 14px;
+    font-weight: 800;
+    min-width: 70px;
+    text-align: right;
+  }
+
+  .metric-positive { color: var(--block-green); }
+  .metric-negative { color: var(--block-accent); }
+  .metric-highlight { color: var(--block-accent); font-weight: 800; }
+
+  .impact-highlight {
+    margin-top: 8px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    line-height: 1.5;
+    font-weight: 600;
+  }
+
+  .layer-1 .impact-highlight { background: rgba(108,92,231,0.08); color: #6c5ce7; }
+  .layer-2 .impact-highlight { background: rgba(0,184,148,0.08); color: var(--block-green); }
+  .layer-3 .impact-highlight { background: rgba(253,203,110,0.12); color: #e17055; }
+  .layer-4 .impact-highlight { background: rgba(233,69,96,0.08); color: var(--block-accent); }
+
+  /* ═══════════════════════════════════════════════
+     SLIDE 10: LEARNING + BLOCK PARALLEL
+     ═══════════════════════════════════════════════ */
+  .learning-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .learning-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .learning-card {
+    padding: 14px 18px;
+    border-radius: 12px;
+    background: var(--block-light);
+    border: 1px solid var(--block-mid);
+    border-left: 4px solid var(--block-accent);
+  }
+
+  .learning-card h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+  }
+
+  .learning-card p {
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .toc-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .toc-step {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+  }
+
+  .toc-step.done {
+    background: rgba(0,184,148,0.08);
+    color: var(--block-green);
+  }
+
+  .toc-step.missed {
+    background: rgba(233,69,96,0.08);
+    color: var(--block-accent);
+  }
+
+  .toc-step .toc-icon {
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .toc-step .toc-text {
+    font-weight: 600;
+  }
+
+  .block-parallel {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .parallel-table {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--block-mid);
+  }
+
+  .parallel-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: var(--block-black);
+    color: white;
+  }
+
+  .parallel-header div {
+    padding: 10px 16px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .parallel-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid var(--block-mid);
+  }
+
+  .parallel-row:last-child { border-bottom: none; }
+
+  .parallel-row div {
+    padding: 10px 16px;
+    font-size: 12px;
+    line-height: 1.4;
+  }
+
+  .parallel-row div:first-child {
+    color: var(--text-secondary);
+    background: var(--block-light);
+  }
+
+  .parallel-row div:last-child {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  .closing-statement {
+    padding: 14px 18px;
+    background: linear-gradient(135deg, #1a1a2e, #0f3460);
+    border-radius: 12px;
+    color: white;
+  }
+
+  .closing-statement h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--block-accent);
+    margin-bottom: 8px;
+  }
+
+  .closing-statement p {
+    font-size: 13px;
+    color: rgba(255,255,255,0.8);
+    line-height: 1.6;
+  }
+
+  /* ═══════════════════════════════════════════════
+     SPEAKER NOTES
+     ═══════════════════════════════════════════════ */
+  .speaker-notes {
+    display: none;
+  }
+
+  body.show-notes .speaker-notes {
+    display: block;
+    position: fixed;
+    bottom: 48px;
+    left: 0;
+    right: 0;
+    max-height: 200px;
+    overflow-y: auto;
+    background: rgba(0,0,0,0.95);
+    color: rgba(255,255,255,0.8);
+    padding: 16px 32px;
+    font-size: 13px;
+    line-height: 1.6;
+    z-index: 999;
+    border-top: 2px solid var(--block-accent);
+  }
+
+  .notes-toggle {
+    font-size: 11px;
+    cursor: pointer;
+    color: rgba(255,255,255,0.4);
+  }
+
+  /* ═══════════════════════════════════════════════
+     RESPONSIVE
+     ═══════════════════════════════════════════════ */
+  @media (max-width: 1200px) {
+    .content-slide { padding: 28px 36px 20px; }
+    .slide-title h1 { font-size: 36px; }
+  }
+
+  @media print {
+    .slide { display: flex !important; page-break-after: always; position: relative; height: 100vh; }
+    .nav-bar { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="presentation">
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 1: TITLE + STRATEGIC CONTEXT
+       ═══════════════════════════════════════════ -->
+  <div class="slide slide-title active" data-slide="1">
+    <div class="content">
+      <div class="tag">Block - Product Manager, Hardware Business Systems</div>
+      <h1>Angi Enrollment Transformation:<br><span>A Supply Chain Approach</span> to Scalable Growth</h1>
+      <p class="subtitle">How I reduced pro enrollment from 1 week to 12 minutes,<br>cut acquisition costs 87%, and helped enable positive unit economics</p>
+      <div class="title-metrics">
+        <div class="title-metric">
+          <div class="value">-98%</div>
+          <div class="label">Time to Activate</div>
+        </div>
+        <div class="title-metric">
+          <div class="value">-87%</div>
+          <div class="label">Cost per Enrollment</div>
+        </div>
+        <div class="title-metric">
+          <div class="value">+23pts</div>
+          <div class="label">CSAT Improvement</div>
+        </div>
+        <div class="title-metric">
+          <div class="value">+12%</div>
+          <div class="label">Jobs Done Well QoQ</div>
+        </div>
+      </div>
+      <div class="title-context">
+        <div class="context-label">Strategic Context</div>
+        <p><strong>Angi's North Star: Jobs Done Well, profitably.</strong> When I joined in 2024, pro enrollment was the constraint blocking that North Star. We couldn't deliver Jobs Done Well if we couldn't efficiently onboard the pros who do those jobs. I applied supply chain thinking to transform a broken enrollment process into a scalable growth engine.</p>
+      </div>
+    </div>
+    <div class="speaker-notes">
+      <strong>SPEAKER NOTES (1-2 min):</strong> Open with the mission connection. "Angi's goal is Jobs Done Well, profitably. When I joined, the single biggest bottleneck to that goal was pro enrollment - we couldn't fulfill homeowner demand because we couldn't onboard supply fast enough. I'm going to walk you through how I applied supply chain frameworks to transform this constraint into a competitive advantage, and why this is directly relevant to Block's hardware supply chain challenges."
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 2: CUSTOMER EMPATHY
+       ═══════════════════════════════════════════ -->
+  <div class="slide content-slide" data-slide="2">
+    <div class="slide-header">
+      <div class="slide-number">1</div>
+      <div>
+        <span class="section-tag">Customer Empathy</span>
+        <h2>Understanding the Two-Sided Customer</h2>
+      </div>
+    </div>
+    <div class="empathy-grid">
+      <div class="empathy-left">
+        <div class="customer-card primary">
+          <div class="card-label">Primary Customer for Enrollment</div>
+          <h3>Service Professionals ("Pros")</h3>
+          <ul>
+            <li>Small business owners (electricians, plumbers, contractors) -1-5 person ops</li>
+            <li>Running businesses from vans and trucks, mobile-first</li>
+            <li>Time-starved, resource-constrained - every day not earning = lost revenue</li>
+            <li>Want to control their own service areas, budgets, and preferences</li>
+          </ul>
+        </div>
+        <div class="customer-card">
+          <div class="card-label">Secondary Customer</div>
+          <h3>Homeowners</h3>
+          <ul>
+            <li>Need reliable, vetted pros for home repairs</li>
+            <li>Value speed, trust, and transparency</li>
+            <li>Their experience depends on pro supply density and quality</li>
+          </ul>
+        </div>
+        <h4 style="margin-top: 24px; margin-bottom: 12px; font-size: 16px; font-weight: 600; color: #1a1a1a;">What Pros Value Most</h4>
+        <div class="values-grid">
+          <div class="value-chip"><span class="rank">#1</span><span class="value-text">Time to revenue</span></div>
+          <div class="value-chip"><span class="rank">#2</span><span class="value-text">Lead quality</span></div>
+          <div class="value-chip"><span class="rank">#3</span><span class="value-text">Self-service control</span></div>
+          <div class="value-chip"><span class="rank">#4</span><span class="value-text">Fair pricing</span></div>
+        </div>
+      </div>
+      <div class="empathy-right">
+        <div class="methodology-box">
+          <h4>My VoC Research Methodology</h4>
+          <div class="research-item"><span class="num">1</span>Listened to <strong>50+ enrollment call recordings</strong> - heard friction firsthand</div>
+          <div class="research-item"><span class="num">2</span><strong>Shadowed sales reps for 2 weeks</strong> - watched manual handoffs and delays</div>
+          <div class="research-item"><span class="num">3</span>Interviewed <strong>20 pros who abandoned</strong> enrollment - learned why they churned</div>
+          <div class="research-item"><span class="num">4</span>Analyzed <strong>support tickets</strong> - 80% of newly enrolled pros called back to make changes to their settings in first week; 40% of calls were refund requests</div>
+        </div>
+        <div class="insight-box">
+          <h4>The Insight That Changed Everything</h4>
+          <div class="quote">"Stop making me talk to you! I don't want that! I should be able to do this all myself."<br><span style="font-size: 13px; opacity: 0.8;">— Anonymous customer</span></div>
+          <div class="quote" style="margin-top: 12px; border-left-color: #e74c3c;">"Why would they drive around with their phone number on their van if they didn't want a call?"<br><span style="font-size: 13px; opacity: 0.8;">— Sales VP</span></div>
+          <p class="analysis"><strong>Customer model mismatch:</strong> Our enrollment was designed like enterprise software sales (relationship-driven, multi-touchpoint). But our customers behaved like consumers (self-serve, transactional). We were optimizing for what WE thought they wanted instead of what they ACTUALLY wanted.</p>
+        </div>
+      </div>
+    </div>
+    <div class="speaker-notes">
+      <strong>SPEAKER NOTES (3 min):</strong> Emphasize the marketplace flywheel. "In a two-sided marketplace, you have to understand both customers. But for enrollment, the pro is the primary customer. My approach was immersive research - not surveys, but direct observation." Walk through each VoC method. Land the key insight: "We had a fundamental customer model mismatch. The Sales VP literally said 'Why would they drive around with their phone number on their van if they didn't want a call?' That was the mindset I had to change."
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 3: PROBLEM DEFINITION
+       ═══════════════════════════════════════════ -->
+  <div class="slide content-slide" data-slide="3">
+    <div class="slide-header">
+      <div class="slide-number">2</div>
+      <div>
+        <span class="section-tag">Problem Definition</span>
+        <h2>Root Cause Analysis Through a Supply Chain Lens</h2>
+      </div>
+    </div>
+    <div class="problem-grid">
+      <div class="surface-problems">
+        <div style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-bottom:4px;">The Surface Problem</div>
+        <div class="problem-stat">
+          <div class="stat-value">7+ days</div>
+          <div class="stat-desc">Average time to pro enrollment</div>
+        </div>
+        <div class="problem-stat">
+          <div class="stat-value">$$$</div>
+          <div class="stat-desc">Cost per enrollment -3-4 manual touchpoints</div>
+        </div>
+        <div class="problem-stat">
+          <div class="stat-value">40%</div>
+          <div class="stat-desc">Customer satisfaction score</div>
+        </div>
+        <div class="problem-stat">
+          <div class="stat-value">30%</div>
+          <div class="stat-desc">Abandonment rate mid-process</div>
+        </div>
+        <div class="process-flow">
+          <span class="process-step">Sales Call</span>
+          <span class="process-arrow">&rarr;</span>
+          <span class="process-step">Onboarding</span>
+          <span class="process-arrow">&rarr;</span>
+          <span class="process-step">Fraud Review</span>
+          <span class="process-arrow">&rarr;</span>
+          <span class="process-step">Contract</span>
+          <span class="process-arrow">&rarr;</span>
+          <span class="process-step">Activation</span>
+        </div>
+        <div class="tradeoff-box">
+          <h4>Classic SC Tradeoff: Efficiency vs. Responsiveness</h4>
+          <div class="tradeoff-diagram">
+            <div class="tradeoff-axis">
+              <div class="axis-label">Efficiency</div>
+              <div class="axis-status status-bad">Failing</div>
+            </div>
+            <div class="tradeoff-middle">+</div>
+            <div class="tradeoff-axis">
+              <div class="axis-label">Responsiveness</div>
+              <div class="axis-status status-bad">Failing</div>
+            </div>
+            <div class="tradeoff-middle">=</div>
+            <div class="tradeoff-axis">
+              <div class="axis-label">Opportunity</div>
+              <div class="axis-status status-good">Win Both</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="supply-chain-framework">
+        <div class="framework-label">My Methodology: Supply Chain Root Cause Mapping</div>
+        <div class="sc-dimension">
+          <div class="sc-icon" style="background:#6c5ce7;">1</div>
+          <div>
+            <h4>Information Systems (Demand Signal & Visibility)</h4>
+            <p>No real-time visibility into enrollment status. Pros couldn't see where they were. Sales, onboarding, fraud teams working in silos with different data. No self-serve portal.</p>
+          </div>
+        </div>
+        <div class="sc-dimension">
+          <div class="sc-icon" style="background:#00b894;">2</div>
+          <div>
+            <h4>Inventory Management (Capacity & Configuration)</h4>
+            <p>Pro settings (service area, budget, preferences) trapped in legal contracts. Any change required re-signing. <strong>80% called within first week to change settings.</strong></p>
+          </div>
+        </div>
+        <div class="sc-dimension">
+          <div class="sc-icon" style="background:#0984e3;">3</div>
+          <div>
+            <h4>Transportation (Data Flow & Handoffs)</h4>
+            <p>Manual handoffs between sales &rarr; onboarding &rarr; fraud &rarr; activation. Fraud checks after onboarding created rework loops. Zero automation.</p>
+          </div>
+        </div>
+        <div class="sc-dimension">
+          <div class="sc-icon" style="background:#e94560;">4</div>
+          <div>
+            <h4>Reverse Logistics (Defects & Changes)</h4>
+            <p>Defective leads required multi-day manual refund. 40% of care calls were refund requests. No self-serve options. 4 call centers supporting phone-only care.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="speaker-notes">
+      <strong>SPEAKER NOTES (2-3 min):</strong> "I recognized this wasn't just a sales process problem - it was a supply chain fulfillment and reverse logistics problem." Walk through each supply chain dimension. Emphasize the tradeoff insight: "Usually in supply chain you optimize either efficiency OR responsiveness. We were losing on BOTH. Which meant we could actually improve both with the right architecture." This framing shows supply chain thinking.
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 4: STRATEGIC VALUE + CHAIN REACTION
+       ═══════════════════════════════════════════ -->
+  <div class="slide content-slide" data-slide="4">
+    <div class="slide-header">
+      <div class="slide-number">3</div>
+      <div>
+        <span class="section-tag">Problem Definition</span>
+        <h2>Strategic Value: Why This Was the #1 Constraint</h2>
+      </div>
+    </div>
+    <div class="strategic-grid">
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <div class="chain-reaction">
+          <h3>The Constraint Chain Reaction</h3>
+          <div class="chain-steps">
+            <div class="chain-step">
+              <div class="step-icon" style="background:rgba(108,92,231,0.1);color:#6c5ce7;">&#x1F3E0;</div>
+              <div class="step-text"><strong>Homeowners submit job requests</strong> - demand enters the system</div>
+            </div>
+            <div class="chain-step">
+              <div class="step-icon" style="background:rgba(9,132,227,0.1);color:#0984e3;">&#x1F50D;</div>
+              <div class="step-text"><strong>Matching algorithm</strong> finds pros by service area, availability, skills</div>
+            </div>
+            <div class="chain-step">
+              <div class="step-icon" style="background:rgba(233,69,96,0.1);color:#e94560;">&#x26A0;</div>
+              <div class="step-text"><strong>Not enough pros?</strong> Low match rate &rarr; bad homeowner experience &rarr; churn</div>
+            </div>
+            <div class="chain-step">
+              <div class="step-icon" style="background:rgba(233,69,96,0.1);color:#e94560;">&#x1F6AB;</div>
+              <div class="step-text"><strong>Slow onboarding?</strong> Can't scale supply &rarr; can't deliver on vision</div>
+            </div>
+            <div class="chain-step">
+              <div class="step-icon" style="background:rgba(233,69,96,0.1);color:#e94560;">&#x1F4C9;</div>
+              <div class="step-text"><strong>Bad enrollment experience?</strong> Pros churn early &rarr; poor supply retention</div>
+            </div>
+            <div class="chain-step">
+              <div class="step-icon" style="background:rgba(0,184,148,0.1);color:#00b894;">&#x2705;</div>
+              <div class="step-text"><strong>Fix enrollment &rarr;</strong> unlock supply growth &rarr; better matching &rarr; more Jobs Done Well</div>
+            </div>
+          </div>
+        </div>
+        <div class="strategy-context">
+          <h3>How It Fits Into the Strategy</h3>
+          <p>Angi was in turnaround mode. Leadership shifted from "revenue at all costs" to "sustainable, profitable growth." Pro enrollment was identified as the critical constraint.</p>
+          <div class="strategy-goals">
+            <div class="strategy-goal"><span class="goal-num">1</span>Reduce acquisition costs</div>
+            <div class="strategy-goal"><span class="goal-num">2</span>Improve speed to activation</div>
+            <div class="strategy-goal"><span class="goal-num">3</span>Increase pro satisfaction and retention</div>
+            <div class="strategy-goal"><span class="goal-num">4</span>Enable supply growth in underserved markets</div>
+          </div>
+        </div>
+      </div>
+      <div class="sc-mapping">
+        <h3>Mapping the Supply Chain Root Causes to Solutions</h3>
+        <div class="sc-map-items">
+          <div class="sc-map-item">
+            <div class="map-icon">&#x1F4CA;</div>
+            <div class="map-finding">Siloed data, no visibility</div>
+            <div class="map-arrow">&rarr;</div>
+            <div class="map-impact">Salesforce as central hub + real-time status</div>
+          </div>
+          <div class="sc-map-item">
+            <div class="map-icon">&#x1F512;</div>
+            <div class="map-finding">Settings trapped in contracts</div>
+            <div class="map-arrow">&rarr;</div>
+            <div class="map-impact">Decouple: profile (mutable) vs. contract (immutable)</div>
+          </div>
+          <div class="sc-map-item">
+            <div class="map-icon">&#x1F91D;</div>
+            <div class="map-finding">Manual handoffs, rework loops</div>
+            <div class="map-arrow">&rarr;</div>
+            <div class="map-impact">Event-driven workflows</div>
+          </div>
+          <div class="sc-map-item">
+            <div class="map-icon">&#x1F575;</div>
+            <div class="map-finding">Fraud check AFTER onboarding</div>
+            <div class="map-arrow">&rarr;</div>
+            <div class="map-impact">Real-time fraud scoring DURING enrollment</div>
+          </div>
+          <div class="sc-map-item">
+            <div class="map-icon">&#x1F4DE;</div>
+            <div class="map-finding">40% of care calls = refund requests</div>
+            <div class="map-arrow">&rarr;</div>
+            <div class="map-impact">Automated refund workflow with rules engine</div>
+          </div>
+          <div class="sc-map-item">
+            <div class="map-icon">&#x1F4F1;</div>
+            <div class="map-finding">Enterprise sales model for SMB customers</div>
+            <div class="map-arrow">&rarr;</div>
+            <div class="map-impact">Self-serve enrollment (mobile-first, 12 min)</div>
+          </div>
+        </div>
+        <div style="margin-top:16px;padding:14px 18px;background:linear-gradient(135deg,rgba(233,69,96,0.08),rgba(233,69,96,0.03));border:1px solid rgba(233,69,96,0.15);border-radius:10px;">
+          <div style="font-size:13px;font-weight:700;color:var(--block-accent);margin-bottom:4px;">Key Design Principle</div>
+          <div style="font-size:12px;color:var(--text-secondary);line-height:1.5;">Build for <strong>automation and compounding value</strong>. Real-time data flows, event-driven architecture, API-first integration, decoupled services - infrastructure that enables future AI/ML, not just a form on a website.</div>
+        </div>
+      </div>
+    </div>
+    <div class="speaker-notes">
+      <strong>SPEAKER NOTES (2 min):</strong> Walk through the chain reaction: "Every bottleneck in enrollment cascades through the entire marketplace." Connect to Angi's turnaround strategy. Show the root cause &rarr; solution mapping. Emphasize the design principle: "I wasn't just moving a manual process online. I was building infrastructure that could enable future AI and automation. This distinction is critical."
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 5: SOLUTION - ARCHITECTURE
+       ═══════════════════════════════════════════ -->
+  <div class="slide content-slide" data-slide="5">
+    <div class="slide-header">
+      <div class="slide-number">4</div>
+      <div>
+        <span class="section-tag">Solution</span>
+        <h2>Phase 1: Foundation Architecture</h2>
+      </div>
+    </div>
+    <div class="arch-grid">
+      <div class="arch-principles">
+        <div style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--block-accent);margin-bottom:4px;">Architecture Principles</div>
+        <div class="principle-card">
+          <h4>Real-Time Data Flows</h4>
+          <div class="vs">Not batch processing</div>
+          <p>Enables ML models to learn from current behavior. Every enrollment event flows immediately.</p>
+        </div>
+        <div class="principle-card">
+          <h4>Event-Driven Architecture</h4>
+          <div class="vs">Not synchronous calls</div>
+          <p>Decoupled workflows that scale independently. Fraud, contracts, and activation run in parallel.</p>
+        </div>
+        <div class="principle-card">
+          <h4>API-First Integration</h4>
+          <div class="vs">Not point-to-point</div>
+          <p>Clean interfaces between systems. Enables future AI service integration without rewiring.</p>
+        </div>
+        <div class="principle-card">
+          <h4>Decoupled Services</h4>
+          <div class="vs">Not monolithic</div>
+          <p>Experiment with fraud rules, contract templates, or pricing without breaking core enrollment.</p>
+        </div>
+        <div style="padding:14px 18px;background:rgba(0,184,148,0.08);border:1px solid rgba(0,184,148,0.15);border-radius:10px;">
+          <div style="font-size:11px;font-weight:700;color:var(--block-green);margin-bottom:4px;">WHY THIS MATTERS</div>
+          <div style="font-size:12px;color:var(--text-secondary);line-height:1.4;">This architecture doesn't just support enrollment - it's the <strong>foundation for future AI/automation</strong>. The same pattern Block needs for hardware supply chain.</div>
+        </div>
+      </div>
+      <div class="arch-diagram">
+        <h3>System Architecture Diagram</h3>
+        <div class="arch-layers">
+          <div class="arch-layer">
+            <div class="layer-label">User Experience</div>
+            <div class="layer-items">
+              <span class="layer-item frontend">Self-Serve Portal</span>
+              <span class="layer-item frontend">Mobile-First Design</span>
+              <span class="layer-item frontend">Real-Time Validation</span>
+            </div>
+          </div>
+          <div class="arch-flow-arrows"><span>&darr; &darr; &darr;</span></div>
+          <div class="arch-layer">
+            <div class="layer-label">Enrollment API</div>
+            <div class="layer-items">
+              <span class="layer-item api">Profile Management</span>
+              <span class="layer-item api">Payment Integration</span>
+              <span class="layer-item api">Service Area Selection</span>
+            </div>
+          </div>
+          <div class="arch-flow-arrows"><span>&darr; triggers automated workflows &darr;</span></div>
+          <div class="arch-layer">
+            <div class="layer-label">Automated Services</div>
+            <div class="layer-items">
+              <span class="layer-item service">Identity Verification</span>
+              <span class="layer-item service">Contract Generation</span>
+              <span class="layer-item service">Pro Notifications</span>
+            </div>
+          </div>
+          <div class="arch-flow-arrows"><span>&darr; integrates with &darr;</span></div>
+          <div class="arch-layer">
+            <div class="layer-label">Core Systems</div>
+            <div class="layer-items">
+              <span class="layer-item data">Salesforce (CRM)</span>
+              <span class="layer-item data">Ironclad (Contracts)</span>
+              <span class="layer-item data">Socure (Identity)</span>
+              <span class="layer-item data">Stripe (Payments)</span>
+            </div>
+          </div>
+        </div>
+        <div class="arch-decisions">
+          <div class="arch-decision">
+            <h5>Centralized Data Hub</h5>
+            <p>Salesforce as system of record for all pro data. Single source of truth with real-time visibility across teams.</p>
+          </div>
+          <div class="arch-decision">
+            <h5>Decoupled Settings Architecture</h5>
+            <p>Separated changeable settings from contract terms. Pros can update preferences without legal review or sales intervention.</p>
+          </div>
+          <div class="arch-decision">
+            <h5>Real-Time Identity Verification</h5>
+            <p>Integrated Socure during enrollment for instant identity verification. 60% auto-approved, eliminating days of delay.</p>
+          </div>
+          <div class="arch-decision">
+            <h5>Automated Workflows</h5>
+            <p>Enrollment triggers downstream processes automatically. No manual handoffs between sales, legal, and ops teams.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="speaker-notes">
+      <strong>SPEAKER NOTES (5-6 min):</strong> Walk through the architecture principles: "These aren't just buzzwords. Each choice was deliberate." Trace the architecture diagram from top to bottom. Emphasize the 4 key decisions. The audience is Head of Product AND Engineering - they want to see you can speak to technical architecture fluently. Highlight settings decoupling as a key innovation: "This one decision eliminated 80% of first-week support calls."
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 6: SOLUTION - PRODUCT + DATA FLOW
+       ═══════════════════════════════════════════ -->
+  <div class="slide content-slide" data-slide="6">
+    <div class="slide-header">
+      <div class="slide-number">5</div>
+      <div>
+        <span class="section-tag">Solution</span>
+        <h2>Phase 2: Self-Serve Enrollment &amp; Data Flow</h2>
+      </div>
+    </div>
+    <div class="product-grid">
+      <div>
+        <div style="font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">User Flow - Jobs to be Done: "Start earning ASAP"</div>
+        <div class="user-flow">
+          <div class="flow-step">
+            <div class="flow-step-num">1</div>
+            <div class="flow-step-content">
+              <h4>Landing Page <span class="time-badge">0 min</span></h4>
+              <p>Pro arrives via Google Ad, referral, or direct</p>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-step-num">2</div>
+            <div class="flow-step-content">
+              <h4>Account Creation <span class="time-badge">2 min</span></h4>
+              <p>Email, password, basic info</p>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-step-num">3</div>
+            <div class="flow-step-content">
+              <h4>Business Verification <span class="time-badge">3 min</span></h4>
+              <p>License upload, address verification, real-time fraud check</p>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-step-num">4</div>
+            <div class="flow-step-content">
+              <h4>Profile Setup <span class="time-badge">3 min</span></h4>
+              <p>Map-based service area (radius &rarr; zip codes), services, budget slider with guidance</p>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-step-num">5</div>
+            <div class="flow-step-content">
+              <h4>Payment &amp; Contract <span class="time-badge">4 min</span></h4>
+              <p>Stripe tokenization + Ironclad e-sign (contract pulls profile data dynamically)</p>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-step-num">6</div>
+            <div class="flow-step-content">
+              <h4>Instant Activation <span class="time-badge">&lt;1 min</span></h4>
+              <p>If auto-approved by fraud &rarr; active immediately. Starts receiving leads.</p>
+            </div>
+          </div>
+        </div>
+        <div class="flow-total">
+          <div class="total-value">~12 min</div>
+          <div class="total-compare">Total enrollment time<br><strong>vs. 7-10 days</strong> previously</div>
+        </div>
+      </div>
+      <div class="data-flow-diagram">
+        <h3>Data Flow: What Happens Under the Hood</h3>
+        <div class="data-flow-steps">
+          <div class="df-step">
+            <div class="df-num">1</div>
+            <div class="df-text">Pro completes enrollment form &rarr; validates in real-time &rarr; submits profile to enrollment system</div>
+          </div>
+          <div class="df-step">
+            <div class="df-num">2</div>
+            <div class="df-text">System creates profile in <strong>Salesforce</strong> (status: "Pending") &rarr; triggers automated workflows</div>
+          </div>
+          <div class="df-parallel">
+            <div class="df-parallel-label">Automated Processes (Run in Parallel)</div>
+            <div class="df-parallel-item">
+              <h5>Identity Verification</h5>
+              <p>Socure checks identity in real-time &rarr; calculates risk score &rarr; auto-approves low-risk or flags for review</p>
+            </div>
+            <div class="df-parallel-item">
+              <h5>Contract Generation</h5>
+              <p>System pulls profile data &rarr; generates personalized contract in Ironclad &rarr; sends for e-signature</p>
+            </div>
+          </div>
+          <div class="df-step">
+            <div class="df-num">3</div>
+            <div class="df-text"><strong>Low risk pros:</strong> automatically approved &rarr; status changes to "Active" &rarr; enrollment complete</div>
+          </div>
+          <div class="df-step">
+            <div class="df-num">4</div>
+            <div class="df-text"><strong>Medium/high risk pros:</strong> flagged for manual review &rarr; team notified &rarr; pro receives "Under Review" email</div>
+          </div>
+          <div class="df-step">
+            <div class="df-num">5</div>
+            <div class="df-text"><strong>Once Active:</strong> pro receives login credentials &rarr; gets access to lead marketplace &rarr; can manage settings and start receiving leads</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="speaker-notes">
+      <strong>SPEAKER NOTES (5-6 min):</strong> Walk through the user flow quickly ("this is what the pro sees"), then pivot to the data flow: "This is what happens under the covers." Trace the event-driven flow. Call out the parallel consumers: "Fraud and contract generation happen simultaneously - that's the event-driven architecture at work." Mention UI decisions: map-based service area ("Pros think in radius, not zip codes - we translate on backend"), budget slider with market context, progress indicator (sunk cost psychology), save-and-resume (LocalStorage), mobile-first.
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 7: TECHNICAL CHALLENGES
+       ═══════════════════════════════════════════ -->
+  <div class="slide content-slide" data-slide="7">
+    <div class="slide-header">
+      <div class="slide-number">6</div>
+      <div>
+        <span class="section-tag">Solution</span>
+        <h2>Technical Challenges Overcome</h2>
+      </div>
+    </div>
+    <div class="challenges-grid">
+      <div class="challenge-card">
+        <div class="challenge-num">Challenge 1</div>
+        <h3>Settings Trapped in Contracts</h3>
+        <div class="challenge-section">
+          <div class="cs-label">Problem</div>
+          <p>80% of pros called within first week to change service area/budget. Every change required legal contract amendment. 3-day turnaround.</p>
+        </div>
+        <div class="challenge-section">
+          <div class="cs-label">Root Cause</div>
+          <p>Architecture put ALL pro preferences into legal contract. Settings should have been profile data (adjustable), not contract terms (fixed).</p>
+        </div>
+        <div class="challenge-section">
+          <div class="cs-label">Solution</div>
+          <p>Created settings taxonomy: <strong>Profile settings (mutable)</strong> &rarr; Salesforce custom objects. <strong>Contract terms (immutable)</strong> &rarr; Ironclad. Contract references profile via Salesforce ID. Aligned with legal counsel that profile changes aren't contract amendments.</p>
+        </div>
+        <div class="challenge-result">Result: Settings changes went from 3-day turnaround to instant. Zero contract re-signs needed.</div>
+      </div>
+
+      <div class="challenge-card">
+        <div class="challenge-num">Challenge 2</div>
+        <h3>Manual Fraud Review Bottleneck</h3>
+        <div class="challenge-section">
+          <div class="cs-label">Problem</div>
+          <p>Fraud team manually reviewed every pro AFTER sales call + onboarding. Daily batch export. Rework loops if declined.</p>
+        </div>
+        <div class="challenge-section">
+          <div class="cs-label">Root Cause</div>
+          <p>Fraud team had no real-time access to enrollment data, worked from daily batch export. Process ordering was wrong.</p>
+        </div>
+        <div class="challenge-section">
+          <div class="cs-label">Solution</div>
+          <p>Real-time Socure identity verification integrated during enrollment. <strong>Auto-approve low-risk (~60%)</strong>, auto-reject high (~20%), flag medium for review (~20%).</p>
+        </div>
+        <div class="challenge-result">Result: 60% of pros auto-activated instantly. Flagged reviews dropped from 2 days to 4 hours.</div>
+      </div>
+
+      <div class="challenge-card">
+        <div class="challenge-num">Challenge 3</div>
+        <h3>Map-Based Service Area Selection</h3>
+        <div class="challenge-section">
+          <div class="cs-label">Problem</div>
+          <p>Service area stored as zip codes, but pros think in drive time / radius. UX mismatch with data model.</p>
+        </div>
+        <div class="challenge-section">
+          <div class="cs-label">Solution</div>
+          <p>Google Maps API with radius drawing tool. Geocoding converts address &rarr; lat/long. Backend calculates all zip codes within radius using centroid data. Stores both visual radius (display) and zip list (matching).</p>
+        </div>
+        <div class="challenge-section">
+          <div class="cs-label">Edge Case</div>
+          <p>Radius crossing state lines = different pricing zones. Built business logic for cross-boundary selection.</p>
+        </div>
+        <div class="challenge-result">Result: Intuitive UX matching pro mental model while maintaining backend data structure for matching algorithm.</div>
+      </div>
+
+      <div class="challenge-card">
+        <div class="challenge-num">Challenge 4</div>
+        <h3>Refund Automation (Reverse Logistics)</h3>
+        <div class="challenge-section">
+          <div class="cs-label">Problem</div>
+          <p>Defective leads (wrong phone, spam) required multi-day manual refund. 40% of care calls = refund requests.</p>
+        </div>
+        <div class="challenge-section">
+          <div class="cs-label">Solution</div>
+          <p>Self-serve refund workflows according to company policies. Human review if suspicious (>30% dispute rate over 1 year).</p>
+        </div>
+        <div class="challenge-section">
+          <div class="cs-label">Technical</div>
+          <p>Rules engine evaluates lead quality score + pro dispute history. Auto-approve and auto-process refund if criteria met.</p>
+        </div>
+        <div class="challenge-result">Result: Refund care calls dropped from 40% to 10%. Closed 1 of 3 call centers (120 &rarr; 80 agents).</div>
+      </div>
+    </div>
+    <div class="speaker-notes">
+      <strong>SPEAKER NOTES (3-4 min):</strong> Pick 2 challenges to go deep on (recommend #1 Settings Decoupling and #4 Refund Automation - both show supply chain thinking). For the others, summarize briefly. The audience wants to see that you can identify root causes and build technically sound solutions. The settings decoupling challenge also shows you can navigate legal stakeholders.
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 8: EXECUTION
+       ═══════════════════════════════════════════ -->
+  <div class="slide content-slide" data-slide="8">
+    <div class="slide-header">
+      <div class="slide-number">7</div>
+      <div>
+        <span class="section-tag">Execution</span>
+        <h2>Phased Rollout: De-Risking Through Partnership</h2>
+      </div>
+    </div>
+    <div class="execution-grid">
+      <div class="phase-timeline">
+        <div class="phase-card phase-1">
+          <div class="phase-badge">Phase 1 -3 Months</div>
+          <h4>Fix the Foundation</h4>
+          <p>Built infrastructure without changing sales process. Salesforce integration, real-time fraud API, settings decoupling, event architecture. Sales team kept doing phone enrollments - but systems got cleaner underneath.</p>
+          <div class="phase-detail"><strong>Why it worked:</strong> Sales reps saw immediate benefits (real-time status). Support team saw benefits (no more contract amendments). Didn't threaten anyone's workflow or compensation yet. Built trust.</div>
+        </div>
+        <div class="phase-card phase-2 active-phase">
+          <div class="phase-badge">Phase 2 -2 Months</div>
+          <h4>Limited Cohort Test in 2 Confidential Test Zones</h4>
+          <p>Controlled experiment: organic leads in 2 markets &rarr; self-serve flow. Comparable markets as control group. Daily dashboards tracking conversion, CSAT, cost, abandonment.</p>
+          <div class="phase-detail"><strong>Results:</strong> Conversion +10%, time -98%, cost -87%, CSAT +23pts, abandonment halved. Self-serve was better for customers AND cheaper.</div>
+          <div class="phase-detail"><strong>Decision Gates:</strong> Established clear kill criteria upfront - would shut down experiment if conversion dropped >10%, CSAT declined, or abandonment increased. Data-driven framework ensured defensible go/no-go decision.</div>
+        </div>
+        <div class="phase-card phase-3">
+          <div class="phase-badge">Phase 3 -3 Months</div>
+          <h4>National Rollout (10% &rarr; 25% &rarr; 50% &rarr; 100%)</h4>
+          <p>Gradual scaling with monitoring and hypercare. Sales team transitioned to more intentionally high-touch roles as partners, not victims.</p>
+          <div class="phase-detail"><strong>End state:</strong> Self-serve default for organic SMB leads. Phone-based retained for outbound enterprise/partnerships (high-touch still valuable there) and inbound SMB.</div>
+        </div>
+      </div>
+      <div class="stakeholder-section">
+        <div class="experiment-box">
+          <h4>The Deal I Made with Sales Leadership</h4>
+          <div class="experiment-terms">
+            <div class="experiment-term">"Test in 2 markets for 60 days"</div>
+            <div class="experiment-term">"If conversion drops &gt;10%, we kill it immediately"</div>
+            <div class="experiment-term">"Sales reps get CREDIT for self-serve enrollments - comp protected"</div>
+            <div class="experiment-term">"Self-serve for organic, phone for outbound/complex"</div>
+            <div class="experiment-term">"Clear kill criteria - data-driven, defensible decision"</div>
+          </div>
+        </div>
+        <div class="stakeholder-card">
+          <h4>Cross-Functional Team (15+ people)</h4>
+          <p><strong>Engineering:</strong> 3 backend, 2 frontend, 1 DevOps<br>
+          <strong>Design:</strong> 1 UX designer (user research, wireframes, iteration)<br>
+          <strong>Sales Ops:</strong> 2 analysts (process, training, metrics)<br>
+          <strong>Legal:</strong> 1 attorney (contract/profile separation)<br>
+          <strong>Fraud:</strong> 1 analyst (rules config, manual review queue)</p>
+        </div>
+        <div class="stakeholder-card">
+          <h4>My PM Approach</h4>
+          <p><strong>Strategic:</strong> Weekly exec updates to CPO/CFO. Monthly board slide.<br>
+          <strong>Tactical:</strong> Daily standups. Bi-weekly stakeholder alignment. Weekly metrics review.<br>
+          <strong>Operational:</strong> Reviewed support tickets daily. Joined user research. On-call for incidents.<br>
+          <strong>Interpersonal:</strong> 1:1s with sales leadership. Celebrated wins publicly. Owned failures visibly.</p>
+        </div>
+      </div>
+    </div>
+    <div class="speaker-notes">
+      <strong>SPEAKER NOTES (5 min):</strong> The key story here is the deal with sales leadership: "The biggest risk wasn't technical - it was organizational. If the sales team killed this project, it was dead. I protected their compensation, time-boxed the experiment, and gave them clear kill criteria. When the data showed self-serve was BETTER for their customers AND cheaper, they became advocates." Walk through phases. Mention the 3 bugs at scale to show you're hands-on. Emphasize the PM operating model.
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 9: IMPACT
+       ═══════════════════════════════════════════ -->
+  <div class="slide content-slide" data-slide="9">
+    <div class="slide-header">
+      <div class="slide-number">8</div>
+      <div>
+        <span class="section-tag">Impact</span>
+        <h2>Layered Metrics: Leading &rarr; Lagging Indicators</h2>
+      </div>
+    </div>
+    <div class="impact-grid">
+      <div class="impact-layer layer-1">
+        <div class="layer-header">
+          <span class="layer-tag">Layer 1</span>
+          <h3>Product Metrics</h3>
+        </div>
+        <div class="metric-rows">
+          <div class="metric-row">
+            <span class="metric-name">Abandonment rate</span>
+            <span class="metric-change metric-positive">30% &rarr; 15%</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-name">Time to enrollment</span>
+            <span class="metric-change metric-positive">7 days &rarr; 12 min</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-name">Automation rate</span>
+            <span class="metric-change metric-positive">0% &rarr; 80%</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-name">Call-backs for settings changes (week 1)</span>
+            <span class="metric-change metric-positive">80% &rarr; 20%</span>
+          </div>
+        </div>
+        <div class="impact-highlight">Leading indicators: product is working as designed. Foundation validated.</div>
+      </div>
+
+      <div class="impact-layer layer-2">
+        <div class="layer-header">
+          <span class="layer-tag">Layer 2</span>
+          <h3>Customer Metrics</h3>
+        </div>
+        <div class="metric-rows">
+          <div class="metric-row">
+            <span class="metric-name">Enrollment CSAT</span>
+            <span class="metric-change metric-positive">35% &rarr; 58%</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-name">CSAT (overall)</span>
+            <span class="metric-change metric-positive">40% &rarr; 50%</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-name">30-day retention</span>
+            <span class="metric-change metric-positive">65% &rarr; 72%</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-name">90-day retention</span>
+            <span class="metric-change metric-positive">50% &rarr; 58%</span>
+          </div>
+        </div>
+        <div class="impact-highlight">Validated: better enrollment = better first impression = lower early churn.</div>
+      </div>
+
+      <div class="impact-layer layer-3">
+        <div class="layer-header">
+          <span class="layer-tag">Layer 3</span>
+          <h3>Operational Metrics</h3>
+        </div>
+        <div class="metric-rows">
+          <div class="metric-row">
+            <span class="metric-name">Cost per enrollment</span>
+            <span class="metric-change metric-positive">&darr; 87%</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-name">Refund-related calls</span>
+            <span class="metric-change metric-positive">40% &rarr; 10%</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-name">Call centers needed</span>
+            <span class="metric-change metric-positive">3 &rarr; 2</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-name">Contract amendments</span>
+            <span class="metric-change metric-positive">&rarr; ~Zero</span>
+          </div>
+        </div>
+        <div class="impact-highlight">Sales reps reallocated to enterprise/partnership accounts and inbound SMB. Revenue per rep increased.</div>
+      </div>
+
+      <div class="impact-layer layer-4">
+        <div class="layer-header">
+          <span class="layer-tag">Layer 4</span>
+          <h3>Business Outcomes</h3>
+        </div>
+        <div class="metric-rows">
+          <div class="metric-row">
+            <span class="metric-name">LTV/CAC</span>
+            <span class="metric-change metric-positive">negative &rarr; positive</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-name">New markets entered</span>
+            <span class="metric-change metric-positive">+15 markets</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-name">Match rate</span>
+            <span class="metric-change metric-positive">&uarr; 8%</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-name">Jobs Done Well volume</span>
+            <span class="metric-change metric-positive">&uarr; 12% YoY</span>
+          </div>
+        </div>
+        <div class="impact-highlight">Contributed to enabling positive unit economics for first time in nearly a decade. Referenced in Q3 earnings call.</div>
+      </div>
+    </div>
+    <div class="speaker-notes">
+      <strong>SPEAKER NOTES (4-5 min):</strong> "I structured impact measurement across 4 layers, from leading indicators to lagging business outcomes." Walk through each layer briefly. Emphasize the connection: "Product metrics gave us early signal. Customer metrics validated the hypothesis. Operational metrics showed efficiency gains. Business metrics proved strategic impact." Acknowledge the miss: "What I didn't track well enough: time-to-first-purchase, cohort LTV by channel, and support ticket sentiment."
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SLIDE 10: LEARNING + BLOCK PARALLEL
+       ═══════════════════════════════════════════ -->
+  <div class="slide content-slide" data-slide="10">
+    <div class="slide-header">
+      <div class="slide-number">9</div>
+      <div>
+        <span class="section-tag">Learning + Closing</span>
+        <h2>What I'd Do Differently &amp; Why It Matters for Block</h2>
+      </div>
+    </div>
+    <div class="learning-grid">
+      <div class="learning-section">
+        <div class="learning-card">
+          <h3>The Hindsight: Parallel Constraint Resolution</h3>
+          <p>I identified pro enrollment (B2C) as the constraint and fixed it comprehensively. But I missed that <strong>partner activation (B2B) was equally constraining supply growth</strong>. We later discovered partner onboarding also took 10 days. If I'd mapped the full supply acquisition system upfront and resourced both in parallel, we could have delivered <strong>more Jobs Done Well</strong> much sooner.</p>
+        </div>
+        <div style="font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-top:4px;">Theory of Constraints - My Assessment</div>
+        <div class="toc-steps">
+          <div class="toc-step done"><span class="toc-icon">&#x2705;</span><span class="toc-text">1. Identify the constraint - pro enrollment</span></div>
+          <div class="toc-step done"><span class="toc-icon">&#x2705;</span><span class="toc-text">2. Exploit the constraint - self-serve enrollment</span></div>
+          <div class="toc-step done"><span class="toc-icon">&#x2705;</span><span class="toc-text">3. Subordinate everything - org buy-in</span></div>
+          <div class="toc-step done"><span class="toc-icon">&#x2705;</span><span class="toc-text">4. Elevate the constraint - scaled nationally</span></div>
+          <div class="toc-step missed"><span class="toc-icon">&#x274C;</span><span class="toc-text">5. Go back to step 1 - didn't ask "what's the NEW constraint?"</span></div>
+        </div>
+        <div style="padding:14px 18px;background:var(--block-light);border-radius:10px;margin-top:10px;border:1px solid var(--block-mid);">
+          <div style="font-size:12px;font-weight:700;color:var(--text-primary);margin-bottom:6px;">How I Think About Product Strategy Now</div>
+          <div style="font-size:12px;color:var(--text-secondary);line-height:1.5;">
+            <strong>Before:</strong> Solve the biggest problem &rarr; celebrate.<br>
+            <strong>After:</strong> Map the constraint tree &rarr; fix prerequisites &rarr; parallelize &rarr; measure the new constraint &rarr; iterate. Always ask: <em>"If we fix THIS, what breaks next?"</em>
+          </div>
+        </div>
+      </div>
+      <div class="block-parallel">
+        <div class="parallel-table">
+          <div class="parallel-header">
+            <div>Angi Challenge</div>
+            <div>Block Hardware SC Parallel</div>
+          </div>
+          <div class="parallel-row"><div>Pro enrollment bottleneck</div><div>Hardware fulfillment bottleneck</div></div>
+          <div class="parallel-row"><div>Manual processes, batch data</div><div>Legacy supply chain systems</div></div>
+          <div class="parallel-row"><div>Real-time enrollment visibility</div><div>Real-time inventory visibility</div></div>
+          <div class="parallel-row"><div>Event-driven onboarding</div><div>Event-driven fulfillment</div></div>
+          <div class="parallel-row"><div>Automated fraud detection</div><div>Automated demand forecasting</div></div>
+          <div class="parallel-row"><div>Self-serve settings management</div><div>Self-serve order management</div></div>
+          <div class="parallel-row"><div>Settings / profile decoupling</div><div>Data platform for AI/ML</div></div>
+        </div>
+        <div class="closing-statement">
+          <h3>Why This Matters for Block</h3>
+          <p>Block's hardware supply chain is a system of interconnected constraints - demand forecasting, manufacturing, global logistics, fulfillment, returns, and inventory optimization. It needs someone who can <strong>see the full system, map constraint trees, and build data platforms that enable AI/automation</strong> across the entire chain - not just optimize one piece in isolation.<br><br>
+          That's exactly what I did at Angi. And that's exactly what I'm excited to bring to Block's Hardware Supply Chain team.</p>
+        </div>
+      </div>
+    </div>
+    <div class="speaker-notes">
+      <strong>SPEAKER NOTES (3 min + closing):</strong> Be honest about the miss: "After fixing enrollment, I should have immediately asked: what's the new constraint? That 6-month delay cost us 5-7% more Jobs Done Well." Show the TOC assessment. Then pivot to Block: "The parallel is direct. I'm bringing supply chain thinking, data platform expertise, and the lesson about mapping full constraint trees to Block's hardware supply chain. This is the same work, at Block scale." End with energy and conviction. Leave time for Q&A.
+    </div>
+  </div>
+
+</div>
+
+<!-- NAVIGATION BAR -->
+<div class="nav-bar">
+  <button class="nav-btn" onclick="prevSlide()">&larr; Prev</button>
+  <div class="nav-dots" id="navDots"></div>
+  <div class="slide-counter" id="slideCounter">1 / 10</div>
+  <span class="notes-toggle" onclick="toggleNotes()">[N] Notes</span>
+  <button class="nav-btn" onclick="nextSlide()">Next &rarr;</button>
+</div>
+
+<script>
+// Simple, crash-proof presentation navigation
+let currentSlide = 1;
+const totalSlides = 10;
+
+function updateSlide() {
+  // Remove active from all slides
+  const slides = document.querySelectorAll('.slide');
+  slides.forEach(s => s.classList.remove('active'));
+
+  // Add active to current slide
+  const currentSlideEl = document.querySelector(`[data-slide="${currentSlide}"]`);
+  if (currentSlideEl) {
+    currentSlideEl.classList.add('active');
+  }
+
+  // Update dots
+  const dots = document.querySelectorAll('.nav-dot');
+  dots.forEach((d, i) => {
+    if (i + 1 === currentSlide) {
+      d.classList.add('active');
+    } else {
+      d.classList.remove('active');
+    }
+  });
+
+  // Update counter
+  const counter = document.getElementById('slideCounter');
+  if (counter) {
+    counter.textContent = `${currentSlide} / ${totalSlides}`;
+  }
+}
+
+function nextSlide() {
+  if (currentSlide < totalSlides) {
+    currentSlide++;
+    updateSlide();
+  }
+}
+
+function prevSlide() {
+  if (currentSlide > 1) {
+    currentSlide--;
+    updateSlide();
+  }
+}
+
+function goToSlide(n) {
+  if (n >= 1 && n <= totalSlides) {
+    currentSlide = n;
+    updateSlide();
+  }
+}
+
+function toggleNotes() {
+  document.body.classList.toggle('show-notes');
+}
+
+// Initialize dots
+function initDots() {
+  const container = document.getElementById('navDots');
+  if (!container) return;
+
+  container.innerHTML = '';
+  for (let i = 1; i <= totalSlides; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'nav-dot' + (i === 1 ? ' active' : '');
+    dot.onclick = () => goToSlide(i);
+    container.appendChild(dot);
+  }
+}
+
+// Keyboard shortcuts
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); nextSlide(); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); prevSlide(); }
+  if (e.key === 'n' || e.key === 'N') { toggleNotes(); }
+  if (e.key >= '1' && e.key <= '9') { goToSlide(parseInt(e.key)); }
+  if (e.key === '0') { goToSlide(10); }
+});
+
+// Initialize
+initDots();
+updateSlide();
+</script>
+</body>
+</html>
