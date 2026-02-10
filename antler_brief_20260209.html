@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InspectConnect - Antler Residency Kickoff Brief</title>
+  <style>
+    :root {
+      --primary: #1a1a2e;
+      --accent: #e94560;
+      --bg: #f8f9fa;
+      --card: #ffffff;
+      --text: #2d2d2d;
+      --muted: #6c757d;
+      --border: #e0e0e0;
+      --green: #28a745;
+      --amber: #f0ad4e;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 3px solid var(--accent);
+    }
+
+    header h1 {
+      font-size: 2.2rem;
+      color: var(--primary);
+      margin-bottom: 0.25rem;
+    }
+
+    header .subtitle {
+      font-size: 1.1rem;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+
+    header .date {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      color: var(--primary);
+      margin: 2.5rem 0 1rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 2px solid var(--border);
+    }
+
+    h3 {
+      font-size: 1.15rem;
+      color: var(--primary);
+      margin: 1.5rem 0 0.5rem;
+    }
+
+    p { margin-bottom: 1rem; }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .card.highlight {
+      border-left: 4px solid var(--accent);
+    }
+
+    .card.green {
+      border-left: 4px solid var(--green);
+    }
+
+    .card.amber {
+      border-left: 4px solid var(--amber);
+    }
+
+    .stat-row {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .stat-box {
+      flex: 1;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+      text-align: center;
+    }
+
+    .stat-box .number {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .stat-box .label {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 0.25rem;
+      display: block;
+    }
+
+    ul, ol {
+      margin: 0.5rem 0 1rem 1.5rem;
+    }
+
+    li { margin-bottom: 0.4rem; }
+
+    .lifecycle {
+      display: flex;
+      gap: 0;
+      margin: 1.5rem 0;
+    }
+
+    .lifecycle-step {
+      flex: 1;
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 1rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .lifecycle-step:first-child {
+      border-radius: 8px 0 0 8px;
+    }
+
+    .lifecycle-step:last-child {
+      border-radius: 0 8px 8px 0;
+    }
+
+    .lifecycle-step .step-num {
+      display: inline-block;
+      background: var(--accent);
+      color: white;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      font-size: 0.8rem;
+      line-height: 24px;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .lifecycle-step .step-title {
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--primary);
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    .lifecycle-step .step-desc {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      background: var(--card);
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    th {
+      background: var(--primary);
+      color: white;
+      padding: 0.75rem 1rem;
+      text-align: left;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    td {
+      padding: 0.65rem 1rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.9rem;
+    }
+
+    tr:hover { background: #f5f5f5; }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+
+    .question-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .question-group h3 {
+      color: var(--accent);
+      font-size: 1rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .question-group ol {
+      margin-left: 1.25rem;
+    }
+
+    .question-group li {
+      margin-bottom: 0.6rem;
+      font-size: 0.95rem;
+    }
+
+    .help-list {
+      list-style: none;
+      margin-left: 0;
+    }
+
+    .help-list li {
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.95rem;
+    }
+
+    .help-list li:last-child { border-bottom: none; }
+
+    .help-list li strong {
+      color: var(--accent);
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-right: 0.25rem;
+    }
+
+    .tag.green { background: #d4edda; color: #155724; border: none; }
+    .tag.amber { background: #fff3cd; color: #856404; border: none; }
+    .tag.red { background: #f8d7da; color: #721c24; border: none; }
+
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 2px solid var(--border);
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 700px) {
+      .stat-row, .two-col, .lifecycle { flex-direction: column; display: block; }
+      .stat-box, .lifecycle-step { margin-bottom: 0.75rem; border-radius: 8px !important; }
+      .two-col > * { margin-bottom: 1rem; }
+      body { padding: 1rem; }
+      header h1 { font-size: 1.6rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <header>
+      <h1>InspectConnect</h1>
+      <div class="subtitle">Antler Residency Kickoff Brief</div>
+      <div class="date">February 9, 2026</div>
+    </header>
+
+    <!-- ELEVATOR PITCH -->
+    <h2>The Elevator Pitch</h2>
+    <div class="card highlight">
+      <p>Homebuyers get inspection reports but don't know how to act on them. What's urgent? What does it cost? Who to call? Right now, real estate agents fill that gap manually - but it's not their job, and it doesn't scale.</p>
+      <p>We're building an AI-driven platform that solves both sides: helps buyers prioritize and connect with contractors, and gives agents a tool to automate what they're already doing while enhancing their trusted relationship with the client.</p>
+      <p style="margin-bottom:0"><strong>The unlock:</strong> For the first time, we're capturing the contractor recommendations agents have been making for years - the trusted word-of-mouth rolodex that no one in the industry has ever digitized. That's the moat.</p>
+    </div>
+
+    <!-- WHY THIS IS BIG -->
+    <h2>Why This Is Big</h2>
+    <div class="stat-row">
+      <div class="stat-box">
+        <span class="number">$45B</span>
+        <span class="label">Annual work from inspection reports (US)</span>
+      </div>
+      <div class="stat-box">
+        <span class="number">$2T+</span>
+        <span class="label">US construction industry</span>
+      </div>
+      <div class="stat-box">
+        <span class="number">#1</span>
+        <span class="label">Competitor to every contractor marketplace: trusted word-of-mouth recommendations</span>
+      </div>
+    </div>
+    <p>The biggest competitor to HomeAdvisor, Thumbtack, and Angi isn't another platform - it's the <strong>agent's personal rolodex and other word-of-mouth referrals</strong>. Nobody has digitized that. We are.</p>
+
+    <!-- LIFECYCLE PLAY -->
+    <h2>The Full Lifecycle Play</h2>
+    <p>The platform is <strong>branded for the agent</strong>, creating a relationship lifecycle that doesn't exist today:</p>
+    <div class="lifecycle">
+      <div class="lifecycle-step">
+        <span class="step-num">1</span>
+        <span class="step-title">Post-Inspection</span>
+        <span class="step-desc">Buyer gets report. Platform triages, estimates costs, matches with trusted contractors from agent's network.</span>
+      </div>
+      <div class="lifecycle-step">
+        <span class="step-num">2</span>
+        <span class="step-title">Homeownership</span>
+        <span class="step-desc">Things break over time. Buyer returns to the platform - still connected to their agent.</span>
+      </div>
+      <div class="lifecycle-step">
+        <span class="step-num">3</span>
+        <span class="step-title">Pre-Sale</span>
+        <span class="step-desc">Ready to sell? Tons of prep work. Another contractor matching moment. Agent is top of mind.</span>
+      </div>
+      <div class="lifecycle-step">
+        <span class="step-num">4</span>
+        <span class="step-title">Sale</span>
+        <span class="step-desc">Homeowner uses the same agent for the sale - instead of forgetting or going with someone else.</span>
+      </div>
+    </div>
+    <p>This solves a real agent problem: <strong>client retention over the 7-10 year homeownership cycle</strong> - something no one has cracked.</p>
+
+    <!-- RECENT PROGRESS -->
+    <h2>What Changed in the Last Few Weeks</h2>
+
+    <h3>Demand Signal Accelerated</h3>
+    <div class="stat-row">
+      <div class="stat-box">
+        <span class="number">1 → ~7</span>
+        <span class="label">Potentially committed agent leads</span>
+      </div>
+      <div class="stat-box">
+        <span class="number">4 → ~10</span>
+        <span class="label">Agents helping design the product</span>
+      </div>
+      <div class="stat-box">
+        <span class="number">+2</span>
+        <span class="label">New personas identified (property manager, buyer-investor)</span>
+      </div>
+    </div>
+
+    <h3>Product Progress</h3>
+    <ul>
+      <li>Fixed critical cost estimation accuracy (was 10-20x inflated; still fixing some inflation with number of issues found)</li>
+      <li>Agent onboarding + buyer invite flow merged</li>
+      <li>AI summary dashboard, negotiation recommendations, trusted contractors, contractor assignment - all in flight</li>
+      <li>Full MVP scoped: 8 epics, 25 user stories</li>
+    </ul>
+
+    <h3>Validation</h3>
+    <ul>
+      <li>6 completed market research deliverables</li>
+      <li>Deep persona and JTBD work across buyer, agent, and contractor</li>
+      <li>Interview guides built and being used in live conversations</li>
+    </ul>
+
+    <!-- HONEST ASSESSMENT -->
+    <h2>Honest Assessment</h2>
+    <div class="two-col">
+      <div class="card green">
+        <h3>What I'm Confident In</h3>
+        <ul>
+          <li>The problem is real - 100% of agents interviewed confirming independently, already doing this manually</li>
+          <li>The rolodex moat is defensible - relationship data that compounds, and agents are motivated to build it</li>
+          <li>The lifecycle play gives us multiple revenue moments per customer, not just one</li>
+          <li>Blue ocean - not aware of anyone building for the agent-as-distribution-channel model</li>
+        </ul>
+      </div>
+      <div class="card amber">
+        <h3>What I'm Less Sure About</h3>
+        <ul>
+          <li>Contractor willingness to pay and at what price point</li>
+          <li>Agent adoption friction - will they use a platform vs. texting their guy?</li>
+          <li>Which persona drives scale faster - individual agents, teams, brokerages, or the new PM/investor personas?</li>
+          <li>Defensibility at scale - if this works, what stops Zillow or Realtor.com from building it?</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- QUESTIONS -->
+    <h2>Questions for You</h2>
+
+    <div class="question-group">
+      <h3>On Market &amp; Scale</h3>
+      <ol>
+        <li>We're entering through a $45B post-inspection wedge into a $2T+ construction industry. Does the wedge-to-platform expansion story hold for you, or do you see a tighter/better framing?</li>
+        <li>The new property manager and investor personas represent repeat, high-frequency usage vs. the one-time homebuyer. Have you seen marketplaces successfully layer B2B repeat users on top of a consumer wedge? What breaks?</li>
+        <li>What's your pattern match on "digitizing the rolodex"? Has anyone successfully captured word-of-mouth referral networks in other industries? What worked and what didn't?</li>
+      </ol>
+    </div>
+
+    <div class="question-group">
+      <h3>On GTM &amp; Distribution</h3>
+      <ol start="4">
+        <li>Our GTM is agent-led - agents adopt the platform, invite their buyers, and build their contractor network on it. Is that too narrow at this stage, or is that the right level of focus?</li>
+        <li>How do you think about the sequencing: individual agents → teams → brokerages? Or should we go straight to brokerages for scale?</li>
+        <li>We have ~7 agent leads and ~10 agents helping shape the product. What signal would you look for to know this has legs before committing heavier resources?</li>
+      </ol>
+    </div>
+
+    <div class="question-group">
+      <h3>On Business Model</h3>
+      <ol start="7">
+        <li>Contractors paying per lead is one obvious model, but the agent's rolodex is the real asset. Is there a better monetization angle? We think about things like subscription, transaction fee, data licensing. Thoughts?</li>
+        <li>The pre-sale market (homeowners getting the house ready to sell) could be as big as post-inspection. Should we validate that in parallel or stay sequenced?</li>
+      </ol>
+    </div>
+
+    <div class="question-group">
+      <h3>On Blind Spots</h3>
+      <ol start="9">
+        <li>What are we not seeing? What kills companies like this at this stage?</li>
+        <li>The lifecycle retention play (keeping agents top of mind for 7-10 years) is compelling in theory. Is there evidence that digital tools actually change that consumer behavior, or is it wishful thinking?</li>
+      </ol>
+    </div>
+
+    <!-- MILESTONES -->
+    <h2>Goals &amp; Milestones - Next 4-6 Weeks</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Week</th>
+          <th>Milestone</th>
+          <th>Success Metric</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>1-2</strong></td>
+          <td>Validate contractor pricing (20-30 interviews)</td>
+          <td>Confirmed willingness-to-pay range and lead expectations</td>
+        </tr>
+        <tr>
+          <td><strong>1-2</strong></td>
+          <td>Convert ~7 agent leads to committed pilots</td>
+          <td>Signed or verbal commitments from 5+ agents</td>
+        </tr>
+        <tr>
+          <td><strong>2-3</strong></td>
+          <td>Ship core MVP end-to-end: PDF upload → AI triage → contractor match</td>
+          <td>Demo-able with a real inspection report</td>
+        </tr>
+        <tr>
+          <td><strong>2-3</strong></td>
+          <td>Finalize beachhead market</td>
+          <td>Regulatory + agent density analysis complete</td>
+        </tr>
+        <tr>
+          <td><strong>3-4</strong></td>
+          <td>First real buyers flowing through agent partners</td>
+          <td>Track: activation rate, contractor contact rate</td>
+        </tr>
+        <tr>
+          <td><strong>3-4</strong></td>
+          <td>Seed initial rolodex data - agents input trusted contractors</td>
+          <td>50+ contractor profiles from agent networks</td>
+        </tr>
+        <tr>
+          <td><strong>4-6</strong></td>
+          <td>Measure unit economics on first 50 leads</td>
+          <td>Contribution margin, conversion rate, agent satisfaction</td>
+        </tr>
+        <tr>
+          <td><strong>4-6</strong></td>
+          <td>Validate property manager / investor persona</td>
+          <td>5+ interviews, scope expansion decision</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="card highlight">
+      <p style="margin-bottom:0"><strong>North star for the residency:</strong> Get real leads flowing through agent partners with measured conversion data, and answer the question: <em>"Will agents actually adopt this and will contractors convert at the rates we're projecting?"</em></p>
+    </div>
+
+    <h3>Stretch Goals</h3>
+    <ul>
+      <li>Validate the pre-sale market opportunity (homeowners prepping to sell)</li>
+      <li>Get 1 brokerage-level conversation started for scale path validation</li>
+      <li>First paying contractor customer</li>
+    </ul>
+
+    <!-- WHAT I NEED -->
+    <h2>What We Need Help With</h2>
+    <div class="card">
+      <ul class="help-list">
+        <li><strong>Pattern matching</strong> - What does this remind you of? Where have you seen the "digitize the trusted referral" play work or fail?</li>
+        <li><strong>Introductions</strong> - Proptech investors, brokerage operators, anyone who's built agent-facing tools</li>
+        <li><strong>Pressure testing the moat</strong> - Is the rolodex data truly defensible, or does it commoditize once captured?</li>
+        <li><strong>Scale path clarity</strong> - Agent-by-agent vs. brokerage-level deals, and when to make that transition</li>
+        <li><strong>Blind spots we don't know we have</strong> - If something's broken, we'd rather find it now.</li>
+      </ul>
+    </div>
+
+    <footer>
+      InspectConnect // Antler Residency Kickoff // February 9, 2026
+    </footer>
+
+  </div>
+</body>
+</html>
