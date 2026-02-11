@@ -48,7 +48,9 @@
     position: absolute;
     top: 0;
     left: 0;
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
   }
 
   .slide.active { display: flex; }
@@ -1565,43 +1567,247 @@
   }
 
   /* ═══════════════════════════════════════════════
-     SPEAKER NOTES
-     ═══════════════════════════════════════════════ */
-  .speaker-notes {
-    display: none;
-  }
-
-  body.show-notes .speaker-notes {
-    display: block;
-    position: fixed;
-    bottom: 48px;
-    left: 0;
-    right: 0;
-    max-height: 200px;
-    overflow-y: auto;
-    background: rgba(0,0,0,0.95);
-    color: rgba(255,255,255,0.8);
-    padding: 16px 32px;
-    font-size: 13px;
-    line-height: 1.6;
-    z-index: 999;
-    border-top: 2px solid var(--block-accent);
-  }
-
-  .notes-toggle {
-    font-size: 11px;
-    cursor: pointer;
-    color: rgba(255,255,255,0.4);
-  }
-
-  /* ═══════════════════════════════════════════════
-     RESPONSIVE
+     RESPONSIVE - TABLET (1200px and below)
      ═══════════════════════════════════════════════ */
   @media (max-width: 1200px) {
     .content-slide { padding: 28px 36px 20px; }
     .slide-title h1 { font-size: 36px; }
+    .slide-title { padding: 32px 48px; }
+    .title-metrics { gap: 32px; }
+    .title-metric .value { font-size: 28px; }
+
+    .empathy-grid,
+    .problem-grid,
+    .strategic-grid,
+    .arch-grid,
+    .product-grid,
+    .execution-grid,
+    .learning-grid { gap: 16px; }
+
+    .challenges-grid { gap: 10px; }
+    .challenge-card { padding: 12px; }
+    .challenge-section p { font-size: 10px; }
+    .challenge-result { font-size: 11px; }
+
+    .impact-grid { gap: 10px; }
+    .impact-layer { padding: 12px 14px; }
+    .metric-row .metric-name { font-size: 11px; }
+    .metric-row .metric-change { font-size: 12px; }
   }
 
+  /* ═══════════════════════════════════════════════
+     RESPONSIVE - SMALL TABLET / LARGE PHONE (900px)
+     ═══════════════════════════════════════════════ */
+  @media (max-width: 900px) {
+    .slide {
+      height: auto;
+      min-height: calc(100vh - 48px);
+      position: relative;
+    }
+
+    .slide:not(.active) { display: none; }
+
+    .content-slide { padding: 24px 28px 28px; }
+    .slide-header { margin-bottom: 16px; }
+    .slide-header h2 { font-size: 22px; }
+    .slide-number { width: 32px; height: 32px; font-size: 14px; }
+
+    .slide-title { padding: 28px 32px; }
+    .slide-title h1 { font-size: 30px; }
+    .slide-title .subtitle { font-size: 16px; margin-bottom: 20px; }
+    .title-metrics { flex-wrap: wrap; gap: 20px; }
+    .title-metric .value { font-size: 24px; }
+    .title-metric .label { font-size: 10px; }
+    .title-context p { font-size: 13px; }
+
+    /* Collapse all 2-column grids to single column */
+    .empathy-grid,
+    .problem-grid,
+    .strategic-grid,
+    .arch-grid,
+    .product-grid,
+    .execution-grid,
+    .learning-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .challenges-grid,
+    .impact-grid {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .challenge-card { padding: 14px 16px; }
+    .challenge-section p { font-size: 11px; }
+
+    .impact-layer { padding: 14px 16px; }
+    .metric-row .metric-name { font-size: 12px; }
+    .metric-row .metric-change { font-size: 13px; }
+
+    .arch-diagram { padding: 16px; }
+    .arch-layer .layer-label { width: 60px; font-size: 9px; }
+    .layer-item { font-size: 10px; padding: 4px 8px; }
+    .arch-decisions { grid-template-columns: 1fr; }
+
+    .data-flow-diagram { padding: 16px; }
+    .df-parallel { grid-template-columns: 1fr; }
+
+    .values-grid { grid-template-columns: 1fr 1fr; }
+
+    .nav-bar { padding: 0 16px; }
+    .nav-bar .nav-dots { gap: 6px; }
+    .nav-bar .nav-dot { width: 6px; height: 6px; }
+    .nav-bar .nav-dot.active { width: 18px; }
+  }
+
+  /* ═══════════════════════════════════════════════
+     RESPONSIVE - PHONE (600px and below)
+     ═══════════════════════════════════════════════ */
+  @media (max-width: 600px) {
+    .content-slide { padding: 20px 20px 24px; }
+    .slide-header { flex-direction: column; align-items: flex-start; gap: 8px; margin-bottom: 14px; }
+    .slide-header h2 { font-size: 19px; }
+    .slide-number { width: 28px; height: 28px; font-size: 12px; border-radius: 8px; }
+    .section-tag { font-size: 10px; }
+
+    .slide-title { padding: 24px 20px; }
+    .slide-title .tag { font-size: 10px; padding: 4px 14px; margin-bottom: 14px; }
+    .slide-title h1 { font-size: 24px; margin-bottom: 10px; }
+    .slide-title .subtitle { font-size: 14px; margin-bottom: 16px; line-height: 1.4; }
+    .title-metrics { gap: 12px; justify-content: space-between; }
+    .title-metric .value { font-size: 20px; }
+    .title-metric .label { font-size: 9px; letter-spacing: 0.5px; }
+    .title-context { padding: 14px 16px; margin-top: 16px; }
+    .title-context .context-label { font-size: 10px; }
+    .title-context p { font-size: 12px; }
+
+    /* Customer cards */
+    .customer-card { padding: 12px 14px; }
+    .customer-card h3 { font-size: 15px; }
+    .customer-card ul li { font-size: 12px; }
+    .values-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
+    .value-chip { padding: 8px 10px; }
+    .value-chip .rank { font-size: 16px; }
+    .value-chip .value-text { font-size: 11px; }
+
+    /* Methodology */
+    .methodology-box { padding: 12px 14px; }
+    .methodology-box h4 { font-size: 12px; }
+    .research-item { font-size: 12px; }
+    .research-item .num { width: 20px; height: 20px; font-size: 10px; }
+    .insight-box { padding: 12px 14px; }
+    .insight-box h4 { font-size: 13px; }
+    .insight-box .quote { font-size: 13px; }
+    .insight-box .analysis { font-size: 11px; }
+
+    /* Problem stats */
+    .problem-stat { padding: 8px 12px; }
+    .problem-stat .stat-value { font-size: 20px; min-width: 60px; }
+    .problem-stat .stat-desc { font-size: 12px; }
+    .process-flow { padding: 10px 12px; }
+    .process-step { font-size: 10px; padding: 4px 8px; }
+    .framework-label { font-size: 11px; }
+    .sc-dimension .sc-icon { width: 30px; height: 30px; font-size: 14px; }
+    .sc-dimension h4 { font-size: 12px; }
+    .sc-dimension p { font-size: 10px; }
+    .tradeoff-box { padding: 12px; }
+    .tradeoff-diagram { gap: 12px; flex-wrap: wrap; justify-content: center; }
+    .tradeoff-axis .axis-status { font-size: 13px; }
+
+    /* Chain reaction */
+    .chain-reaction { padding: 12px 14px; }
+    .chain-step .step-icon { width: 26px; height: 26px; font-size: 13px; }
+    .chain-step .step-text { font-size: 12px; }
+    .strategy-context { padding: 12px 14px; }
+    .strategy-goal { font-size: 11px; }
+    .sc-mapping { padding: 12px 14px; }
+    .sc-mapping h3 { font-size: 13px; }
+    .sc-map-item { grid-template-columns: 24px 1fr; gap: 6px; padding: 6px 8px; font-size: 11px; }
+    .sc-map-item .map-arrow { display: none; }
+    .sc-map-item .map-impact { grid-column: 2; color: var(--block-accent); }
+
+    /* Architecture */
+    .principle-card { padding: 10px 12px; }
+    .principle-card h4 { font-size: 12px; }
+    .principle-card .vs { font-size: 10px; }
+    .principle-card p { font-size: 11px; }
+    .arch-diagram { padding: 14px; border-radius: 10px; }
+    .arch-diagram h3 { font-size: 12px; margin-bottom: 12px; }
+    .arch-layer { padding: 6px 8px; flex-wrap: wrap; }
+    .arch-layer .layer-label { width: 100%; margin-bottom: 4px; }
+    .layer-item { font-size: 9px; padding: 3px 6px; }
+    .arch-decisions { grid-template-columns: 1fr; gap: 6px; }
+    .arch-decision { padding: 8px 10px; }
+    .arch-decision h5 { font-size: 10px; }
+    .arch-decision p { font-size: 10px; }
+
+    /* Data flow */
+    .flow-step-num { width: 22px; height: 22px; font-size: 11px; }
+    .flow-step-content h4 { font-size: 12px; }
+    .flow-step-content p { font-size: 10px; }
+    .flow-step-content .time-badge { font-size: 9px; }
+    .flow-total .total-value { font-size: 20px; }
+    .flow-total .total-compare { font-size: 11px; }
+    .data-flow-diagram { padding: 14px; }
+    .data-flow-diagram h3 { font-size: 12px; }
+    .df-step { padding: 8px 10px; }
+    .df-step .df-text { font-size: 10px; }
+    .df-step .df-text code { font-size: 9px; }
+    .df-parallel { grid-template-columns: 1fr; padding: 8px 10px; }
+    .df-parallel-item h5 { font-size: 10px; }
+    .df-parallel-item p { font-size: 9px; }
+
+    /* Challenges */
+    .challenge-card .challenge-num { font-size: 9px; }
+    .challenge-card h3 { font-size: 13px; }
+    .challenge-section .cs-label { font-size: 9px; }
+    .challenge-section p { font-size: 11px; }
+    .challenge-result { font-size: 11px; padding: 8px 10px; }
+
+    /* Execution */
+    .phase-card { padding: 12px 14px; }
+    .phase-card .phase-badge { font-size: 9px; }
+    .phase-card h4 { font-size: 13px; }
+    .phase-card p { font-size: 11px; }
+    .phase-detail { font-size: 10px; }
+    .experiment-box { padding: 12px 14px; }
+    .experiment-box h4 { font-size: 11px; }
+    .experiment-term { font-size: 11px; }
+    .stakeholder-card { padding: 10px 14px; }
+    .stakeholder-card h4 { font-size: 11px; }
+    .stakeholder-card p { font-size: 11px; }
+
+    /* Impact */
+    .impact-layer { padding: 14px 16px; }
+    .impact-layer h3 { font-size: 13px; }
+    .layer-tag { font-size: 9px; }
+    .metric-row { padding: 6px 8px; }
+    .metric-row .metric-name { font-size: 11px; }
+    .metric-row .metric-change { font-size: 12px; min-width: 60px; }
+    .impact-highlight { font-size: 11px; padding: 8px 10px; }
+
+    /* Learning */
+    .learning-card { padding: 12px 14px; }
+    .learning-card h3 { font-size: 13px; }
+    .learning-card p { font-size: 11px; }
+    .toc-step { font-size: 11px; padding: 6px 10px; }
+    .toc-step .toc-icon { font-size: 14px; }
+    .parallel-header div { font-size: 10px; padding: 8px 12px; }
+    .parallel-row div { font-size: 11px; padding: 8px 12px; }
+    .closing-statement { padding: 12px 14px; }
+    .closing-statement h3 { font-size: 13px; }
+    .closing-statement p { font-size: 12px; }
+
+    /* Nav */
+    .nav-bar { height: 44px; padding: 0 12px; }
+    .nav-btn { padding: 5px 12px; font-size: 11px; }
+    .slide-counter { font-size: 11px; }
+    .nav-bar .nav-dots { display: none; }
+  }
+
+  /* ═══════════════════════════════════════════════
+     PRINT
+     ═══════════════════════════════════════════════ */
   @media print {
     .slide { display: flex !important; page-break-after: always; position: relative; height: 100vh; }
     .nav-bar { display: none; }
@@ -1641,9 +1847,6 @@
         <div class="context-label">Strategic Context</div>
         <p><strong>Angi's North Star: Jobs Done Well, profitably.</strong> When I joined in 2024, pro enrollment was the constraint blocking that North Star. We couldn't deliver Jobs Done Well if we couldn't efficiently onboard the pros who do those jobs. I applied supply chain thinking to transform a broken enrollment process into a scalable growth engine.</p>
       </div>
-    </div>
-    <div class="speaker-notes">
-      <strong>SPEAKER NOTES (1-2 min):</strong> Open with the mission connection. "Angi's goal is Jobs Done Well, profitably. When I joined, the single biggest bottleneck to that goal was pro enrollment - we couldn't fulfill homeowner demand because we couldn't onboard supply fast enough. I'm going to walk you through how I applied supply chain frameworks to transform this constraint into a competitive advantage, and why this is directly relevant to Block's hardware supply chain challenges."
     </div>
   </div>
 
@@ -1702,9 +1905,6 @@
           <p class="analysis"><strong>Customer model mismatch:</strong> Our enrollment was designed like enterprise software sales (relationship-driven, multi-touchpoint). But our customers behaved like consumers (self-serve, transactional). We were optimizing for what WE thought they wanted instead of what they ACTUALLY wanted.</p>
         </div>
       </div>
-    </div>
-    <div class="speaker-notes">
-      <strong>SPEAKER NOTES (3 min):</strong> Emphasize the marketplace flywheel. "In a two-sided marketplace, you have to understand both customers. But for enrollment, the pro is the primary customer. My approach was immersive research - not surveys, but direct observation." Walk through each VoC method. Land the key insight: "We had a fundamental customer model mismatch. The Sales VP literally said 'Why would they drive around with their phone number on their van if they didn't want a call?' That was the mindset I had to change."
     </div>
   </div>
 
@@ -1800,9 +2000,6 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="speaker-notes">
-      <strong>SPEAKER NOTES (2-3 min):</strong> "I recognized this wasn't just a sales process problem - it was a supply chain fulfillment and reverse logistics problem." Walk through each supply chain dimension. Emphasize the tradeoff insight: "Usually in supply chain you optimize either efficiency OR responsiveness. We were losing on BOTH. Which meant we could actually improve both with the right architecture." This framing shows supply chain thinking.
     </div>
   </div>
 
@@ -1905,9 +2102,6 @@
         </div>
       </div>
     </div>
-    <div class="speaker-notes">
-      <strong>SPEAKER NOTES (2 min):</strong> Walk through the chain reaction: "Every bottleneck in enrollment cascades through the entire marketplace." Connect to Angi's turnaround strategy. Show the root cause &rarr; solution mapping. Emphasize the design principle: "I wasn't just moving a manual process online. I was building infrastructure that could enable future AI and automation. This distinction is critical."
-    </div>
   </div>
 
   <!-- ═══════════════════════════════════════════
@@ -2008,9 +2202,6 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="speaker-notes">
-      <strong>SPEAKER NOTES (5-6 min):</strong> Walk through the architecture principles: "These aren't just buzzwords. Each choice was deliberate." Trace the architecture diagram from top to bottom. Emphasize the 4 key decisions. The audience is Head of Product AND Engineering - they want to see you can speak to technical architecture fluently. Highlight settings decoupling as a key innovation: "This one decision eliminated 80% of first-week support calls."
     </div>
   </div>
 
@@ -2114,9 +2305,6 @@
         </div>
       </div>
     </div>
-    <div class="speaker-notes">
-      <strong>SPEAKER NOTES (5-6 min):</strong> Walk through the user flow quickly ("this is what the pro sees"), then pivot to the data flow: "This is what happens under the covers." Trace the event-driven flow. Call out the parallel consumers: "Fraud and contract generation happen simultaneously - that's the event-driven architecture at work." Mention UI decisions: map-based service area ("Pros think in radius, not zip codes - we translate on backend"), budget slider with market context, progress indicator (sunk cost psychology), save-and-resume (LocalStorage), mobile-first.
-    </div>
   </div>
 
   <!-- ═══════════════════════════════════════════
@@ -2203,9 +2391,6 @@
         <div class="challenge-result">Result: Refund care calls dropped from 40% to 10%. Closed 1 of 3 call centers (120 &rarr; 80 agents).</div>
       </div>
     </div>
-    <div class="speaker-notes">
-      <strong>SPEAKER NOTES (3-4 min):</strong> Pick 2 challenges to go deep on (recommend #1 Settings Decoupling and #4 Refund Automation - both show supply chain thinking). For the others, summarize briefly. The audience wants to see that you can identify root causes and build technically sound solutions. The settings decoupling challenge also shows you can navigate legal stakeholders.
-    </div>
   </div>
 
   <!-- ═══════════════════════════════════════════
@@ -2268,9 +2453,6 @@
           <strong>Interpersonal:</strong> 1:1s with sales leadership. Celebrated wins publicly. Owned failures visibly.</p>
         </div>
       </div>
-    </div>
-    <div class="speaker-notes">
-      <strong>SPEAKER NOTES (5 min):</strong> The key story here is the deal with sales leadership: "The biggest risk wasn't technical - it was organizational. If the sales team killed this project, it was dead. I protected their compensation, time-boxed the experiment, and gave them clear kill criteria. When the data showed self-serve was BETTER for their customers AND cheaper, they became advocates." Walk through phases. Mention the 3 bugs at scale to show you're hands-on. Emphasize the PM operating model.
     </div>
   </div>
 
@@ -2390,9 +2572,6 @@
         <div class="impact-highlight">Contributed to enabling positive unit economics for first time in nearly a decade. Referenced in Q3 earnings call.</div>
       </div>
     </div>
-    <div class="speaker-notes">
-      <strong>SPEAKER NOTES (4-5 min):</strong> "I structured impact measurement across 4 layers, from leading indicators to lagging business outcomes." Walk through each layer briefly. Emphasize the connection: "Product metrics gave us early signal. Customer metrics validated the hypothesis. Operational metrics showed efficiency gains. Business metrics proved strategic impact." Acknowledge the miss: "What I didn't track well enough: time-to-first-purchase, cohort LTV by channel, and support ticket sentiment."
-    </div>
   </div>
 
   <!-- ═══════════════════════════════════════════
@@ -2440,7 +2619,6 @@
           <div class="parallel-row"><div>Event-driven onboarding</div><div>Event-driven fulfillment</div></div>
           <div class="parallel-row"><div>Automated fraud detection</div><div>Automated demand forecasting</div></div>
           <div class="parallel-row"><div>Self-serve settings management</div><div>Self-serve order management</div></div>
-          <div class="parallel-row"><div>Settings / profile decoupling</div><div>Data platform for AI/ML</div></div>
         </div>
         <div class="closing-statement">
           <h3>Why This Matters for Block</h3>
@@ -2448,9 +2626,6 @@
           That's exactly what I did at Angi. And that's exactly what I'm excited to bring to Block's Hardware Supply Chain team.</p>
         </div>
       </div>
-    </div>
-    <div class="speaker-notes">
-      <strong>SPEAKER NOTES (3 min + closing):</strong> Be honest about the miss: "After fixing enrollment, I should have immediately asked: what's the new constraint? That 6-month delay cost us 5-7% more Jobs Done Well." Show the TOC assessment. Then pivot to Block: "The parallel is direct. I'm bringing supply chain thinking, data platform expertise, and the lesson about mapping full constraint trees to Block's hardware supply chain. This is the same work, at Block scale." End with energy and conviction. Leave time for Q&A.
     </div>
   </div>
 
@@ -2461,8 +2636,7 @@
   <button class="nav-btn" onclick="prevSlide()">&larr; Prev</button>
   <div class="nav-dots" id="navDots"></div>
   <div class="slide-counter" id="slideCounter">1 / 10</div>
-  <span class="notes-toggle" onclick="toggleNotes()">[N] Notes</span>
-  <button class="nav-btn" onclick="nextSlide()">Next &rarr;</button>
+<button class="nav-btn" onclick="nextSlide()">Next &rarr;</button>
 </div>
 
 <script>
@@ -2475,10 +2649,11 @@ function updateSlide() {
   const slides = document.querySelectorAll('.slide');
   slides.forEach(s => s.classList.remove('active'));
 
-  // Add active to current slide
+  // Add active to current slide and scroll to top
   const currentSlideEl = document.querySelector(`[data-slide="${currentSlide}"]`);
   if (currentSlideEl) {
     currentSlideEl.classList.add('active');
+    currentSlideEl.scrollTop = 0;
   }
 
   // Update dots
@@ -2519,9 +2694,6 @@ function goToSlide(n) {
   }
 }
 
-function toggleNotes() {
-  document.body.classList.toggle('show-notes');
-}
 
 // Initialize dots
 function initDots() {
@@ -2541,10 +2713,32 @@ function initDots() {
 document.addEventListener('keydown', (e) => {
   if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); nextSlide(); }
   if (e.key === 'ArrowLeft') { e.preventDefault(); prevSlide(); }
-  if (e.key === 'n' || e.key === 'N') { toggleNotes(); }
-  if (e.key >= '1' && e.key <= '9') { goToSlide(parseInt(e.key)); }
+if (e.key >= '1' && e.key <= '9') { goToSlide(parseInt(e.key)); }
   if (e.key === '0') { goToSlide(10); }
 });
+
+// Touch swipe support
+let touchStartX = 0;
+let touchStartY = 0;
+let touchEndX = 0;
+let touchEndY = 0;
+
+document.addEventListener('touchstart', (e) => {
+  touchStartX = e.changedTouches[0].screenX;
+  touchStartY = e.changedTouches[0].screenY;
+}, { passive: true });
+
+document.addEventListener('touchend', (e) => {
+  touchEndX = e.changedTouches[0].screenX;
+  touchEndY = e.changedTouches[0].screenY;
+  const diffX = touchStartX - touchEndX;
+  const diffY = touchStartY - touchEndY;
+  // Only trigger if horizontal swipe is dominant and exceeds threshold
+  if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 60) {
+    if (diffX > 0) { nextSlide(); }
+    else { prevSlide(); }
+  }
+}, { passive: true });
 
 // Initialize
 initDots();
