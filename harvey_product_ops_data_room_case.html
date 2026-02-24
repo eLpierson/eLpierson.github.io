@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Harvey AI — Data Room Launch SOP</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --off-black: #111214;
+    --panel: #16181c;
+    --border: #252830;
+    --border-light: #2e3138;
+    --text: #e8e9ec;
+    --muted: #7a7f8e;
+    --faint: #3a3f4a;
+    --accent: #c8a96e;
+    --accent-dim: #8a6f3e;
+    --critical: #e05252;
+    --high: #d4943a;
+    --medium: #5b8fd4;
+    --white: #f5f5f3;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    height: 56px;
+  }
+
+  .nav-logo {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 80px 80px;
+    position: relative;
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 64px 64px;
+    opacity: 0.35;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 100%, black 40%, transparent 100%);
+  }
+
+  .hero-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 0.6s ease 0.1s forwards;
+  }
+
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(52px, 7vw, 96px);
+    line-height: 1.0;
+    color: var(--white);
+    font-weight: 400;
+    max-width: 900px;
+    opacity: 0;
+    animation: fadeUp 0.7s ease 0.2s forwards;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    margin-top: 32px;
+    font-size: 16px;
+    color: var(--muted);
+    max-width: 560px;
+    font-weight: 300;
+    opacity: 0;
+    animation: fadeUp 0.7s ease 0.35s forwards;
+  }
+
+  .hero-meta {
+    margin-top: 48px;
+    display: flex;
+    gap: 48px;
+    opacity: 0;
+    animation: fadeUp 0.7s ease 0.45s forwards;
+  }
+
+  .hero-meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .hero-meta-item .label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  .hero-meta-item .value {
+    font-size: 14px;
+    color: var(--text);
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* SECTIONS */
+  section {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 80px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+    margin-bottom: 48px;
+  }
+
+  .section-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    padding-top: 6px;
+  }
+
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(28px, 3.5vw, 44px);
+    font-weight: 400;
+    color: var(--white);
+    line-height: 1.1;
+  }
+
+  /* CONTEXT */
+  .context-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-bottom: 40px;
+  }
+
+  .context-block {
+    background: var(--off-black);
+    padding: 32px 36px;
+  }
+
+  .context-block.full { grid-column: span 2; }
+
+  .context-block p {
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.75;
+    font-weight: 300;
+  }
+
+  .context-block .block-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  /* ASSUMPTIONS */
+  .assumptions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .assumption-item {
+    background: var(--off-black);
+    padding: 24px 36px;
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    transition: background 0.2s;
+  }
+
+  .assumption-item:hover { background: var(--panel); }
+
+  .assumption-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--faint);
+    padding-top: 3px;
+    flex-shrink: 0;
+    width: 24px;
+  }
+
+  .assumption-text { font-size: 15px; color: var(--text); font-weight: 300; }
+
+  /* CALLOUT */
+  .callout {
+    border-left: 2px solid var(--accent);
+    background: var(--panel);
+    padding: 24px 32px;
+    margin: 40px 0;
+  }
+
+  .callout p {
+    font-style: italic;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.75;
+  }
+
+  /* PHASE OVERVIEW TABLE */
+  .phase-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid var(--border);
+  }
+
+  .phase-table th {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 14px 20px;
+    text-align: left;
+    background: var(--panel);
+    border-bottom: 1px solid var(--border);
+    font-weight: 500;
+  }
+
+  .phase-table td {
+    padding: 20px 20px;
+    vertical-align: top;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+    color: var(--text);
+    font-weight: 300;
+    line-height: 1.6;
+  }
+
+  .phase-table tr:last-child td { border-bottom: none; }
+  .phase-table tr:nth-child(even) td { background: var(--panel); }
+
+  .phase-tag {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    padding: 4px 10px;
+    border-radius: 2px;
+    font-weight: 500;
+  }
+
+  .phase-tag.alpha { background: rgba(200,169,110,0.15); color: var(--accent); border: 1px solid var(--accent-dim); }
+  .phase-tag.beta  { background: rgba(91,143,212,0.15); color: #7aabde; border: 1px solid #3a6a9e; }
+  .phase-tag.ga    { background: rgba(90,180,120,0.15); color: #7dc9a0; border: 1px solid #3a7a5a; }
+  .phase-tag.iter  { background: rgba(122,127,142,0.15); color: var(--muted); border: 1px solid var(--faint); }
+
+  /* PHASE SECTIONS */
+  .phase-section {
+    padding: 80px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 56px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .phase-header h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 36px;
+    font-weight: 400;
+    color: var(--white);
+  }
+
+  .phase-body {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 64px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .phase-nav {
+    position: sticky;
+    top: 72px;
+    align-self: start;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .phase-nav-item {
+    font-size: 13px;
+    color: var(--muted);
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+
+  .phase-nav-item:hover { color: var(--text); }
+  .phase-nav-item.active { color: var(--accent); }
+
+  .phase-content { display: flex; flex-direction: column; gap: 48px; }
+
+  .content-block {}
+
+  .content-block h3 {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+  }
+
+  .content-block p {
+    font-size: 15px;
+    color: var(--text);
+    font-weight: 300;
+    line-height: 1.75;
+    margin-bottom: 12px;
+  }
+
+  .content-block p:last-child { margin-bottom: 0; }
+
+  /* BULLET LIST */
+  .bullet-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .bullet-item {
+    background: var(--off-black);
+    padding: 18px 24px;
+    font-size: 14px;
+    color: var(--text);
+    font-weight: 300;
+    line-height: 1.65;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    transition: background 0.15s;
+  }
+
+  .bullet-item:hover { background: var(--panel); }
+
+  .bullet-item::before {
+    content: '—';
+    color: var(--accent);
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    flex-shrink: 0;
+    padding-top: 2px;
+  }
+
+  /* NUMBERED LIST */
+  .numbered-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .numbered-item {
+    background: var(--off-black);
+    padding: 18px 24px;
+    font-size: 14px;
+    color: var(--text);
+    font-weight: 300;
+    line-height: 1.65;
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    transition: background 0.15s;
+  }
+
+  .numbered-item:hover { background: var(--panel); }
+
+  .numbered-item .num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    flex-shrink: 0;
+    width: 18px;
+    padding-top: 2px;
+  }
+
+  /* EXIT CRITERIA */
+  .exit-criteria {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 28px 32px;
+  }
+
+  .exit-criteria-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .exit-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+    color: var(--text);
+    font-weight: 300;
+    line-height: 1.6;
+  }
+
+  .exit-item:last-child { border-bottom: none; }
+
+  .exit-item::before {
+    content: '◻';
+    color: var(--faint);
+    flex-shrink: 0;
+    font-size: 12px;
+    padding-top: 2px;
+  }
+
+  /* FEEDBACK LAYERS */
+  .layers {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .layer {
+    background: var(--off-black);
+    padding: 28px 32px;
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 24px;
+    align-items: start;
+    transition: background 0.15s;
+  }
+
+  .layer:hover { background: var(--panel); }
+
+  .layer-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    color: var(--border-light);
+    line-height: 1;
+  }
+
+  .layer-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .layer-text { font-size: 14px; color: var(--text); font-weight: 300; line-height: 1.7; }
+
+  /* RISKS TABLE */
+  .risks-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid var(--border);
+  }
+
+  .risks-table th {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 14px 20px;
+    text-align: left;
+    background: var(--panel);
+    border-bottom: 1px solid var(--border);
+    font-weight: 500;
+  }
+
+  .risks-table td {
+    padding: 22px 20px;
+    vertical-align: top;
+    border-bottom: 1px solid var(--border);
+    font-size: 13.5px;
+    color: var(--text);
+    font-weight: 300;
+    line-height: 1.65;
+  }
+
+  .risks-table tr:last-child td { border-bottom: none; }
+  .risks-table tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+
+  .impact-badge {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    padding: 4px 10px;
+    border-radius: 2px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .impact-critical { background: rgba(224,82,82,0.15); color: var(--critical); border: 1px solid rgba(224,82,82,0.3); }
+  .impact-high { background: rgba(212,148,58,0.15); color: var(--high); border: 1px solid rgba(212,148,58,0.3); }
+  .impact-medium { background: rgba(91,143,212,0.15); color: var(--medium); border: 1px solid rgba(91,143,212,0.3); }
+
+  /* GA READINESS TABLE */
+  .readiness-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid var(--border);
+  }
+
+  .readiness-table th {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 14px 20px;
+    text-align: left;
+    background: var(--panel);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .readiness-table td {
+    padding: 20px 20px;
+    vertical-align: top;
+    border-bottom: 1px solid var(--border);
+    font-size: 13.5px;
+    color: var(--text);
+    font-weight: 300;
+    line-height: 1.65;
+  }
+
+  .readiness-table tr:last-child td { border-bottom: none; }
+  .readiness-table tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+
+  .area-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+  }
+
+  .owner-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  /* METRICS */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .metric-card {
+    background: var(--off-black);
+    padding: 28px 32px;
+    transition: background 0.15s;
+  }
+
+  .metric-card:hover { background: var(--panel); }
+
+  .metric-phase {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .metric-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13.5px;
+    color: var(--text);
+    font-weight: 300;
+    line-height: 1.6;
+  }
+
+  .metric-item:last-child { border-bottom: none; }
+
+  .metric-item::before {
+    content: '→';
+    color: var(--accent);
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    flex-shrink: 0;
+    padding-top: 1px;
+  }
+
+  /* GO/NO-GO */
+  .gng-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-bottom: 24px;
+  }
+
+  .gng-card {
+    background: var(--off-black);
+    padding: 28px 32px;
+  }
+
+  .gng-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .gng-label.hold { color: var(--critical); }
+  .gng-label.move { color: #7dc9a0; }
+
+  /* SOC CALLOUT */
+  .soc-callout {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-left: 2px solid var(--accent-dim);
+    padding: 28px 32px;
+    margin-top: 24px;
+  }
+
+  .soc-callout .soc-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .soc-callout p {
+    font-size: 13.5px;
+    color: var(--muted);
+    font-style: italic;
+    line-height: 1.75;
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 48px 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-left {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--faint);
+    letter-spacing: 0.1em;
+  }
+
+  .footer-right {
+    font-size: 12px;
+    color: var(--faint);
+  }
+
+  /* UTIL */
+  strong { font-weight: 500; color: var(--white); }
+  .accent { color: var(--accent); }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 32px 0;
+  }
+
+  @media (max-width: 900px) {
+    nav { padding: 0 24px; }
+    .hero { padding: 0 24px 60px; }
+    .section-inner, .phase-section { padding: 60px 24px; }
+    .phase-body { grid-template-columns: 1fr; }
+    .phase-nav { display: none; }
+    .context-grid { grid-template-columns: 1fr; }
+    .context-block.full { grid-column: span 1; }
+    .metrics-grid, .gng-grid { grid-template-columns: 1fr; }
+    footer { padding: 32px 24px; flex-direction: column; gap: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Harvey AI — Data Room SOP</div>
+  <ul class="nav-links">
+    <li><a href="#context">Context</a></li>
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#alpha">Alpha</a></li>
+    <li><a href="#beta">Beta</a></li>
+    <li><a href="#ga">GA</a></li>
+    <li><a href="#risks">Risks</a></li>
+    <li><a href="#metrics">Metrics</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-label">Product Operations Manager — Emily Pierson</div>
+  <h1>LLM-Enabled<br><em>Data Room</em><br>Launch SOP</h1>
+  <p class="hero-sub"></p>
+  <div class="hero-meta">
+    <div class="hero-meta-item">
+      <span class="label">Timeline</span>
+      <span class="value">20 weeks to GA</span>
+    </div>
+    <div class="hero-meta-item">
+      <span class="label">Phases</span>
+      <span class="value">4 phases, hard exit bars</span>
+    </div>
+    <div class="hero-meta-item">
+      <span class="label">Alpha Cohort</span>
+      <span class="value">3&ndash;5 firms</span>
+    </div>
+    <div class="hero-meta-item">
+      <span class="label">Beta Cohort</span>
+      <span class="value">15&ndash;25 firms</span>
+    </div>
+  </div>
+</section>
+
+<!-- CONTEXT -->
+<section id="context">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="section-title">Context &amp; Assumptions</h2>
+    </div>
+
+    <div class="context-grid">
+      <div class="context-block full">
+        <div class="block-label">Market position</div>
+        <p>Harvey's Data Room enters a market that is only starting to evolve after 20-something years. The biggest competitors in this space are adding AI-driven features, but are not AI companies, whereas Harvey is. Some competitors are boasting long feature lists as a competitive advantage (Datasite, for example). Our value prop is that Harvey is the only purpose-built environment where document storage and AI interrogation are native to each other (not bolted together) with answers traceable back to a source.</p>
+      </div>
+      <div class="context-block">
+        <div class="block-label">The trust bar</div>
+        <p>We know that law firms don't tend to be early adopters, and they don't quickly forget if a tool has failed them, so the bar here is enormously high. They operate under strict confidentiality obligations and are personally liable for the advice that they give. <strong>Trust needs to be a first principle in this launch.</strong></p>
+      </div>
+      <div class="context-block">
+        <div class="block-label">Product Ops posture</div>
+        <p>At a company Harvey's size, a Product Ops function can either clear the path or become overhead. The version that works owns the feedback system, the phase gate process, and cross-functional reporting, but stays out of roadmap decisions, feature prioritization, and anything Legal has already decided. The goal is to make the PM's job easier, not to add a layer between them and the product.</p>
+      </div>
+    </div>
+
+    <div class="content-block">
+      <h3>Working Assumptions</h3>
+      <p style="color:var(--muted); font-size:13px; margin-bottom:16px;"></p>
+    </div>
+    <div class="assumptions-list">
+      <div class="assumption-item">
+        <span class="assumption-num">A1</span>
+        <span class="assumption-text">The engineering team is small and moving fast. Work that moves forward here is that which adds signal, not process.</span>
+      </div>
+      <div class="assumption-item">
+        <span class="assumption-num">A2</span>
+        <span class="assumption-text">Harvey's customers have strict data privacy obligations that are a condition of doing business rather than a box to check: attorney-client privilege, cross-border deal confidentiality, GDPR, SEC and FCA document handling, and equivalent frameworks in APAC and other jurisdictions where Harvey operates.</span>
+      </div>
+      <div class="assumption-item">
+        <span class="assumption-num">A3</span>
+        <span class="assumption-text">Harvey is expanding internationally at speed: 700 customers across 58 countries as of late 2025, with a &euro;50M raise specifically to accelerate that. The Data Room product should be built for a global rollout from the start, not retrofitted for it later. Alpha and beta cohorts should include international firms by design, not as an afterthought.</span>
+      </div>
+      <div class="assumption-item">
+        <span class="assumption-num">A4</span>
+        <span class="assumption-text">The M0&ndash;M3 milestone sequence is fixed by ProdEng. This document is the operating layer on top of that sequence.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PHASE OVERVIEW -->
+<section id="overview">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Phase Overview</h2>
+    </div>
+    <p style="color:var(--muted); margin-bottom:32px; font-size:14px;">Four phases. Each has a clear goal and a hard bar for moving on. No phase advances without sign-off from Product, Engineering, Legal, and CS.</p>
+
+    <table class="phase-table">
+      <thead>
+        <tr>
+          <th>Phase</th>
+          <th>Duration</th>
+          <th>Scope</th>
+          <th>Goal</th>
+          <th>Bar to Move On</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="phase-tag alpha">Alpha</span></td>
+          <td style="color:var(--muted); font-family:'DM Mono',monospace; font-size:12px;">Weeks 1&ndash;6</td>
+          <td>M0 only</td>
+          <td>Validate the core product works in real deal environments with 3&ndash;5 trusted customers</td>
+          <td>No open critical bugs; 4 of 5 firms say they'd use it in a live deal today; AI accuracy above 90%; hallucination rate below 2%</td>
+        </tr>
+        <tr>
+          <td><span class="phase-tag beta">Beta</span></td>
+          <td style="color:var(--muted); font-family:'DM Mono',monospace; font-size:12px;">Weeks 7&ndash;16</td>
+          <td>M0 + M1</td>
+          <td>Expand to 15&ndash;25 customers; introduce AI document analysis; run the automated feedback system at scale</td>
+          <td>AI accuracy above 95%; NPS above the alpha baseline; no compliance issues; infrastructure load test passed; uptime validated at 99.9%</td>
+        </tr>
+        <tr>
+          <td><span class="phase-tag ga">GA</span></td>
+          <td style="color:var(--muted); font-family:'DM Mono',monospace; font-size:12px;">Weeks 17&ndash;20</td>
+          <td>M0, M1, M2</td>
+          <td>Open to all customers; marketing live; pricing active; internal teams ready</td>
+          <td>80% of new customers create their first data room within 7 days; no critical incidents in first 30 days</td>
+        </tr>
+        <tr>
+          <td><span class="phase-tag iter">Ongoing</span></td>
+          <td style="color:var(--muted); font-family:'DM Mono',monospace; font-size:12px;">Sprint-aligned</td>
+          <td>M3 + improvements</td>
+          <td>Ship M3 external sharing as a named milestone with its own readiness bar, then iterate from what the GA cohort teaches us</td>
+          <td>Adoption, retention, and expansion revenue trending up</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ALPHA -->
+<section id="alpha" class="phase-section">
+  <div style="max-width:1200px; margin:0 auto;">
+    <div class="phase-header">
+      <span class="phase-tag alpha">Alpha</span>
+      <h2>Phase 1: Alpha <span style="color:var(--muted); font-size:22px; font-family:'DM Mono',monospace;">Weeks 1&ndash;6</span></h2>
+    </div>
+
+    <p style="color:var(--muted); margin-bottom:48px; font-size:15px;">Alpha is not a soft launch. It's a structured way to find what's broken before it breaks in a real deal.</p>
+
+    <div class="phase-content">
+
+      <div class="content-block">
+        <h3>Who to Bring In</h3>
+        <p>Three to five existing Harvey customers who meet all of these criteria:</p>
+        <div class="bullet-list" style="margin-top:16px;">
+          <div class="bullet-item">Active deals generating real due diligence documents in that window. No sample data.</div>
+          <div class="bullet-item">A track record of giving honest, specific feedback, not just positive responses because they like Harvey.</div>
+          <div class="bullet-item">Legal team comfortable signing a participation agreement that is clear about the pre-release status of the software.</div>
+          <div class="bullet-item">At least one large firm, one mid-market firm, and one in-house legal team. Different environments surface different problems.</div>
+        </div>
+      </div>
+
+      <div class="content-block">
+        <h3></h3>
+        <p>When beta starts, we carry forward three of the alpha firms rather than all five. Three is the right number because it keeps the beta group manageable while M1 stabilizes, and it preserves slots for fresh perspectives from firms that have not yet seen the product.</p>
+        <p style="margin-top:12px;">The three we graduate are chosen on these criteria, in this order:</p>
+        <div class="numbered-list" style="margin-top:16px;">
+          <div class="numbered-item"><span class="num">1.</span><span>Actual usage depth during alpha: which firms put real deal documents in and ran the product hard, not just in demos. Usage logs tell us this.</span></div>
+          <div class="numbered-item"><span class="num">2.</span><span>Quality of feedback: which firms surfaced specific, reproducible issues rather than general impressions. The firms that found edge cases in alpha will find them in beta too, and that is what we need.</span></div>
+          <div class="numbered-item"><span class="num">3.</span><span>Geographic and firm-type fit: we want at least one international firm in the beta group from week one, not week nine. If an alpha firm covers that slot, they graduate ahead of a domestic firm with equivalent usage and feedback scores.</span></div>
+        </div>
+        <p style="margin-top:16px; color:var(--muted); font-size:13.5px;"></p>
+      </div>
+
+      <div class="content-block">
+        <h3>How We Run It</h3>
+        <div class="bullet-list">
+          <div class="bullet-item"><strong>Kick-off call (45 min):</strong> what the product can and can't do, how to flag issues, what the timeline is. Be upfront there will be problems, and surfacing bugs is part of the point. Response times made explicit: anything that could expose data or produce an incorrect answer gets addressed within 2 hours. Everything else within 24 hours.</div>
+          <div class="bullet-item"><strong>Dedicated Slack channel per firm</strong> with direct PM and engineer access (not routed through the CSM). When something breaks mid-deal, the customer needs to reach someone who can fix it, not open a ticket. The CSM stays in the loop but isn't the middle-person.</div>
+          <div class="bullet-item"><strong>Weekly check-ins (CSM-led, 20 min).</strong> Structured: what worked, what didn't, what's confusing, what's missing.</div>
+          <div class="bullet-item"><strong>Slack feedback template</strong> after each session. Alpha volume is low enough that this is sufficient. The automated feedback system gets built for beta when volume makes manual collection impractical.</div>
+        </div>
+      </div>
+
+      <div class="content-block">
+        <h3>Aim for 90% Accuracy</h3>
+        <p>Accuracy in legal due diligence is more demanding than in most products:</p>
+        <div class="bullet-list" style="margin-top:16px;">
+          <div class="bullet-item">A response is only accurate if the cited source directly supports the answer. Partial support is a failure.</div>
+          <div class="bullet-item">A technically correct answer that omits a material risk is also a failure. Attorneys make decisions on completeness, not just correctness.</div>
+          <div class="bullet-item">Knowing when not to answer confidently is a feature. An AI that says "I'm not certain" when it isn't is more useful than one that sounds definitive when it shouldn't.</div>
+        </div>
+        <p style="margin-top:20px;">The benchmark: ~100 questions drawn from real M&amp;A due diligence types. For example, we build the Q&amp;A set from acquisition agreement terms, IP representations, employment agreements, and environmental disclosures before the first alpha customer onboards. A practicing M&amp;A attorney reviews the answers, not the product team. The 90% target is against their standard, not ours. We make sure they are aligned with 90% for alpha knowing we will increase from here, its just a starting point.</p>
+      </div>
+
+      <div class="exit-criteria">
+        <div class="exit-criteria-title">Alpha Exit Criteria &mdash; all must be true, not most</div>
+        <div class="exit-item">No open bugs that could expose data or produce a legally wrong answer</div>
+        <div class="exit-item">Four of five alpha firms say they'd use the product in a live deal today</div>
+        <div class="exit-item">AI accuracy at or above 90% on the attorney-reviewed benchmark (see accuracy notes above)</div>
+        <div class="exit-item">Hallucination rate (where the cited source doesn't support the answer) below 2%</div>
+        <div class="exit-item">Legal has signed off on how we're handling data</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- BETA -->
+<section id="beta" class="phase-section">
+  <div style="max-width:1200px; margin:0 auto;">
+    <div class="phase-header">
+      <span class="phase-tag beta">Beta</span>
+      <h2>Phase 2: Beta <span style="color:var(--muted); font-size:22px; font-family:'DM Mono',monospace;">Weeks 7&ndash;16</span></h2>
+    </div>
+
+    <p style="color:var(--muted); margin-bottom:48px; font-size:15px;">Beta adds more customers and introduces M1. Here we prove that the product works at scale and that the feedback system can run without someone pulling it together manually every week.</p>
+
+    <div class="phase-content">
+
+      <div class="content-block">
+        <h3>Expansion</h3>
+        <div class="bullet-list">
+          <div class="bullet-item"><strong>Weeks 7&ndash;8:</strong> Three alpha graduates plus five new CSM-nominated customers. Keep it small while M1 stabilizes.</div>
+          <div class="bullet-item"><strong>Weeks 9&ndash;12:</strong> Expand to 15&ndash;25 total. Prioritize a mix of firm sizes, deal types, and geographies. We are targeting at least 30% international representation, and not just European firms for GDPR coverage, but customers in APAC and other regions where Harvey is actively growing. Different jurisdictions surface different document types, languages, and regulatory frameworks that the product needs to handle before GA.</div>
+          <div class="bullet-item"><strong>Weeks 13&ndash;16:</strong> Measurement window. Cohort is fully onboarded, feedback is running, and we're evaluating against exit criteria before voting 'Go' on GA date.</div>
+        </div>
+      </div>
+
+      <div class="content-block">
+        <h3>Feedback: Automated Ingestion, Categorization, and Routing</h3>
+        <p>Alpha ran on a simple Slack template since volume didn't require more. At 25 customers across multiple time zones, manual collection breaks down. Beta is where we build the automated feedback system that will run through GA and beyond.</p>
+        <div class="layers" style="margin-top:24px;">
+          <div class="layer">
+            <div class="layer-num">01</div>
+            <div>
+              <div class="layer-title">Ingestion</div>
+              <div class="layer-text">Every feedback signal enters through one of three channels: the in-product thumbs up/down prompt shown after every AI response (with an optional free-text field and a dropdown to tag issue type), the structured Slack template used in weekly check-ins, and direct bug reports routed through a Jira intake form linked from the Slack channel. All three feed into a single Airtable base that is the system of record.</div>
+            </div>
+          </div>
+          <div class="layer">
+            <div class="layer-num">02</div>
+            <div>
+              <div class="layer-title">Automated Categorization</div>
+              <div class="layer-text">When a submission arrives, a lightweight classifier (built on the same AI infrastructure Harvey already runs) that tags each item on two dimensions automatically. The first dimension is issue type: AI accuracy failure, UX friction, missing feature, compliance concern, or performance issue. The second dimension is severity: blocking, degrading, or minor. High-confidence tags are applied automatically. Low-confidence submissions get flagged for manual review by Product Ops within 24 hours.</div>
+            </div>
+          </div>
+          <div class="layer">
+            <div class="layer-num">03</div>
+            <div>
+              <div class="layer-title">Routing and Dissemination</div>
+              <div class="layer-text">Once tagged, items route automatically. AI accuracy failures go to a shared PM and engineering Slack channel with the original submission, the auto-generated test case, and a link to the Airtable record. Compliance concerns go to a Legal and PM thread with a 24-hour acknowledgment requirement. Performance issues go to the engineering on-call rotation. Feature requests and UX issues go to the PM backlog queue, deduplicated by similarity so the PM sees "seven customers asked for this" rather than seven separate items.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="exit-criteria">
+        <div class="exit-criteria-title">Beta Exit Criteria &mdash; all must be true, not most</div>
+        <div class="exit-item">AI accuracy at or above 95% on the attorney-reviewed benchmark</div>
+        <div class="exit-item">Hallucination rate below 1%</div>
+        <div class="exit-item">NPS above the alpha baseline from the beta cohort</div>
+        <div class="exit-item">No more than one critical bug per week across the cohort in the final two weeks</div>
+        <div class="exit-item">Infrastructure load test passed and uptime validated at 99.9%, which is the test that earns the GA readiness claim. The test runs in weeks 13&ndash;14 against realistic load (50 simultaneous data rooms with 10,000+ documents each), across multiple regions. If this number needs to be calibrated against actual usage projections from the beta cohort, that should happen in week 12.</div>
+        <div class="exit-item">Pricing agreed on by Finance and Sales</div>
+        <div class="exit-item">SOC 2 Type II audit underway with no findings that would block launch</div>
+        <div class="exit-item">Support runbook exists and CS team is trained on it</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- GA -->
+<section id="ga" class="phase-section">
+  <div style="max-width:1200px; margin:0 auto;">
+    <div class="phase-header">
+      <span class="phase-tag ga">GA</span>
+      <h2>Phase 3: General Availability <span style="color:var(--muted); font-size:22px; font-family:'DM Mono',monospace;">Weeks 17&ndash;20</span></h2>
+    </div>
+
+    <p style="color:var(--muted); margin-bottom:32px; font-size:15px;">GA is a coordinated release, not the flip of a switch. Weekly readiness calls start in week 15. This means we name one dependency: week 15 is the second-to-last week of beta, so if beta needs to extend, the launch date moves with it.</p>
+
+    <div class="phase-content">
+
+      <div class="content-block">
+        <h3>Definitions of Done</h3>
+        <table class="readiness-table" style="margin-top:16px;">
+          <thead>
+            <tr><th>Area</th><th>What Done Looks Like</th><th>Owner</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="area-label">Product</span></td>
+              <td>All M0, M1, and M2 features are stable. Known limitations are documented in plain language inside the product.</td>
+              <td><span class="owner-tag">PM</span></td>
+            </tr>
+            <tr>
+              <td><span class="area-label">Engineering</span></td>
+              <td>Infrastructure validated at 99.9% uptime through the beta load test. Incident response process has been tested, not just written. On-call rotation in place.</td>
+              <td><span class="owner-tag">Eng Lead</span></td>
+            </tr>
+            <tr>
+              <td><span class="area-label">Security + Legal</span></td>
+              <td>Security audit complete. SOC 2 Type II observation period underway. Data processing agreements ready for all customer jurisdictions, not just EU, including APAC and any other regions in the beta cohort. Attorney-client privilege implications reviewed by outside counsel.</td>
+              <td><span class="owner-tag">Legal + Security</span></td>
+            </tr>
+            <tr>
+              <td><span class="area-label">Sales</span></td>
+              <td>Clear story for how Data Room compares to Datasite, Intralinks, and Ansarada. Live product walkthrough done in week 16 before inbound opens. Sales fully understands the AI accuracy story to avoid overselling it. That would be a trust problem that would show up at renewal, not at close.</td>
+              <td><span class="owner-tag">Sales Ops</span></td>
+            </tr>
+            <tr>
+              <td><span class="area-label">Marketing</span></td>
+              <td>Launch post live, co-authored with a partner-level attorney from an alpha firm. Short product demo video ready. Attorneys trust other attorneys; vendor marketing is a harder sell.</td>
+              <td><span class="owner-tag">Marketing</span></td>
+            </tr>
+            <tr>
+              <td><span class="area-label">Customer Success</span></td>
+              <td>Onboarding playbook updated so CSMs can coach proactively.</td>
+              <td><span class="owner-tag">CS Lead</span></td>
+            </tr>
+            <tr>
+              <td><span class="area-label">Pricing + Billing</span></td>
+              <td>Packaging finalized. Billing system tested. Finance signed off.</td>
+              <td><span class="owner-tag">Finance + PM</span></td>
+            </tr>
+            <tr>
+              <td><span class="area-label">Support</span></td>
+              <td>Decision tree for the most common failure modes from alpha and beta: specific steps for specific problems, not a general guide.</td>
+              <td><span class="owner-tag">Support Lead</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-block">
+        <h3>GTM and Marketing</h3>
+        <p>Marketing is not a week-20 event. It is a thread that runs through all four phases and should be treated as part of the operational plan, not a downstream output of it.</p>
+        <p>During alpha, the marketing team's job is listening, not publishing. Alpha participants should be asked explicitly for stories, like specific moments where the product saved time or caught something a paralegal would have missed. These become the raw material for launch content, and they need to come from real deals. The PM and marketing lead should align in week one on what a quotable outcome looks like and how to capture it without violating confidentiality.</p>
+        <p>During beta, marketing shifts to building the launch narrative. The core message, that Harvey is the only purpose-built environment where document storage and AI interrogation are native to each other and not bolted together, should be tested with beta customers before it is published. Beta is also where we identify the partner-level attorney who will co-author the launch post. This person needs time to review, contribute, and approve, a process that typically takes three to four weeks, which means outreach starts no later than week 10.</p>
+        <p>At GA, the launch itself follows a relationship-first sequence. Beta participants and top existing customers hear about it directly from their CSM before anything is published. The week-19 in-app notification and email that goes to all existing customers is not a cold outreach; it's a follow-up to a relationship that already exists. New inbound from the public launch in week 20 is handled by Sales, not marketing automation.</p>
+      </div>
+
+      <div class="content-block">
+        <h3>Rollout</h3>
+        <div class="bullet-list">
+          <div class="bullet-item"><strong>Week 17:</strong> Beta participants get access automatically.</div>
+          <div class="bullet-item"><strong>Week 18:</strong> CSMs reach out personally to the top 50 existing Harvey customers by contract value. A real conversation or a personalized demo invitation, not a mass email. This is consistent with how Harvey sells: relationship-first, not inbound-first.</div>
+          <div class="bullet-item"><strong>Week 19:</strong> Data Room goes live in the Harvey dashboard for all existing customers. An in-app notification goes out. Sales refresh call.</div>
+          <div class="bullet-item"><strong>Week 20:</strong> Public launch. Blog post, press, social. Inbound opens.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- RISKS -->
+<section id="risks">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2 class="section-title">Risks</h2>
+    </div>
+    <p style="color:var(--muted); margin-bottom:32px; font-size:14px;">Each risk covers what we do to prevent it, and what we do if it happens anyway.</p>
+
+    <table class="risks-table">
+      <thead>
+        <tr>
+          <th style="width:26%;">Risk</th>
+          <th style="width:8%;">Impact</th>
+          <th style="width:34%;">How We Prevent It</th>
+          <th style="width:24%;">If It Happens</th>
+          <th style="width:8%;">Owner</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>The AI gives a wrong answer that someone relies on in a live deal</td>
+          <td><span class="impact-badge impact-critical">Critical</span></td>
+          <td>Every AI response cites its source. Accuracy reviewed by an attorney at every phase gate. Clear in-product disclaimer about AI limitations.</td>
+          <td>Disable AI responses immediately. Hotfix within 24 hours. CSM calls the affected firm within 2 hours.</td>
+          <td style="color:var(--muted); font-family:'DM Mono',monospace; font-size:12px;">PM + Eng</td>
+        </tr>
+        <tr>
+          <td>A confidentiality breach: one firm's documents become visible to another</td>
+          <td><span class="impact-badge impact-critical">Critical</span></td>
+          <td>Complete data isolation between customers validated in alpha. External penetration test before GA. Data handling reviewed by outside counsel. Tenant isolation tested for every new infrastructure configuration.</td>
+          <td>Incident response within one hour. Legal notifies affected parties per jurisdiction requirements. Executive team looped in immediately. Product taken offline if scope is unclear.</td>
+          <td style="color:var(--muted); font-family:'DM Mono',monospace; font-size:12px;">Security + Legal</td>
+        </tr>
+        <tr>
+          <td>A regulatory or compliance failure in a customer's jurisdiction</td>
+          <td><span class="impact-badge impact-critical">Critical</span></td>
+          <td>Compliance requirements mapped for every jurisdiction in the beta cohort before those customers onboard. Legal reviews data processing agreements for GDPR, APAC privacy laws, and sector-specific rules (FCA, SEC). SOC 2 Type II observation period starts in beta.</td>
+          <td>Isolate affected customers immediately. Legal determines whether a breach notification is required. Pause expansion in that jurisdiction until resolved.</td>
+          <td style="color:var(--muted); font-family:'DM Mono',monospace; font-size:12px;">Legal + PM</td>
+        </tr>
+        <tr>
+          <td>AI accuracy doesn't reach the threshold needed to exit beta</td>
+          <td><span class="impact-badge impact-high">High</span></td>
+          <td>Accuracy tracked weekly from the start of alpha, not just at phase gates. Engineering capacity reserved for model improvements in weeks 4&ndash;8, covering the back half of alpha and the start of beta.</td>
+          <td>Delay beta exit by two weeks. Revisit benchmark methodology with outside legal domain experts to make sure we're measuring the right thing.</td>
+          <td style="color:var(--muted); font-family:'DM Mono',monospace; font-size:12px;">Eng + PM</td>
+        </tr>
+        <tr>
+          <td>Pricing doesn't match what customers will pay; deals stall</td>
+          <td><span class="impact-badge impact-high">High</span></td>
+          <td>Pricing conversations happen during beta, not after. Comparison against Datasite and Intralinks pricing done before GA.</td>
+          <td>Introductory pricing for first 90 days. Option to bundle with existing Harvey subscription.</td>
+          <td style="color:var(--muted); font-family:'DM Mono',monospace; font-size:12px;">Finance + PM</td>
+        </tr>
+        <tr>
+          <td>The automated feedback system isn't ready when beta expands in weeks 9&ndash;12</td>
+          <td><span class="impact-badge impact-high">High</span></td>
+          <td>Feedback system built and tested in weeks 7&ndash;8 with the smaller initial cohort before full expansion. Airtable base, classifier, and routing integrations validated against real alpha data before beta starts.</td>
+          <td>Fall back to manual Slack triage for the week of the expansion, with Product Ops triaging directly. Buy one week to stabilize the system before it's under full load.</td>
+          <td style="color:var(--muted); font-family:'DM Mono',monospace; font-size:12px;">Product Ops + Eng</td>
+        </tr>
+        <tr>
+          <td>The EU or international launch creates compliance obligations Harvey isn't ready for</td>
+          <td><span class="impact-badge impact-medium">Medium</span></td>
+          <td>International launch is treated as a separate milestone 4&ndash;6 weeks after main GA. This is the plan, not the fallback. Data processing agreements drafted for all jurisdictions in the beta cohort pre-GA. GDPR counsel and equivalent APAC legal review engaged from the start of beta.</td>
+          <td>If international launch slips beyond 6 weeks, extend beta access for those customers in the interim so they're not blocked.</td>
+          <td style="color:var(--muted); font-family:'DM Mono',monospace; font-size:12px;">Legal + Eng</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- METRICS -->
+<section id="metrics">
+  <div class="section-inner">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <h2 class="section-title">How We Measure Success</h2>
+    </div>
+    <p style="color:var(--muted); margin-bottom:40px; font-size:14px;"></p>
+
+    <div class="metrics-grid" style="margin-bottom:40px;">
+      <div class="metric-card">
+        <div class="metric-phase">During Alpha and Beta &mdash; Is the Product Working?</div>
+        <div class="metric-item">AI accuracy: attorney-reviewed against the 100-question benchmark. Target is 90% at end of alpha, 95% at end of beta. Below threshold means we hold the phase.</div>
+        <div class="metric-item">Hallucination rate: % of AI responses where the cited source doesn't support the answer. Target below 2% in alpha, below 1% in beta.</div>
+        <div class="metric-item">Field extraction accuracy: % of fields the AI pulls correctly vs. a paralegal ground truth on a 50-document test set. Target 92% or better. Measured in beta when M1 is live.</div>
+        <div class="metric-item">Document processing: % of uploaded files that process successfully. Target above 99%. Tracked by file type because failures won't be random.</div>
+        <div class="metric-item">Bug count per week by severity. In beta, more than two critical or high bugs in a single week means the sprint reprioritizes to quality.</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-phase">After GA &mdash; Is It Driving Value?</div>
+        <div class="metric-item">Time from data room creation to first AI question. Target under 30 minutes. This is the clearest signal the product delivers value without hand-holding.</div>
+        <div class="metric-item">Weekly active data rooms, meaning rooms with actual AI activity, not just created. Separates real adoption from shelfware.</div>
+        <div class="metric-item">NPS at 30 and 60 days post-activation. Target above the beta cohort baseline. The 90-day read is reviewed in the third post-GA sprint, and it's a lagging signal that can't be evaluated during the four-week GA phase.</div>
+        <div class="metric-item">How many customers explicitly migrated from Datasite or Intralinks. Tracked in CRM by Sales. The most direct proof point for the category positioning.</div>
+      </div>
+    </div>
+
+    <div class="content-block">
+      <h3>Go / No-Go Framework</h3>
+    </div>
+    <div class="gng-grid">
+      <div class="gng-card">
+        <div class="gng-label hold">Hold if any of these are true</div>
+        <div class="bullet-list">
+          <div class="bullet-item">An open bug that could expose customer data or produce a wrong answer someone might act on</div>
+          <div class="bullet-item">AI accuracy below threshold and we don't know why; a known, fixable issue is different from an unexplained regression</div>
+          <div class="bullet-item">Legal or Security has flagged a blocker, not just a concern</div>
+          <div class="bullet-item">In alpha specifically: fewer than 4 of 5 firms say they'd use the product in a live deal, and the reason is the product rather than hesitation about change</div>
+        </div>
+      </div>
+      <div class="gng-card">
+        <div class="gng-label move">Move forward when</div>
+        <div class="bullet-list">
+          <div class="bullet-item">All exit criteria are met</div>
+          <div class="bullet-item">Open non-blocking items each have a clear owner and a realistic timeline</div>
+          <div class="bullet-item">If I'm the one saying we should hold, I come with a specific plan to get unblocked, not just a red status</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:0;">
+      <p>The most important habit post-GA: when a customer request gets built, their CSM tells them. Most teams track whether a feature shipped. Fewer track whether the customer who asked for it knows. That gap is the difference between customers who feel like partners and customers who feel like users.</p>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="footer-left">HARVEY AI &mdash; PRODUCT OPERATIONS MANAGER &mdash; TAKE HOME</div>
+  <div class="footer-right">Alpha &rarr; Beta &rarr; GA &rarr; Iteration</div>
+</footer>
+
+</body>
+</html>
