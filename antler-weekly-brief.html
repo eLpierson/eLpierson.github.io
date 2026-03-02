@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InspectConnect — Antler Residency Progress</title>
+  <style>
+    :root {
+      --primary: #1a1a2e;
+      --accent: #e94560;
+      --bg: #f8f9fa;
+      --card: #ffffff;
+      --text: #2d2d2d;
+      --muted: #6c757d;
+      --border: #e0e0e0;
+      --green: #28a745;
+      --amber: #f0ad4e;
+      --red: #dc3545;
+      --purple: #7B61FD;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 2rem;
+    }
+
+    .container { max-width: 900px; margin: 0 auto; }
+
+    header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 3px solid var(--accent);
+    }
+
+    header h1 {
+      font-size: 2.2rem;
+      color: var(--primary);
+      margin-bottom: 0.25rem;
+    }
+
+    header .subtitle {
+      font-size: 1.1rem;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+
+    header .date {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      color: var(--primary);
+      margin: 2.5rem 0 1rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 2px solid var(--border);
+    }
+
+    h3 {
+      font-size: 1.15rem;
+      color: var(--primary);
+      margin: 1.5rem 0 0.5rem;
+    }
+
+    h4 {
+      font-size: 1rem;
+      color: var(--muted);
+      margin: 1rem 0 0.5rem;
+      font-weight: 600;
+    }
+
+    p { margin-bottom: 1rem; }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .card.highlight { border-left: 4px solid var(--accent); }
+    .card.green { border-left: 4px solid var(--green); }
+    .card.amber { border-left: 4px solid var(--amber); }
+    .card.red { border-left: 4px solid var(--red); }
+    .card.purple { border-left: 4px solid var(--purple); }
+
+    .stat-row {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .stat-box {
+      flex: 1;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+      text-align: center;
+    }
+
+    .stat-box .number {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .stat-box .label {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 0.25rem;
+      display: block;
+    }
+
+    ul, ol { margin: 0.5rem 0 1rem 1.5rem; }
+    li { margin-bottom: 0.4rem; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      background: var(--card);
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    th {
+      background: var(--primary);
+      color: white;
+      padding: 0.75rem 1rem;
+      text-align: left;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    td {
+      padding: 0.65rem 1rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.9rem;
+    }
+
+    tr:hover { background: #f5f5f5; }
+
+    .tag {
+      display: inline-block;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-right: 0.25rem;
+    }
+
+    .tag.green { background: #d4edda; color: #155724; border: none; }
+    .tag.amber { background: #fff3cd; color: #856404; border: none; }
+    .tag.red { background: #f8d7da; color: #721c24; border: none; }
+    .tag.purple { background: #ede9fe; color: #5b21b6; border: none; }
+
+    .quote {
+      border-left: 3px solid var(--purple);
+      padding: 0.75rem 1rem;
+      margin: 1rem 0;
+      background: #faf9ff;
+      border-radius: 0 6px 6px 0;
+      font-style: italic;
+      color: var(--text);
+    }
+
+    .quote cite {
+      display: block;
+      font-style: normal;
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--accent);
+      margin-top: 0.4rem;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+
+    .week-header {
+      background: var(--primary);
+      color: white;
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      margin: 2.5rem 0 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .week-header h2 {
+      color: white;
+      border: none;
+      margin: 0;
+      padding: 0;
+      font-size: 1.3rem;
+    }
+
+    .week-header .week-date {
+      font-size: 0.85rem;
+      opacity: 0.7;
+    }
+
+    .monthly-header {
+      background: var(--accent);
+      color: white;
+      padding: 1.25rem 1.5rem;
+      border-radius: 8px;
+      margin: 3rem 0 1.5rem;
+      text-align: center;
+    }
+
+    .monthly-header h2 {
+      color: white;
+      border: none;
+      margin: 0;
+      padding: 0;
+      font-size: 1.5rem;
+    }
+
+    .monthly-header .month-subtitle {
+      font-size: 0.9rem;
+      opacity: 0.8;
+      margin-top: 0.25rem;
+    }
+
+    .toc {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .toc h3 { margin-top: 0; }
+
+    .toc ul {
+      list-style: none;
+      margin-left: 0;
+    }
+
+    .toc li {
+      padding: 0.3rem 0;
+    }
+
+    .toc a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .toc a:hover { text-decoration: underline; }
+
+    .milestone-tracker {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin: 1rem 0;
+    }
+
+    .milestone-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      padding: 0.6rem 0.75rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.88rem;
+    }
+
+    .milestone-item .status {
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      margin-top: 0.05rem;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 2px solid var(--border);
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 700px) {
+      .stat-row, .two-col, .milestone-tracker { flex-direction: column; display: block; }
+      .stat-box, .milestone-item { margin-bottom: 0.75rem; }
+      .two-col > * { margin-bottom: 1rem; }
+      body { padding: 1rem; }
+      header h1 { font-size: 1.6rem; }
+      .week-header { flex-direction: column; gap: 0.25rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <header>
+      <h1>InspectConnect</h1>
+      <div class="subtitle">Antler Residency Progress Report</div>
+      <div class="date">Residency started February 9, 2026 &middot; Last updated March 2, 2026</div>
+    </header>
+
+    <!-- TABLE OF CONTENTS -->
+    <div class="toc">
+      <h3>Contents</h3>
+      <ul>
+        <li><a href="#snapshot">Current Snapshot</a></li>
+        <li><a href="#milestones">Milestone Tracker</a></li>
+        <li><a href="#week1">Week 1 — Feb 9&ndash;15</a></li>
+        <li><a href="#week2">Week 2 — Feb 16&ndash;22</a></li>
+        <li><a href="#week3">Week 3 — Feb 23&ndash;Mar 1</a></li>
+        <li><a href="#feb-summary">February Monthly Summary (for Investors)</a></li>
+        <li><a href="#learnings">Key Learnings &amp; Pivots</a></li>
+        <li><a href="#next">What's Next</a></li>
+      </ul>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- CURRENT SNAPSHOT                            -->
+    <!-- ═══════════════════════════════════════════ -->
+    <h2 id="snapshot">Current Snapshot</h2>
+
+    <div class="stat-row">
+      <div class="stat-box">
+        <span class="number">5</span>
+        <span class="label">Design partner agents committed</span>
+      </div>
+      <div class="stat-box">
+        <span class="number">300+</span>
+        <span class="label">Agent brokerage intro in pipeline</span>
+      </div>
+      <div class="stat-box">
+        <span class="number">14</span>
+        <span class="label">Customer discovery interviews completed</span>
+      </div>
+      <div class="stat-box">
+        <span class="number">~80%</span>
+        <span class="label">Contribution margin (updated model)</span>
+      </div>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-box">
+        <span class="number">3&ndash;5 hrs &rarr; 4 min</span>
+        <span class="label">Time to review inspection report</span>
+      </div>
+      <div class="stat-box">
+        <span class="number">Live</span>
+        <span class="label">Product deployed at inspectconnect.app</span>
+      </div>
+      <div class="stat-box">
+        <span class="number">3 rounds</span>
+        <span class="label">AI-scored pitch deck analyses (23 agents)</span>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- MILESTONE TRACKER                           -->
+    <!-- ═══════════════════════════════════════════ -->
+    <h2 id="milestones">Milestone Tracker (vs. Kickoff Commitments)</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Week</th>
+          <th>Milestone</th>
+          <th>Status</th>
+          <th>Evidence</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>1&ndash;2</strong></td>
+          <td>Validate contractor pricing (20&ndash;30 interviews)</td>
+          <td><span class="tag amber">In Progress</span></td>
+          <td>Orkin interview validates conversion (30&ndash;50%+) and urgency. 2&ndash;3 contractor conversations. Need more volume.</td>
+        </tr>
+        <tr>
+          <td><strong>1&ndash;2</strong></td>
+          <td>Convert ~7 agent leads to committed pilots (5+ signed)</td>
+          <td><span class="tag green">Done</span></td>
+          <td>5 design partner agents committed. Harrison Cohen asked about investing unprompted.</td>
+        </tr>
+        <tr>
+          <td><strong>2&ndash;3</strong></td>
+          <td>Ship core MVP: PDF upload &rarr; AI triage &rarr; contractor match</td>
+          <td><span class="tag green">Done</span></td>
+          <td>Live at inspectconnect.app. 3-hour live demo with Scott Kravitz (Feb 11). Multi-file upload, 30-trade taxonomy, agent branding all shipped.</td>
+        </tr>
+        <tr>
+          <td><strong>2&ndash;3</strong></td>
+          <td>Finalize beachhead market</td>
+          <td><span class="tag amber">In Progress</span></td>
+          <td>Austin / Phoenix / Dallas recommended. 40+ states viable (95.5% of market). Final decision pending.</td>
+        </tr>
+        <tr>
+          <td><strong>3&ndash;4</strong></td>
+          <td>First real buyers flowing through agent partners</td>
+          <td><span class="tag red">Not Yet</span></td>
+          <td>Design partners committed but not yet activated with live buyers. This is the next priority.</td>
+        </tr>
+        <tr>
+          <td><strong>3&ndash;4</strong></td>
+          <td>Seed initial rolodex data (50+ contractor profiles)</td>
+          <td><span class="tag red">Not Yet</span></td>
+          <td>Add-contractor flow and invitation emails built. Awaiting agent activation.</td>
+        </tr>
+        <tr>
+          <td><strong>4&ndash;6</strong></td>
+          <td>Measure unit economics on first 50 leads</td>
+          <td><span class="tag red">Not Yet</span></td>
+          <td>Pre-revenue. Depends on activation of design partners.</td>
+        </tr>
+        <tr>
+          <td><strong>4&ndash;6</strong></td>
+          <td>Validate PM / investor persona (5+ interviews)</td>
+          <td><span class="tag amber">In Progress</span></td>
+          <td>Scott Kravitz (property investor) 3-hour demo + feedback. Chicago commercial RE agent. SF agent &amp; broker. Need 2&ndash;3 more.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Stretch Goals</h3>
+    <table>
+      <thead>
+        <tr><th>Goal</th><th>Status</th><th>Notes</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Validate pre-sale market opportunity</td>
+          <td><span class="tag amber">Early Signal</span></td>
+          <td>SF Disclosure Market features built (seller flow, vendor extraction, comparison tools). Personas and user stories documented.</td>
+        </tr>
+        <tr>
+          <td>1 brokerage-level conversation</td>
+          <td><span class="tag amber">Warm Intro</span></td>
+          <td>Alina Pisiecka offered to introduce us to her broker at a 300+ agent brokerage.</td>
+        </tr>
+        <tr>
+          <td>First paying contractor customer</td>
+          <td><span class="tag red">Not Yet</span></td>
+          <td>Depends on agent activation and first live leads.</td>
+        </tr>
+      </tbody>
+    </table>
+
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- WEEK 1                                      -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div class="week-header" id="week1">
+      <h2>Week 1</h2>
+      <span class="week-date">Feb 9&ndash;15, 2026</span>
+    </div>
+
+    <h3>Headline: Product Goes Live + First Real User Demo</h3>
+
+    <div class="card highlight">
+      <p><strong>Scott Kravitz, property investor, did a 3-hour live product demo on Feb 11</strong> &mdash; two days after the Antler kickoff. He uploaded real inspection reports, used the AI triage, reviewed cost estimates, and tested negotiation recommendations. Completely unsolicited, he validated the core value proposition:</p>
+    </div>
+
+    <div class="quote">
+      "For the amount of time it's saving me from doing exactly this, I'm fine waiting the 5 minutes or whatever it is taking."
+      <cite>&mdash; Scott Kravitz, Property Investor, Feb 11, 2026</cite>
+    </div>
+
+    <h4>Product Shipped</h4>
+    <ul>
+      <li>Agent branding system (6 phases) &mdash; platform is white-labeled for each agent, including magic link emails, buyer views, and onboarding</li>
+      <li>AI negotiation recommendations wired to report UI</li>
+      <li>Agent contractor assignment flow</li>
+      <li>Issue status workflow (schema + UI)</li>
+      <li>Issue search and upgraded report detail view</li>
+      <li>Brand kit updated to new color palette</li>
+      <li>Resolved 244 TypeScript errors down to 0</li>
+      <li>Consolidated 3 Vercel projects into a single deployment</li>
+      <li>QA review: 8 bug fixes + 12 E2E tests</li>
+    </ul>
+
+    <h4>Customer Research</h4>
+    <ul>
+      <li>Redfin broker and manager interview completed</li>
+      <li>Updated user persona journeys based on Antler kickoff direction</li>
+      <li>Emily's product review findings implemented (22 items)</li>
+      <li>3 new sample inspection reports added for AI training</li>
+    </ul>
+
+    <h4>Infrastructure</h4>
+    <ul>
+      <li>ZenStack v2 &rarr; v3 migration (major ORM upgrade)</li>
+      <li>OAuth authentication fixed &mdash; solved state_mismatch issue that had been blocking production auth for days</li>
+      <li>Feedback collection system (banner + modal) deployed for gathering user input</li>
+      <li>Terms and privacy pages updated per <strong>Antler VC legal guidance</strong> (marketplace intermediary disclaimers)</li>
+    </ul>
+
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- WEEK 2                                      -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div class="week-header" id="week2">
+      <h2>Week 2</h2>
+      <span class="week-date">Feb 16&ndash;22, 2026</span>
+    </div>
+
+    <h3>Headline: Competitive Intelligence + Agent Network Growth</h3>
+
+    <div class="card highlight">
+      <p><strong>Alina Pisiecka completed user testing and offered to introduce us to her broker</strong> at a 300+ agent brokerage. This is our first brokerage-level distribution signal.</p>
+    </div>
+
+    <div class="quote">
+      "Talk to my broker. He will want to try this."
+      <cite>&mdash; Alina Pisiecka, Real Estate Agent, Feb 2026</cite>
+    </div>
+
+    <div class="quote">
+      "Most agents are just like buyers and they really don't know what they are talking about."
+      <cite>&mdash; Alina Pisiecka, on why agents need a tool like InspectConnect</cite>
+    </div>
+
+    <h4>Product Shipped</h4>
+    <ul>
+      <li>Two-path contractor add flow &mdash; agents can add from network or search (US-E04)</li>
+      <li>Contractor invitation emails wired via Resend</li>
+      <li>7 epics implemented: schema hardening, dedup, jobs, branding, trade taxonomy, cost estimation, agent branding</li>
+      <li>Admin feedback management screen</li>
+      <li>Trade confidence UI + NOT_INSPECTED status validation</li>
+    </ul>
+
+    <h4>Competitive Intelligence</h4>
+    <ul>
+      <li><strong>Spectora Repair Request Builder</strong> competitive analysis documented &mdash; confirmed they serve the inspector/supply side, not the buyer/demand side</li>
+      <li>New sample inspection report (Hi Viz, Becket Ln) added for training diversity</li>
+    </ul>
+
+    <h4>Infrastructure</h4>
+    <ul>
+      <li>OAuth state_mismatch fully resolved (9 commits over 5 days &mdash; documented solution for cross-project reuse)</li>
+      <li>Better Auth baseURL fix documented as a reusable technical writeup</li>
+    </ul>
+
+    <h4>Key Learning</h4>
+    <div class="card amber">
+      <p><strong>Inspector revenue share is illegal.</strong> ASHI, InterNACHI, state licensing boards, and RESPA prohibit inspectors from receiving financial compensation for contractor referrals. This invalidated our 20&ndash;30% inspector revenue share model from the kickoff brief. We pivoted immediately &mdash; see Week 3.</p>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- WEEK 3                                      -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div class="week-header" id="week3">
+      <h2>Week 3</h2>
+      <span class="week-date">Feb 23&ndash;Mar 1, 2026</span>
+    </div>
+
+    <h3>Headline: Revenue Model Corrected + Pitch Deck v3 + Investor Interest</h3>
+
+    <div class="card green">
+      <p><strong>Harrison Cohen, a real estate agent, asked about investing during a discovery interview &mdash; completely unprompted.</strong> He wasn't pitched. He saw the concept and immediately asked if the round was open. His business partner may invest as well. This is the strongest demand signal we've received.</p>
+    </div>
+
+    <div class="quote">
+      "Is it open for investment? Are you taking on more investors? We might be open to invest."
+      <cite>&mdash; Harrison Cohen, Real Estate Agent (during a customer discovery interview, not a pitch)</cite>
+    </div>
+
+    <div class="quote">
+      "Post-inspection leads close a lot faster because they are more urgent."
+      <cite>&mdash; Orkin contractor representative, validating our core unit economics thesis</cite>
+    </div>
+
+    <h4>Business Model Pivot</h4>
+    <ul>
+      <li><strong>Removed inspector revenue share</strong> from all 20 strategic documents (regulatory conflict of interest)</li>
+      <li>Updated all financial models: contribution margin improved from ~52% to <strong>~80%</strong></li>
+      <li>Inspector persona reframed: free platform, differentiation, outcome visibility (not compensation)</li>
+      <li>Added [CORRECTION] notes to 7 investor analysis files with regulatory context</li>
+      <li>Net effect: the business model is <em>stronger</em> without inspector rev share &mdash; fewer variable costs, no regulatory risk</li>
+    </ul>
+
+    <h4>Pitch Deck v3</h4>
+    <ul>
+      <li>Created v3: 13 slides (down from v2's 17), inspector removed, traction slide added</li>
+      <li>23-agent AI analysis scored it <strong>6.4/10</strong> composite (up from v1's 5.3, slightly down from v2's 6.7 due to narrative tradeoffs)</li>
+      <li>Clear path to <strong>7.2/10</strong> with ~60 words of targeted restoration (v3.1 edits identified)</li>
+      <li>Thesis-Driven VC scored it 82/100 &mdash; highest individual score across all rounds</li>
+    </ul>
+
+    <h4>Product Shipped</h4>
+    <ul>
+      <li>GDPR/CCPA compliance: data export, account deletion UI, admin bulk actions</li>
+      <li>Multi-file PDF upload with parallel processing</li>
+      <li>Trade estimation overhaul: 30-trade taxonomy, cost entries, AI prompt improvements</li>
+      <li>SF Disclosure Market: seller flow, vendor extraction, comparison tools (pre-sale market validation)</li>
+      <li>Rule of 5 hardening across all phases</li>
+      <li>Go-live smoke test suite for production readiness</li>
+      <li>Resend webhook endpoint for email delivery tracking</li>
+      <li>Robots.txt and 404 handler (resolved production 500 errors)</li>
+    </ul>
+
+    <h4>Customer Research</h4>
+    <ul>
+      <li>Scott Kravitz Round 2 feedback &rarr; 4 new user stories (US-036 to US-039) for property manager/investor persona</li>
+      <li>Chicago commercial real estate agent interview</li>
+      <li>San Francisco real estate agent &amp; broker interview</li>
+      <li>12 transactional email user stories created (legal compliance + UX best practices)</li>
+      <li>Email journey maps documented per persona &mdash; identified 5 critical gaps in current flows</li>
+    </ul>
+
+    <h4>User Feedback Quotes</h4>
+
+    <div class="quote">
+      "It would be great if I had a service to help educate homeowners alongside me."
+      <cite>&mdash; Radha Tomassetti, Real Estate Agent at Compass (described InspectConnect's value prop without knowing about us)</cite>
+    </div>
+
+    <div class="quote">
+      "Would you use it if it took 4 minutes? Yes."
+      <cite>&mdash; Jean Lai, Real Estate Agent &amp; Broker</cite>
+    </div>
+
+    <div class="quote">
+      "Prices come in insanely different."
+      <cite>&mdash; Linda Anderson Stanley, Homeowner (validating the cost estimation problem)</cite>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- FEBRUARY MONTHLY SUMMARY                    -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div class="monthly-header" id="feb-summary">
+      <h2>February 2026 &mdash; Monthly Investor Summary</h2>
+      <div class="month-subtitle">Antler Residency Month 1 &middot; Shareable with potential investors</div>
+    </div>
+
+    <div class="card highlight">
+      <p><strong>One-liner:</strong> InspectConnect is the trusted on-ramp from inspection report to resolution. We're building an AI platform that turns 80-page inspection reports into actionable, contractor-matched summaries in 4 minutes &mdash; replacing a 3&ndash;5 hour manual process that agents do today.</p>
+    </div>
+
+    <h3>Key Metrics</h3>
+    <div class="stat-row">
+      <div class="stat-box">
+        <span class="number">5</span>
+        <span class="label">Design partner agents</span>
+      </div>
+      <div class="stat-box">
+        <span class="number">14</span>
+        <span class="label">Discovery interviews</span>
+      </div>
+      <div class="stat-box">
+        <span class="number">~80%</span>
+        <span class="label">Contribution margin</span>
+      </div>
+      <div class="stat-box">
+        <span class="number">$0</span>
+        <span class="label">Revenue (pre-launch)</span>
+      </div>
+    </div>
+
+    <h3>February Highlights</h3>
+    <div class="two-col">
+      <div class="card green">
+        <h3>What Went Right</h3>
+        <ul>
+          <li><strong>Live product demo'd to real users</strong> &mdash; Scott Kravitz did a 3-hour session, validated core value prop</li>
+          <li><strong>Unprompted investment interest</strong> &mdash; Harrison Cohen asked to invest during a discovery interview; his business partner may too</li>
+          <li><strong>5 design partners committed</strong> &mdash; hit our agent commitment target on schedule</li>
+          <li><strong>300+ agent brokerage intro</strong> &mdash; Alina Pisiecka offered warm introduction to her broker</li>
+          <li><strong>Business model improved</strong> &mdash; removing inspector rev share (regulatory compliance) increased margins from ~52% to ~80%</li>
+          <li><strong>Supply-side validated</strong> &mdash; Orkin confirmed post-inspection leads convert at 30&ndash;50%+, faster than industry average</li>
+          <li><strong>Zero direct competitors</strong> &mdash; no one owns the post-inspection buyer experience</li>
+        </ul>
+      </div>
+      <div class="card amber">
+        <h3>What Needs Work</h3>
+        <ul>
+          <li><strong>No active users yet</strong> &mdash; design partners are committed but haven't processed live buyers</li>
+          <li><strong>Contractor pricing validation</strong> &mdash; behind on volume (2&ndash;3 conversations vs. target of 20&ndash;30)</li>
+          <li><strong>Beachhead market not finalized</strong> &mdash; top 3 candidates identified, no final commitment</li>
+          <li><strong>No revenue</strong> &mdash; pre-launch, depends on agent activation</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Product Milestones</h3>
+    <ul>
+      <li>Full MVP live at <a href="https://www.inspectconnect.app" target="_blank">inspectconnect.app</a> &mdash; PDF upload, AI triage, cost estimation, contractor matching, negotiation recommendations</li>
+      <li>Agent branding system shipped &mdash; each agent's clients see a white-labeled experience</li>
+      <li>Multi-file upload with parallel AI processing</li>
+      <li>30-trade taxonomy with AI-powered cost estimation</li>
+      <li>GDPR/CCPA compliance: data export + account deletion</li>
+      <li>E2E test suite for production readiness</li>
+      <li>150+ commits, 100+ bug fixes in 3 weeks</li>
+    </ul>
+
+    <h3>Strategic Learning</h3>
+    <div class="card purple">
+      <p><strong>The inspector revenue share model was invalidated by regulation.</strong> Inspector licensing rules (ASHI, InterNACHI, RESPA) prohibit referral compensation. We removed all references from 20 strategic documents and reframed the inspector value prop around free platform access, differentiation, and outcome visibility. The unexpected benefit: our contribution margin improved from ~52% to ~80%, and we eliminated the single biggest regulatory risk investors flagged.</p>
+    </div>
+
+    <h3>Pitch Readiness</h3>
+    <p>We ran three rounds of AI-simulated investor analysis (23 specialized agents per round). Score trajectory:</p>
+    <table>
+      <thead>
+        <tr><th>Version</th><th>Score</th><th>Key Change</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>v1 (baseline)</td><td>5.3 / 10</td><td>Initial deck</td></tr>
+        <tr><td>v2 (narrative)</td><td>6.7 / 10</td><td>Added emotional arc, intellectual honesty, competitive depth</td></tr>
+        <tr><td>v3 (traction)</td><td>6.4 / 10</td><td>Shorter, traction slide, inspector removed, ~80% margin</td></tr>
+        <tr><td>v3.1 (projected)</td><td>~7.2 / 10</td><td>~60 words of targeted restoration identified</td></tr>
+      </tbody>
+    </table>
+    <p>Thesis-Driven VC archetype scored v3 at <strong>82/100</strong> &mdash; the highest individual score across all 69 agent evaluations (23 agents &times; 3 rounds).</p>
+
+    <h3>What We're Raising</h3>
+    <div class="card highlight">
+      <p><strong>$500K seed round.</strong> 18 months runway to $1M ARR. Key milestones: first active market by Month 6, $100K ARR + second market by Month 12, Series A ready by Month 18. Hiring: 1 engineer + 1 market lead.</p>
+    </div>
+
+    <h3>March Priorities</h3>
+    <ol>
+      <li><strong>Activate design partners</strong> &mdash; get the first agent to send a real buyer through the platform</li>
+      <li><strong>Contractor pricing validation</strong> &mdash; complete 15+ contractor interviews on willingness-to-pay</li>
+      <li><strong>Finalize beachhead market</strong> &mdash; commit to Austin, Phoenix, or Dallas</li>
+      <li><strong>First end-to-end transaction</strong> &mdash; agent uploads report &rarr; buyer views summary &rarr; contractor receives lead</li>
+      <li><strong>Pitch deck v3.1</strong> &mdash; apply 60-word restoration to achieve projected 7.2/10 score</li>
+    </ol>
+
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- KEY LEARNINGS                               -->
+    <!-- ═══════════════════════════════════════════ -->
+    <h2 id="learnings">Key Learnings &amp; Pivots</h2>
+
+    <div class="card green">
+      <h3>1. Inspector rev share is prohibited &mdash; and that's a good thing</h3>
+      <p>What looked like a setback (losing 20&ndash;30% of lead revenue to inspectors) turned into an improvement. Without inspector variable costs, our contribution margin jumps to ~80%. Inspectors still participate because the platform adds value to their report delivery at zero cost. The regulatory constraint simplified our model and eliminated our biggest investor concern.</p>
+    </div>
+
+    <div class="card green">
+      <h3>2. The agent is the retention unit, not the buyer</h3>
+      <p>Homebuyers transact once every 7&ndash;10 years. Agents process 20&ndash;40 inspections per year. Agent LTV ($2,400&ndash;$4,800/year for 3+ years) is a more compelling retention story than buyer LTV ($105&ndash;175 one-time). This reframes the entire unit economics narrative around recurring revenue from agent relationships.</p>
+    </div>
+
+    <div class="card green">
+      <h3>3. Demand pull is real &mdash; users are describing our product before we describe it</h3>
+      <p>Radha Tomassetti (Compass) said "It would be great if I had a service to help educate homeowners alongside me" &mdash; without knowing InspectConnect exists. Harrison Cohen asked to invest during a discovery interview. These are textbook product-market fit signals at the awareness stage.</p>
+    </div>
+
+    <div class="card amber">
+      <h3>4. We built faster than we activated</h3>
+      <p>Three weeks of intense product development produced a live, demo-able MVP. But the Antler kickoff's north star was: <em>"Get real leads flowing through agent partners."</em> We have the product and the commitments. The gap is activation. March is about closing that gap.</p>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- WHAT'S NEXT                                 -->
+    <!-- ═══════════════════════════════════════════ -->
+    <h2 id="next">What's Next &mdash; Week 4 and Beyond</h2>
+
+    <div class="card highlight">
+      <p style="margin-bottom:0"><strong>North star (unchanged):</strong> Get real leads flowing through agent partners with measured conversion data, and answer the question: <em>"Will agents actually adopt this and will contractors convert at the rates we're projecting?"</em></p>
+    </div>
+
+    <h3>Immediate Priorities (Week 4)</h3>
+    <ol>
+      <li>Activate 1&ndash;2 design partner agents with their first real buyer</li>
+      <li>Schedule 10+ contractor discovery interviews for pricing validation</li>
+      <li>Follow up on Alina's brokerage introduction</li>
+      <li>Apply v3.1 pitch deck edits (60 words, projected +0.8 score improvement)</li>
+    </ol>
+
+    <h3>Open Questions for Antler Partners</h3>
+    <ul>
+      <li>Harrison Cohen expressed investment interest &mdash; should we pursue angel investment alongside the seed round, or focus?</li>
+      <li>We have strong agent commitment signals but zero activation. What's your experience with the commitment-to-activation gap at this stage?</li>
+      <li>The brokerage intro (300+ agents) could accelerate scale but may be premature. When is the right time to pursue brokerage-level deals vs. individual agent activation?</li>
+    </ul>
+
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- TEMPLATE SECTIONS FOR FUTURE WEEKS          -->
+    <!-- ═══════════════════════════════════════════ -->
+    <!--
+    To add a new week, copy this template above the monthly summary:
+
+    <div class="week-header" id="weekN">
+      <h2>Week N</h2>
+      <span class="week-date">Mon DD – Mon DD, 2026</span>
+    </div>
+
+    <h3>Headline: [One-sentence summary]</h3>
+
+    <div class="card highlight">
+      <p><strong>[Key highlight or quote]</strong></p>
+    </div>
+
+    <h4>Product Shipped</h4>
+    <ul>
+      <li>...</li>
+    </ul>
+
+    <h4>Customer Research</h4>
+    <ul>
+      <li>...</li>
+    </ul>
+
+    <h4>Key Learning</h4>
+    <div class="card amber">
+      <p>...</p>
+    </div>
+
+    ===
+
+    To add a new monthly summary, copy this template:
+
+    <div class="monthly-header" id="month-summary">
+      <h2>Month Year — Monthly Investor Summary</h2>
+      <div class="month-subtitle">Antler Residency Month N · Shareable with potential investors</div>
+    </div>
+
+    [Follow the February format above]
+    -->
+
+
+    <footer>
+      InspectConnect // Antler Residency Progress // Updated March 2, 2026<br>
+      <a href="https://www.inspectconnect.app" target="_blank">inspectconnect.app</a> &middot;
+      <a href="https://github.com/Salus-Ventures-Projects/inspectconnect-app" target="_blank">GitHub</a>
+    </footer>
+
+  </div>
+</body>
+</html>
