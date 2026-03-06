@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InspectConnect — Weekly &amp; Monthly Brief</title>
+    <style>
+        :root {
+            --primary: #1a1a2e;
+            --accent: #e94560;
+            --bg: #f8f9fa;
+            --card: #ffffff;
+            --text: #2d2d2d;
+            --muted: #6c757d;
+            --border: #e0e0e0;
+            --green: #28a745;
+            --amber: #f0ad4e;
+            --purple: #7B61FD;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 2rem;
+        }
+        .container { max-width: 720px; margin: 0 auto; }
+
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 3px solid var(--accent);
+        }
+        header h1 { font-size: 2rem; color: var(--primary); margin-bottom: 0.25rem; }
+        header .subtitle { font-size: 1.05rem; color: var(--muted); margin-bottom: 0.25rem; }
+        header .date { font-size: 0.85rem; color: var(--muted); }
+
+        h2 {
+            font-size: 1.35rem;
+            color: var(--primary);
+            margin: 2rem 0 0.75rem;
+            padding-bottom: 0.35rem;
+            border-bottom: 2px solid var(--border);
+        }
+        h3 { font-size: 1.05rem; color: var(--accent); margin: 1.25rem 0 0.4rem; font-weight: 700; }
+        p { margin-bottom: 0.9rem; font-size: 0.95rem; }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin-bottom: 1.25rem;
+        }
+        .card.highlight { border-left: 4px solid var(--accent); }
+        .card.green { border-left: 4px solid var(--green); }
+        .card.amber { border-left: 4px solid var(--amber); }
+
+        .metric-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 0.75rem;
+            margin: 1rem 0 1.5rem;
+        }
+        .metric {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+        .metric .number { font-size: 1.6rem; font-weight: 700; color: var(--accent); display: block; line-height: 1.2; }
+        .metric .label { font-size: 0.78rem; color: var(--muted); margin-top: 0.2rem; display: block; }
+
+        ul { margin: 0.4rem 0 1rem 1.25rem; }
+        li { margin-bottom: 0.4rem; font-size: 0.95rem; }
+
+        .status {
+            display: inline-block;
+            padding: 0.1rem 0.45rem;
+            border-radius: 4px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            margin-left: 0.3rem;
+            vertical-align: middle;
+        }
+        .status.done { background: #d4edda; color: #155724; }
+        .status.progress { background: #fff3cd; color: #856404; }
+        .status.upcoming { background: #e2e3e5; color: #383d41; }
+
+        .quote {
+            border-left: 3px solid var(--purple);
+            padding: 0.6rem 1rem;
+            margin: 0.75rem 0;
+            background: #faf9ff;
+            border-radius: 0 6px 6px 0;
+            font-style: italic;
+            font-size: 0.93rem;
+        }
+        .quote cite {
+            display: block;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: var(--accent);
+            margin-top: 0.3rem;
+        }
+
+        /* Collapsible months */
+        details.month {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 1.25rem;
+        }
+        details.month > summary {
+            padding: 1rem 1.25rem;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            user-select: none;
+            list-style: none;
+            border-bottom: 2px solid transparent;
+        }
+        details.month > summary::-webkit-details-marker { display: none; }
+        details.month > summary::after { content: "▸"; font-size: 0.9rem; color: var(--muted); transition: transform 0.2s; }
+        details.month[open] > summary::after { transform: rotate(90deg); }
+        details.month > summary:hover { background: #f0f0f5; }
+        details.month[open] > summary { border-bottom-color: var(--border); background: #f6f6fb; }
+        .month-meta { font-size: 0.78rem; color: var(--muted); font-weight: 400; margin-left: 0.75rem; }
+        .month-body { padding: 1.25rem; }
+
+        /* Collapsible weeks */
+        details.week {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            background: #fafafa;
+        }
+        details.week > summary {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            user-select: none;
+            list-style: none;
+        }
+        details.week > summary::-webkit-details-marker { display: none; }
+        details.week > summary::after { content: "▸"; font-size: 0.8rem; color: var(--muted); transition: transform 0.2s; }
+        details.week[open] > summary::after { transform: rotate(90deg); }
+        details.week > summary:hover { background: #eeeef5; border-radius: 8px; }
+        details.week[open] > summary { border-bottom: 1px solid var(--border); border-radius: 8px 8px 0 0; background: #ebebf8; }
+        .week-headline { font-size: 0.75rem; color: var(--muted); font-weight: 400; margin-left: 0.6rem; }
+        .week-body { padding: 1rem 1.25rem; }
+        .week-body h3 { margin-top: 0.75rem; }
+        .week-body h3:first-child { margin-top: 0; }
+
+        .badge-now {
+            background: var(--accent);
+            color: white;
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 0.1rem 0.45rem;
+            border-radius: 3px;
+            margin-left: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* How You Can Help — dark block */
+        .help-section {
+            background: var(--primary);
+            color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 2rem 0 1.5rem;
+        }
+        .help-section h2 { color: white; border-bottom-color: rgba(255,255,255,0.15); margin-top: 0; }
+        .help-section h3 { color: #AFE8B1; margin-top: 1.25rem; }
+        .help-section h3:first-of-type { margin-top: 0.5rem; }
+        .help-section p { color: rgba(255,255,255,0.82); font-size: 0.93rem; }
+        .help-section .intro { color: rgba(255,255,255,0.5); font-size: 0.83rem; margin-bottom: 1.25rem; }
+
+        footer {
+            text-align: center;
+            margin-top: 2.5rem;
+            padding-top: 1.25rem;
+            border-top: 2px solid var(--border);
+            color: var(--muted);
+            font-size: 0.8rem;
+        }
+        a { color: var(--accent); }
+
+        /* Collapsible context sections */
+        details.context-block {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 1.25rem;
+            background: #f8f8fc;
+        }
+        details.context-block > summary {
+            padding: 0.85rem 1.25rem;
+            cursor: pointer;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            user-select: none;
+            list-style: none;
+        }
+        details.context-block > summary::-webkit-details-marker { display: none; }
+        details.context-block > summary::after { content: "▸"; font-size: 0.85rem; color: var(--muted); transition: transform 0.2s; }
+        details.context-block[open] > summary::after { transform: rotate(90deg); }
+        details.context-block > summary:hover { background: #ededf7; }
+        details.context-block[open] > summary { border-bottom: 1px solid var(--border); }
+        details.context-block .context-body { padding: 1.25rem; }
+        details.context-block .context-body > p:last-child { margin-bottom: 0; }
+        details.context-block .context-body > .card:last-child { margin-bottom: 0; }
+
+        /* Metric table */
+        .metric-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0.75rem 0 1.25rem;
+        }
+        .metric-table td {
+            padding: 0.5rem 0.25rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+        .metric-table tr:last-child td { border-bottom: none; }
+        .metric-table td.metric-label {
+            color: var(--muted);
+            font-size: 0.83rem;
+            width: 70%;
+        }
+        .metric-table td.metric-value {
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--accent);
+            text-align: right;
+            white-space: nowrap;
+        }
+        .metric-table-section { margin: 1rem 0 1.5rem; }
+        .metric-table-section h4 {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+            font-weight: 700;
+            margin-bottom: 0.35rem;
+        }
+
+        /* Learning 2x2 grid */
+        .learning-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.65rem;
+            margin: 1.25rem 0 0.5rem;
+        }
+        .learning-card {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.85rem 1rem;
+            background: var(--card);
+        }
+        .learning-card h4 {
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .learning-card.changed { border-top: 3px solid var(--primary); }
+        .learning-card.changed h4 { color: var(--primary); }
+        .learning-card.learned { border-top: 3px solid var(--green); }
+        .learning-card.learned h4 { color: var(--green); }
+        .learning-card.wrong { border-top: 3px solid var(--amber); }
+        .learning-card.wrong h4 { color: #856404; }
+        .learning-card.uncertain { border-top: 3px solid var(--purple); }
+        .learning-card.uncertain h4 { color: var(--purple); }
+        .learning-card p { font-size: 0.85rem; margin-bottom: 0.5rem; }
+        .learning-card p:last-child { margin-bottom: 0; }
+        .learning-card ul { margin: 0.2rem 0 0 1rem; }
+        .learning-card li { font-size: 0.85rem; margin-bottom: 0.3rem; }
+
+        @media (max-width: 600px) {
+            .metric-grid { grid-template-columns: 1fr 1fr; }
+            .learning-grid { grid-template-columns: 1fr; }
+            body { padding: 1rem; }
+            header h1 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <header>
+        <h1>InspectConnect</h1>
+        <p class="subtitle">Weekly &amp; Monthly Brief &middot; Antler Residency</p>
+        <p class="date">Updated March 6, 2026</p>
+    </header>
+
+    <details class="context-block">
+        <summary>What We Do</summary>
+        <div class="context-body">
+            <p>You&rsquo;re a residential real estate agent. Your clients trust you on the inspection report. Now you can too. InspectConnect reads your client&rsquo;s inspection report, surfaces what actually matters, and tells you how to advise so you walk into every post-inspection conversation prepared. Stop spending hours parsing 80-page PDFs. Start closing deals with confidence.</p>
+        </div>
+    </details>
+
+    <details class="context-block">
+        <summary>Why This Exists</summary>
+        <div class="context-body">
+            <div class="card" style="margin-bottom: 0.75rem;">
+                <h3 style="color: var(--muted); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700; margin-bottom: 0.75rem;">Real Estate Agents</h3>
+                <p>Every residential sale ends with an 80+ page inspection report that agents are expected to interpret and advise on &mdash; even though it&rsquo;s not their job. They&rsquo;re not contractors, engineers, or inspectors. The industry treats this as table stakes: a good agent knows the report and guides their client through it. The insight is that the report genuinely does require judgment &mdash; it&rsquo;s often the reason a deal falls apart &mdash; but agents are exercising that judgment without the preparation to do it well. After every inspection, they spend 3&ndash;5 hours going back and forth with their client: figuring out what actually matters, prioritizing issues, recommending contractors, getting quotes, estimating costs, and building a negotiation strategy &mdash; for a document they were never trained to interpret, in a role they were never licensed to fill. InspectConnect gives them the preparation so the judgment they bring is actually grounded.</p>
+            </div>
+            <div class="card" style="margin-bottom: 0.75rem;">
+                <h3 style="color: var(--muted); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700; margin-bottom: 0.75rem;">Homebuyers</h3>
+                <p>9 out of 10 homebuyers rely on their agent to tell them what the inspection report means and what to do about it. The accepted belief is that the agent knows &mdash; they&rsquo;ve seen enough deals to understand what&rsquo;s serious and what isn&rsquo;t. The insight is two-layered. First: most agents don&rsquo;t actually know what they&rsquo;re talking about when it comes to the technical findings. They aren&rsquo;t contractors or inspectors, and the report wasn&rsquo;t written for them. Second: the agents who do understand it are often not legally permitted to advise on it &mdash; recommending repairs, assessing severity, or directing contractors creates liability exposure they&rsquo;re not licensed to carry. But they advise anyway, because their client has nowhere else to turn. The buyer is either getting guidance from someone who doesn&rsquo;t know, or from someone who knows but legally shouldn&rsquo;t be saying it. InspectConnect closes that gap without putting the agent at risk.</p>
+            </div>
+            <div class="card">
+                <h3 style="color: var(--muted); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700; margin-bottom: 0.75rem;">Contractors</h3>
+                <p style="margin-bottom:0;">Post-inspection leads close faster and at higher conversion rates than any cold marketplace lead &mdash; the problem is documented, the scope is defined, and a trusted advisor is already in the room. The industry believes the best place to find home service demand is a marketplace where homeowners search. The insight is that the highest-intent moment isn&rsquo;t when someone searches Angi. It&rsquo;s the 48 hours after an inspection report lands. That window has never had a product built for it. InspectConnect puts the right contractor in front of the right buyer at exactly that moment &mdash; before they ever open a browser.</p>
+            </div>
+        </div>
+    </details>
+
+    <!-- ═══════════════════════════════════════════
+         MARCH 2026 — open by default (current)
+    ═══════════════════════════════════════════ -->
+    <details class="month">
+        <summary>
+            March 2026 &mdash; Antler Residency Begins
+            <span class="month-meta">Mar 2&ndash;6 &middot; Week 1</span>
+        </summary>
+        <div class="month-body">
+
+            <h2 style="margin-top:0;">Live Metrics &mdash; March 5, 2026</h2>
+            <table class="metric-table">
+                <tr><td class="metric-label">Agents in active conversation</td><td class="metric-value">15+</td></tr>
+                <tr><td class="metric-label">Design partners committed</td><td class="metric-value">5</td></tr>
+                <tr><td class="metric-label">Brokerages in pipeline</td><td class="metric-value">2</td></tr>
+                <tr><td class="metric-label">Reports processed (founder-prompted)</td><td class="metric-value">3</td></tr>
+                <tr><td class="metric-label">Agent-initiated uploads</td><td class="metric-value">0</td></tr>
+                <tr><td class="metric-label">Contractor states seeded</td><td class="metric-value">1</td></tr>
+                <tr><td class="metric-label">Customer interviews this month</td><td class="metric-value">3</td></tr>
+                <tr><td class="metric-label">User testing sessions</td><td class="metric-value">0</td></tr>
+            </table>
+
+            <!-- Week 1 Mar 2-3 -->
+            <details class="week">
+                <summary>
+                    Week 1 &middot; Mar 2&ndash;6
+                    <span class="week-headline">400-agent brokerage commits to pilot &middot; 3 interviews <span class="badge-now">now</span></span>
+                </summary>
+                <div class="week-body">
+
+                    <table class="metric-table">
+                        <tr><td class="metric-label">Agents in active conversation</td><td class="metric-value">15+</td></tr>
+                        <tr><td class="metric-label">Design partners committed</td><td class="metric-value">5</td></tr>
+                        <tr><td class="metric-label">Brokerages in pipeline</td><td class="metric-value">2</td></tr>
+                        <tr><td class="metric-label">Reports processed (founder-prompted)</td><td class="metric-value">3</td></tr>
+                        <tr><td class="metric-label">Agent-initiated uploads</td><td class="metric-value">0</td></tr>
+                        <tr><td class="metric-label">Contractor states seeded</td><td class="metric-value">1</td></tr>
+                        <tr><td class="metric-label">Customer interviews this week</td><td class="metric-value">3</td></tr>
+                        <tr><td class="metric-label">User testing sessions</td><td class="metric-value">0</td></tr>
+                    </table>
+
+                    <h3>Where We Are</h3>
+                    <p>The Antler residency officially began March 2. The 400-agent brokerage demo happened Friday March 6. Henryk Sakowski, the managing broker, committed to try InspectConnect himself first, then onboard 10&ndash;20 of his middle-performing agents within 1&ndash;2 weeks. Two new agents committed for next week. Four more committed intros in the pipeline for interviews. The phase has shifted from proving to activating.</p>
+
+                    <h3>Commercial</h3>
+                    <ul>
+                        <li><strong>400-agent brokerage committed to pilot</strong> &mdash; Henryk Sakowski will use it himself first, then onboard 10&ndash;20 middle-performing agents. Names within 1&ndash;2 weeks. <span class="status done">committed</span></li>
+                        <li><strong>2 new agents</strong> committed for next week <span class="status progress">next week</span></li>
+                        <li><strong>4 committed intros</strong> in pipeline for interviews <span class="status progress">in progress</span></li>
+                        <li><strong>15+ agents</strong> in active conversation across warm and semi-cold outreach</li>
+                        <li><strong>5 design partner agents</strong> committed &mdash; real intent, not polite interest. 3 have run live reports.</li>
+                        <li>Second brokerage (20-agent firm) in pipeline independently</li>
+                        <li>Beachheads: <strong>San Francisco</strong> and <strong>Chicago</strong> &mdash; organic, not chosen.</li>
+                        <li><strong>3 customer interviews</strong> conducted this week</li>
+                    </ul>
+
+                    <h3>Product</h3>
+                    <ul>
+                        <li>California contractor database <strong>complete</strong> &mdash; all licensed contractors from public records <span class="status done">done</span></li>
+                        <li>Illinois contractor database underway <span class="status progress">in progress</span></li>
+                        <li>Building toward <strong>2.3M US licensed contractors</strong> &mdash; 9x Angi&rsquo;s total database of 250K</li>
+                        <li>Multi-document upload and processing shipped for SF market &mdash; agents can now run full disclosure packs (10&ndash;20 documents) rather than single inspection reports <span class="status done">done</span></li>
+                        <li>90% of user feedback closed within 48 hours. Zero features shipped without a documented user request.</li>
+                        <li>Tone calibration ongoing &mdash; AI summary severity language tuned so reports inform without alarming buyers</li>
+                    </ul>
+
+                    <h3>Goals for This Week</h3>
+                    <ul>
+                        <li>Brokerage demo (400-agent firm, Fri March 6) <span class="status done">done &mdash; committed to pilot</span></li>
+                        <li>Complete Illinois contractor scrape <span class="status progress">in progress</span></li>
+                        <li>Expand agent conversations beyond warm network <span class="status done">done &mdash; 2 new agents next week + 4 intros</span></li>
+                    </ul>
+
+                    <h3>Goals for Next Week</h3>
+                    <ul>
+                        <li>Onboard 2 new committed agents <span class="status upcoming">next week</span></li>
+                        <li>Conduct 4 committed intro interviews <span class="status upcoming">next week</span></li>
+                        <li>Prepare product for Henryk&rsquo;s personal trial (he returns in ~1 week) <span class="status upcoming">next week</span></li>
+                        <li>Rethink cost estimate placement in the workflow <span class="status progress">in progress</span></li>
+                    </ul>
+
+                    <div class="learning-grid">
+                        <div class="learning-card changed">
+                            <h4>What changed</h4>
+                            <p>400-agent brokerage committed to pilot after Friday demo. Henryk will try it himself first, then onboard 10&ndash;20 middle-performing agents. 2 new agents committed for next week. 4 committed intros in pipeline. Phase shifted from proving to activating.</p>
+                        </div>
+                        <div class="learning-card learned">
+                            <h4>What we learned</h4>
+                            <p><strong>The broker angle is liability.</strong> Brokers care about liability shield &mdash; not just differentiation or agent productivity. When an agent gives advice on an inspection report without expertise, the brokerage carries the risk. InspectConnect gives agents something defensible to point to. This reframes our value prop for brokerage-level sales entirely.</p>
+                        </div>
+                        <div class="learning-card wrong">
+                            <h4>What we got wrong</h4>
+                            <p><strong>Cost estimates upfront may be counterproductive.</strong> We assumed showing cost estimates immediately was a core value driver. Early feedback suggests it may actually scare off both buyers and agents &mdash; sticker shock before context. We are rethinking where cost estimates belong in the workflow. They may be more powerful as a second-step reveal after the buyer has reviewed the issues, not as a lead feature.</p>
+                        </div>
+                        <div class="learning-card uncertain">
+                            <h4>What we&rsquo;re still uncertain about</h4>
+                            <p>Whether Henryk&rsquo;s pilot converts to full brokerage adoption. Whether liability framing changes our go-to-market messaging. Where cost estimates should live in the workflow &mdash; upfront, on-demand, or after the buyer signals interest in a specific issue.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </details>
+
+        </div>
+    </details>
+
+    <!-- ═══════════════════════════════════════════
+         FEBRUARY 2026 — collapsed by default
+    ═══════════════════════════════════════════ -->
+    <details class="month">
+        <summary>
+            February 2026 &mdash; Foundation Building (Pre-Residency)
+            <span class="month-meta">Feb 2&ndash;28 &middot; MVP shipped &middot; 5 design partners &middot; 14 interviews</span>
+        </summary>
+        <div class="month-body">
+
+            <h2 style="margin-top:0;">Metrics &mdash; End of February</h2>
+            <table class="metric-table">
+                <tr><td class="metric-label">Agents in active conversation</td><td class="metric-value">15+</td></tr>
+                <tr><td class="metric-label">Design partners committed</td><td class="metric-value">5</td></tr>
+                <tr><td class="metric-label">Brokerages in pipeline</td><td class="metric-value">2</td></tr>
+                <tr><td class="metric-label">Reports processed (founder-prompted)</td><td class="metric-value">3</td></tr>
+                <tr><td class="metric-label">Agent-initiated uploads</td><td class="metric-value">0</td></tr>
+                <tr><td class="metric-label">Contractor states seeded</td><td class="metric-value">1</td></tr>
+                <tr><td class="metric-label">Customer interviews this month</td><td class="metric-value">14</td></tr>
+                <tr><td class="metric-label">User testing sessions</td><td class="metric-value">10</td></tr>
+            </table>
+
+            <div class="card highlight">
+                <p><strong>February in summary:</strong> Built a production-grade MVP from scratch, ran 14 customer discovery interviews, committed 5 design partners, invalidated a key model assumption that improved our economics, and sharpened the investor narrative through multiple rounds of rigorous refinement. Entered March with product live, distribution committed, and two organic beachheads in focus.</p>
+            </div>
+
+            <!-- Week 4: Feb 23 - Mar 1 -->
+            <details class="week">
+                <summary>
+                    Week 4 &middot; Feb 23&ndash;Mar 1
+                    <span class="week-headline">10 interviews &middot; 10 user tests &middot; 3 prompted reports &middot; brokerage demo booked</span>
+                </summary>
+                <div class="week-body">
+
+                    <table class="metric-table">
+                        <tr><td class="metric-label">Agents in active conversation</td><td class="metric-value">15+</td></tr>
+                        <tr><td class="metric-label">Design partners committed</td><td class="metric-value">5</td></tr>
+                        <tr><td class="metric-label">Brokerages in pipeline</td><td class="metric-value">2</td></tr>
+                        <tr><td class="metric-label">Reports processed (founder-prompted)</td><td class="metric-value">3</td></tr>
+                        <tr><td class="metric-label">Agent-initiated uploads</td><td class="metric-value">0</td></tr>
+                        <tr><td class="metric-label">Contractor states seeded</td><td class="metric-value">1</td></tr>
+                        <tr><td class="metric-label">Customer interviews this week</td><td class="metric-value">10</td></tr>
+                        <tr><td class="metric-label">User testing sessions</td><td class="metric-value">10</td></tr>
+                    </table>
+
+                    <h3>Commercial</h3>
+                    <ul>
+                        <li><strong>3 design partner agents</strong> ran real inspection reports in founder-prompted sessions &mdash; product held up against live data <span class="status done">done</span></li>
+                        <li>0 unprompted uploads &mdash; pull not yet established, but the product is proven end-to-end with real users</li>
+                        <li>A design partner agent pitched the product to her broker without being asked. He was interested enough that they spent an hour together. <strong>Demo now scheduled Friday March 6</strong> &mdash; this is the 400-agent firm. <span class="status done">done</span></li>
+                        <li>Second brokerage (20-agent firm) in pipeline independently &mdash; separate relationship, no shared origin with the 400-agent intro</li>
+                        <li>San Francisco and Chicago confirmed as organic beachheads &mdash; surfaced through contact density, not chosen top-down. SF flagged as a boutique, high-sophistication market requiring distinct product nuance.</li>
+                        <li>Harrison Cohen &mdash; encountered through a customer discovery interview &mdash; is reviewing the pitch deck that he requested with his business partner. He stopped the interview mid-conversation to ask if we were open to other investors. <span class="status progress">in review</span></li>
+                    </ul>
+
+                    <h3>Product &amp; Materials</h3>
+                    <ul>
+                        <li>California contractor database seeded from public licensing records <span class="status done">done</span></li>
+                        <li>All strategy documents updated: realtor-first distribution, inspector channel retired, two-city beachhead formalized <span class="status done">done</span></li>
+                    </ul>
+
+                    <div class="quote">
+                        &ldquo;Talk to my broker. He will want to try this.&rdquo;
+                        <cite>&mdash; Alina Pisiecka, Real Estate Agent &mdash; unprompted, to her broker</cite>
+                    </div>
+
+                    <div class="learning-grid">
+                        <div class="learning-card changed">
+                            <h4>What changed</h4>
+                            <ul>
+                                <li>Agent pipeline reached 15+; 5 design partners committed with real intent</li>
+                                <li>Second brokerage entered pipeline independently &mdash; no shared origin with the first</li>
+                                <li>California contractor database seeded from public licensing records</li>
+                                <li>Harrison Cohen stopped a discovery interview to ask if we were open to other investors &mdash; now reviewing pitch deck with his business partner</li>
+                                <li>Brokerage demo booked for Friday March 6 (400-agent firm)</li>
+                                <li>3 design partners ran live reports in founder-prompted sessions</li>
+                            </ul>
+                        </div>
+                        <div class="learning-card learned">
+                            <h4>What we learned</h4>
+                            <ul>
+                                <li>Product held up against real data across 10 user testing sessions</li>
+                                <li>10 interviews reinforced that post-inspection is the most painful part of the transaction for agents</li>
+                                <li>Brokerage distribution surfaced bottom-up (agent &rarr; broker), not through broker-first outreach &mdash; agents are the real distribution lever</li>
+                                <li>Investor pull can emerge from unexpected places &mdash; customer discovery became an investor signal without being engineered</li>
+                            </ul>
+                        </div>
+                        <div class="learning-card wrong">
+                            <h4>What we got wrong</h4>
+                            <p>We assumed the San Francisco market would value negotiation strategy as a core output. They don&rsquo;t. SF agents care about the inspection report as one document within a much larger disclosure package &mdash; sometimes 10&ndash;20 documents at once. The negotiation angle doesn&rsquo;t land; the ability to process the full disclosure pack does.</p>
+                        </div>
+                        <div class="learning-card uncertain">
+                            <h4>What we&rsquo;re still uncertain about</h4>
+                            <p>Whether we should build in parallel for SF and Chicago given how different the product needs are. The core problem is the same &mdash; agents navigating complex inspection and disclosure documents they weren&rsquo;t trained to interpret &mdash; but SF requires multi-document processing and a different workflow entirely. Same pain, different product shape.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </details>
+
+        </div>
+    </details>
+
+    <!-- ═══════════════════════════════════════════
+         HOW YOU CAN HELP
+    ═══════════════════════════════════════════ -->
+    <div class="help-section">
+        <h2>How You Can Help</h2>
+        <h3>Two beachheads, same pain, different product shape &mdash; parallel or sequential?</h3>
+        <p>SF and Chicago surfaced organically through contact density &mdash; we didn&rsquo;t choose them. The core problem is identical in both markets: agents navigating complex documents they weren&rsquo;t trained to interpret. But the shape of the product is different. Chicago is a single inspection report processed into negotiation guidance. SF is that same report sitting inside a 10&ndash;20 document disclosure pack that agents need to run all at once. It&rsquo;s not two different products &mdash; it&rsquo;s the same product with meaningfully different scope and workflow. Our question is whether absorbing that nuance across two markets simultaneously sharpens us or spreads us thin. Where have you seen early-stage teams navigate this well?</p>
+
+        <h3>Data asset to data moat</h3>
+        <p>We are building a contractor dataset that will be 9x Angi&rsquo;s total database (2.3M vs 250K). Data accumulation is an asset; a moat requires it to compound into something competitors can&rsquo;t replicate. What frameworks have you used with portfolio companies to make that transition? Where does this most often fail?</p>
+
+        <h3>Where is our thinking wrong?</h3>
+        <p>We have strong conviction on the problem, the distribution wedge, and the contractor-side opportunity. We are not looking for validation &mdash; we are looking for the angles we are not seeing. Where does our current model have a hidden assumption that will break? What would make you walk away from this, and do you see it here?</p>
+
+        <h3>What should we be measuring that we are not?</h3>
+        <p>We are tracking agents in conversation, agents committed, design partners, brokerages in pipeline, reports processed, agent-initiated uploads, buyers who requested a quote, and buyers matched with a contractor. We have strong discipline on not building without user requests and closing feedback within 48 hours. What is missing from that picture at this stage? What have you seen early-stage marketplace companies fail to instrument &mdash; and only realize it too late?</p>
+    </div>
+
+    <footer>
+        <p>InspectConnect &middot; Weekly &amp; Monthly Brief &middot; Antler Residency &middot; Updated March 6, 2026<br>
+        <a href="https://www.inspectconnect.app">inspectconnect.app</a></p>
+    </footer>
+
+</div>
+</body>
+</html>
