@@ -312,7 +312,7 @@
     <header>
         <h1>InspectConnect</h1>
         <p class="subtitle">Weekly &amp; Monthly Brief &middot; Antler Residency</p>
-        <p class="date">Updated March 6, 2026</p>
+        <p class="date">Updated March 10, 2026</p>
     </header>
 
     <details class="context-block">
@@ -350,16 +350,16 @@
         </summary>
         <div class="month-body">
 
-            <h2 style="margin-top:0;">Live Metrics &mdash; March 9, 2026</h2>
+            <h2 style="margin-top:0;">Live Metrics &mdash; March 10, 2026</h2>
             <table class="metric-table">
-                <tr><td class="metric-label">Agents in active conversation</td><td class="metric-value">18</td></tr>
-                <tr><td class="metric-label">Design partners committed</td><td class="metric-value">5</td></tr>
+                <tr><td class="metric-label">Agents in active conversation</td><td class="metric-value">23</td></tr>
+                <tr><td class="metric-label">Design partners committed</td><td class="metric-value">7</td></tr>
                 <tr><td class="metric-label">Brokerages in pipeline</td><td class="metric-value">2</td></tr>
                 <tr><td class="metric-label">Reports processed (founder-prompted)</td><td class="metric-value">3</td></tr>
-                <tr><td class="metric-label">Agent-initiated uploads</td><td class="metric-value">0</td></tr>
-                <tr><td class="metric-label">Contractor states seeded</td><td class="metric-value">1</td></tr>
-                <tr><td class="metric-label">Customer interviews this month</td><td class="metric-value">4</td></tr>
-                <tr><td class="metric-label">User testing sessions</td><td class="metric-value">0</td></tr>
+                <tr><td class="metric-label">Agent-initiated uploads</td><td class="metric-value">2</td></tr>
+                <tr><td class="metric-label">Contractor &amp; realtor states scraped</td><td class="metric-value">3</td></tr>
+                <tr><td class="metric-label">Customer interviews this month</td><td class="metric-value">6</td></tr>
+                <tr><td class="metric-label">User testing sessions</td><td class="metric-value">2</td></tr>
             </table>
 
             <!-- Week 1 Mar 2-3 -->
@@ -449,70 +449,85 @@
             <details class="week" open>
                 <summary>
                     Week 2 &middot; Mar 9&ndash;13
-                    <span class="week-headline">SF contractor confirms report-attached leads are best &middot; cross-persona flow planned <span class="badge-now">in progress</span></span>
+                    <span class="week-headline">2 agents onboarded &middot; 3-state contractor/realtor databases &middot; cross-persona flow + cost workflow shipped <span class="badge-now">now</span></span>
                 </summary>
                 <div class="week-body">
 
                     <table class="metric-table">
-                        <tr><td class="metric-label">Agents in active conversation</td><td class="metric-value">18</td></tr>
-                        <tr><td class="metric-label">Design partners committed</td><td class="metric-value">5</td></tr>
+                        <tr><td class="metric-label">Agents in active conversation</td><td class="metric-value">23</td></tr>
+                        <tr><td class="metric-label">Design partners committed</td><td class="metric-value">7</td></tr>
                         <tr><td class="metric-label">Brokerages in pipeline</td><td class="metric-value">2</td></tr>
                         <tr><td class="metric-label">Reports processed (founder-prompted)</td><td class="metric-value">3</td></tr>
-                        <tr><td class="metric-label">Agent-initiated uploads</td><td class="metric-value">0</td></tr>
-                        <tr><td class="metric-label">Contractor states seeded</td><td class="metric-value">1</td></tr>
-                        <tr><td class="metric-label">Customer interviews this week</td><td class="metric-value">1</td></tr>
-                        <tr><td class="metric-label">User testing sessions</td><td class="metric-value">0</td></tr>
+                        <tr><td class="metric-label">Agent-initiated uploads</td><td class="metric-value">2</td></tr>
+                        <tr><td class="metric-label">Contractor &amp; realtor states scraped</td><td class="metric-value">3</td></tr>
+                        <tr><td class="metric-label">Customer interviews this week</td><td class="metric-value">2 done &middot; 6 scheduled</td></tr>
+                        <tr><td class="metric-label">User testing sessions</td><td class="metric-value">2</td></tr>
                     </table>
 
                     <div class="learning-grid">
                         <div class="learning-card changed">
                             <h4>What changed</h4>
-                            <p>Another contractor interview &mdash; SF contractor (Compass partner) confirms inspection-report-attached leads are his <strong>favorite type of lead</strong>. Doesn&rsquo;t use paid marketplaces at all.</p>
+                            <p><strong>2 agents onboarded</strong> (one yesterday, one today) &mdash; first agent-initiated product usage. Design partners grew from 5 to 7, on track for 8&ndash;9. Contractor and realtor databases now span <strong>3 states</strong> (CA, IL, VA). Cross-persona flow and cost workflow shipped &mdash; the product now connects buyer/realtor/contractor portals end-to-end. Gary Martin (30&ndash;40 deals/yr, live deal in negotiation) committed as design partner and generated 2 new feature epics.</p>
                         </div>
                         <div class="learning-card learned">
                             <h4>What we learned</h4>
-                            <p>Contractors already do &ldquo;license-based scope matching&rdquo; manually &mdash; read the report, check off what they can do, tell the agent what needs someone else. We automate this exact workflow.</p>
+                            <p>Gary Martin&rsquo;s feature requests reveal the next product direction: <strong>seller-facing credit request export</strong> and <strong>post-close agent-branded maintenance touchpoints</strong>. Agents now need ~30 touches to stay top of mind (up from 7). Inspection data creates natural, valuable touchpoints that serve buyers and agents simultaneously. Trade classification accuracy audit uncovered a critical substring matching bug &mdash; keyword &ldquo;rat&rdquo; was matching inside &ldquo;operate&rdquo;, causing 84% false positives. LLM classifier is the accurate path forward.</p>
                         </div>
                         <div class="learning-card wrong">
                             <h4>What we got wrong</h4>
-                            <p>&mdash;</p>
+                            <p><strong>Keyword-based trade classification was silently misclassifying ~25% of issues.</strong> We assumed the deterministic + keyword layers were saving LLM costs and maintaining accuracy. In reality they were introducing errors the LLM layer doesn&rsquo;t make. The $0.005/report &ldquo;savings&rdquo; was costing us data quality.</p>
                         </div>
                         <div class="learning-card uncertain">
                             <h4>What we&rsquo;re still unsure about</h4>
-                            <p>Whether contractors who get all their leads from agent referrals (like Marvin) will pay for leads through a platform &mdash; or if value needs to be framed differently (better leads, not more leads).</p>
+                            <p>Whether AI shelf-life extraction from inspection reports will have enough signal &mdash; reports vary widely in how they describe component age. Some explicit (&ldquo;installed 2014&rdquo;), many vague (&ldquo;appears original&rdquo;), most say nothing. The feature&rsquo;s value scales with report quality, which we don&rsquo;t control.</p>
                         </div>
                     </div>
 
                     <h3>Where We Are</h3>
-                    <p>Conducted contractor interview (Marvin Christian Gomez, SF, partners with Compass agents). Completed comprehensive cross-persona flow audit and planned 10 fixes to connect the buyer/realtor/contractor portals end-to-end. Also created cost workflow redesign user stories based on Henryk&rsquo;s feedback from last week.</p>
+                    <p>Onboarded 2 agents (one yesterday, one today). Now 7 design partners committed, on track for 8&ndash;9. 23 agents in active conversation expected by end of week. Scraped contractor and realtor databases from 3 states (CA, IL, VA). Shipped the cross-persona flow connecting buyer, realtor, and contractor portals end-to-end (4 PRs merged). Shipped cost workflow redesign behind feature flag. Conducted 2 customer interviews &mdash; Michelle Vucko (Chicago agent, 5&ndash;10 deals/yr) and Gary Martin (30&ndash;40 deals/yr, live deal in negotiation). Gary&rsquo;s interview produced 2 new feature epics: seller-facing credit request export and post-close agent-branded touchpoints. Completed a trade classification accuracy audit that uncovered a critical substring bug and planned an LLM-only migration. 6 more interviews scheduled this week, 2 expected to convert to onboarding.</p>
 
                     <h3>Commercial</h3>
                     <ul>
-                        <li>Marvin Gomez interview (SF contractor) &mdash; validates inspection-report-attached leads as highest-value lead type for contractors</li>
-                        <li>2 new agent onboardings scheduled this week (committed last week)</li>
-                        <li>4 intro interviews in pipeline (committed last week)</li>
+                        <li><strong>2 agents onboarded</strong> (1 yesterday, 1 today) &mdash; first agent-initiated product usage <span class="status done">done</span></li>
+                        <li><strong>6 more interviews scheduled</strong> this week, 2 expected to convert to onboarding <span class="status progress">scheduled</span></li>
+                        <li>Design partners: 5 &rarr; <strong>7</strong>, on track for 8&ndash;9 by end of week</li>
+                        <li>Pipeline growing: <strong>23 agents</strong> in active conversation expected by end of week</li>
+                        <li><strong>Gary Martin</strong> committed as design partner with live deal in negotiation &mdash; generated 2 feature epics from interview <span class="status done">committed</span></li>
+                        <li><strong>Michelle Vucko</strong> interview (Chicago, 5&ndash;10 deals/yr) &mdash; validates cost uncertainty as primary pain point, currently uses Porch, positive reaction to InspectConnect</li>
+                        <li>Henryk&rsquo;s personal trial in progress <span class="status progress">in progress</span></li>
                     </ul>
+
+                    <div class="quote">
+                        &ldquo;The more times we&rsquo;re in front of people the better. It used to take 7 touches to stay top of mind, now you need close to 30.&rdquo;
+                        <cite>&mdash; Gary Martin, Real Estate Agent &mdash; 30&ndash;40 deals/yr</cite>
+                    </div>
 
                     <h3>Product</h3>
                     <ul>
-                        <li>Cross-persona flow audit complete &mdash; identified 3 broken handoffs, planned 10 fixes <span class="status progress">in progress</span></li>
-                        <li>Cost workflow redesign user stories written (5 stories) &mdash; remove upfront costs, on-demand estimates, quote-powered negotiation <span class="status done">done</span></li>
-                        <li>Preparing product for Henryk&rsquo;s personal trial <span class="status progress">in progress</span></li>
+                        <li><strong>Cross-persona flow shipped</strong> (4 PRs): ZenStack policies, invitation accept flow, buyer quotes page, report selector, E2E test chain <span class="status done">done</span></li>
+                        <li><strong>Cost workflow P0 shipped</strong>: per-issue quote status in negotiation tab, costs behind PostHog feature flag <span class="status done">done</span></li>
+                        <li>Centralized Address model with structured normalization (4 phases) <span class="status done">done</span></li>
+                        <li><strong>Contractor &amp; realtor databases: 3 states complete</strong> (CA, IL, VA) &mdash; scraped from public records <span class="status done">done</span></li>
+                        <li>Trade classification accuracy audit: discovered critical substring bug &rarr; LLM-only migration planned (4 user stories) <span class="status done">done</span></li>
+                        <li>Gary Martin feature requests: 14 user stories (seller export + post-close touchpoints) + UX test plan <span class="status done">done</span></li>
+                        <li>Observability: Sentry/PostHog config, Resend webhook hardening, auto-triage rewrite <span class="status done">done</span></li>
+                        <li>E2E test consolidation: removed 6 redundant files, CI improvements <span class="status done">done</span></li>
                     </ul>
 
                     <h3>Goals for This Week</h3>
                     <ul>
-                        <li>Onboard 2 new committed agents <span class="status progress">in progress</span></li>
-                        <li>Conduct 4 committed intro interviews <span class="status progress">in progress</span></li>
-                        <li>Begin implementing cross-persona flow fixes (invitation &rarr; report linking, buyer data access) <span class="status progress">in progress</span></li>
-                        <li>Prepare product for Henryk&rsquo;s personal trial (he returns in ~1 week) <span class="status progress">in progress</span></li>
+                        <li>Onboard 2 more agents from scheduled interviews <span class="status upcoming">this week</span></li>
+                        <li>Complete remaining 6 interviews <span class="status progress">in progress</span></li>
+                        <li>Begin implementing seller-facing credit request export (P0 &mdash; Gary has live deal NOW) <span class="status upcoming">this week</span></li>
+                        <li>Henryk&rsquo;s personal trial feedback <span class="status progress">in progress</span></li>
                     </ul>
 
                     <h3>Goals for Next Week</h3>
                     <ul>
-                        <li>Complete cross-persona flow fixes (buyer quotes page, navigation wiring, E2E test) <span class="status upcoming">next week</span></li>
-                        <li>Henryk&rsquo;s personal trial of the product <span class="status upcoming">next week</span></li>
-                        <li>Begin implementing cost workflow redesign <span class="status upcoming">next week</span></li>
+                        <li>Ship seller-facing credit request (export modal + PDF) for Gary&rsquo;s live deal <span class="status upcoming">next week</span></li>
+                        <li>Begin post-close touchpoint infrastructure (schema + milestone emails) <span class="status upcoming">next week</span></li>
+                        <li>Expand to 4th state for contractor/realtor scraping <span class="status upcoming">next week</span></li>
+                        <li>Target: 8&ndash;9 design partners, 25+ agents in conversation <span class="status upcoming">next week</span></li>
                     </ul>
 
                 </div>
@@ -645,7 +660,7 @@
     </div>
 
     <footer>
-        <p>InspectConnect &middot; Weekly &amp; Monthly Brief &middot; Antler Residency &middot; Updated March 6, 2026<br>
+        <p>InspectConnect &middot; Weekly &amp; Monthly Brief &middot; Antler Residency &middot; Updated March 10, 2026<br>
         <a href="https://www.inspectconnect.app">inspectconnect.app</a></p>
     </footer>
 
