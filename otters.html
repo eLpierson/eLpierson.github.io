@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Otterly Adorable - The Cutest Otters on the Internet</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: #0a1628;
+    color: #fff;
+    overflow-x: hidden;
+  }
+
+  /* Bubbles background */
+  .bubbles {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .bubble {
+    position: absolute;
+    bottom: -80px;
+    border-radius: 50%;
+    background: rgba(100, 200, 255, 0.06);
+    animation: float-up linear infinite;
+  }
+  @keyframes float-up {
+    0% { transform: translateY(0) scale(1); opacity: 0.6; }
+    100% { transform: translateY(-110vh) scale(0.3); opacity: 0; }
+  }
+
+  /* Hero */
+  .hero {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 20px;
+    background: linear-gradient(180deg, #0d2137 0%, #0a1628 100%);
+  }
+  .hero-otter {
+    font-size: 120px;
+    animation: bounce 2s ease-in-out infinite;
+    margin-bottom: 20px;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+  }
+  .hero h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(40px, 8vw, 80px);
+    background: linear-gradient(135deg, #64c8ff, #a8e6cf, #ffd3b6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 16px;
+  }
+  .hero p {
+    font-size: clamp(16px, 3vw, 24px);
+    color: #8fb8d4;
+    max-width: 600px;
+  }
+  .scroll-hint {
+    margin-top: 40px;
+    animation: pulse 2s ease-in-out infinite;
+    font-size: 32px;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.4; transform: translateY(0); }
+    50% { opacity: 1; transform: translateY(10px); }
+  }
+
+  /* Section styling */
+  .section {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 60px 20px;
+  }
+  .section-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(28px, 5vw, 48px);
+    text-align: center;
+    margin-bottom: 40px;
+    color: #64c8ff;
+  }
+  .section-title span {
+    color: #ffd3b6;
+  }
+
+  /* Meme cards */
+  .meme-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    margin-bottom: 60px;
+  }
+  .meme-card {
+    background: #12253d;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 2px solid #1a3a5c;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .meme-card:hover {
+    transform: translateY(-8px) rotate(1deg);
+    box-shadow: 0 20px 40px rgba(100, 200, 255, 0.15);
+  }
+  .meme-card iframe, .meme-card .gif-container {
+    width: 100%;
+    aspect-ratio: 1;
+    display: block;
+    border: none;
+  }
+  .meme-card .caption {
+    padding: 16px 20px;
+    text-align: center;
+  }
+  .meme-card .caption h3 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 18px;
+    color: #ffd3b6;
+    margin-bottom: 6px;
+  }
+  .meme-card .caption p {
+    font-size: 14px;
+    color: #8fb8d4;
+  }
+
+  /* Video section */
+  .video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 24px;
+  }
+  .video-card {
+    background: #12253d;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 2px solid #1a3a5c;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .video-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(100, 200, 255, 0.12);
+  }
+  .video-card iframe {
+    width: 100%;
+    aspect-ratio: 16/9;
+    display: block;
+    border: none;
+  }
+  .video-card .caption {
+    padding: 16px 20px;
+  }
+  .video-card .caption h3 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 18px;
+    color: #a8e6cf;
+    margin-bottom: 4px;
+  }
+  .video-card .caption p {
+    font-size: 14px;
+    color: #8fb8d4;
+  }
+
+  /* Fun facts */
+  .facts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 40px;
+  }
+  .fact-card {
+    background: linear-gradient(135deg, #12253d, #1a3a5c);
+    border-radius: 20px;
+    padding: 28px;
+    text-align: center;
+    border: 2px solid #1a3a5c;
+    transition: transform 0.3s;
+  }
+  .fact-card:hover {
+    transform: scale(1.05) rotate(-1deg);
+  }
+  .fact-emoji {
+    font-size: 48px;
+    margin-bottom: 12px;
+    display: block;
+  }
+  .fact-card h3 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 16px;
+    color: #ffd3b6;
+    margin-bottom: 8px;
+  }
+  .fact-card p {
+    font-size: 14px;
+    color: #8fb8d4;
+    line-height: 1.5;
+  }
+
+  /* Otter rating section */
+  .rating-section {
+    text-align: center;
+    padding: 60px 20px;
+    position: relative;
+    z-index: 1;
+  }
+  .rating-bar {
+    max-width: 500px;
+    margin: 20px auto;
+    height: 30px;
+    background: #12253d;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 2px solid #1a3a5c;
+  }
+  .rating-fill {
+    height: 100%;
+    border-radius: 15px;
+    animation: fill-bar 2s ease-out forwards;
+    width: 0;
+  }
+  @keyframes fill-bar {
+    to { width: var(--target); }
+  }
+  .rating-label {
+    font-size: 14px;
+    color: #8fb8d4;
+    margin-bottom: 4px;
+    text-align: left;
+    max-width: 500px;
+    margin: 12px auto 4px;
+  }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 60px 20px;
+    position: relative;
+    z-index: 1;
+    color: #4a6a84;
+    font-size: 14px;
+  }
+  .footer .big-otter {
+    font-size: 80px;
+    display: block;
+    margin-bottom: 16px;
+    animation: spin 4s linear infinite;
+  }
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(15deg); }
+    50% { transform: rotate(0deg); }
+    75% { transform: rotate(-15deg); }
+    100% { transform: rotate(0deg); }
+  }
+
+  /* Divider */
+  .wave-divider {
+    text-align: center;
+    font-size: 32px;
+    letter-spacing: 8px;
+    color: #1a3a5c;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .meme-grid, .video-grid, .facts-grid {
+      grid-template-columns: 1fr;
+    }
+    .hero-otter { font-size: 80px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Floating bubbles -->
+<div class="bubbles">
+  <div class="bubble" style="left:5%; width:60px; height:60px; animation-duration:12s; animation-delay:0s;"></div>
+  <div class="bubble" style="left:15%; width:30px; height:30px; animation-duration:8s; animation-delay:2s;"></div>
+  <div class="bubble" style="left:25%; width:80px; height:80px; animation-duration:15s; animation-delay:1s;"></div>
+  <div class="bubble" style="left:40%; width:40px; height:40px; animation-duration:10s; animation-delay:3s;"></div>
+  <div class="bubble" style="left:55%; width:70px; height:70px; animation-duration:13s; animation-delay:0.5s;"></div>
+  <div class="bubble" style="left:65%; width:25px; height:25px; animation-duration:9s; animation-delay:4s;"></div>
+  <div class="bubble" style="left:75%; width:50px; height:50px; animation-duration:11s; animation-delay:1.5s;"></div>
+  <div class="bubble" style="left:85%; width:35px; height:35px; animation-duration:14s; animation-delay:2.5s;"></div>
+  <div class="bubble" style="left:92%; width:45px; height:45px; animation-duration:10s; animation-delay:0.8s;"></div>
+</div>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-otter">&#129446;</div>
+  <h1>Otterly Adorable</h1>
+  <p>A celebration of the internet's cutest, funniest, most wholesome little water puppies</p>
+  <div class="scroll-hint">&#11015;&#65039;</div>
+</div>
+
+<!-- GIF Memes Section -->
+<div class="section">
+  <div class="section-title">&#128248; Otter <span>Memes & GIFs</span></div>
+  <div class="meme-grid">
+    <div class="meme-card">
+      <iframe src="https://giphy.com/embed/vjKrEyy2NVblS" allowFullScreen></iframe>
+      <div class="caption">
+        <h3>"You're my favorite human"</h3>
+        <p>When your otter gives you THE cuddle</p>
+      </div>
+    </div>
+    <div class="meme-card">
+      <iframe src="https://giphy.com/embed/WXjzQMl3R4XhaS7tXk" allowFullScreen></iframe>
+      <div class="caption">
+        <h3>"SURPRISE!"</h3>
+        <p>Nobody expects the otter ambush</p>
+      </div>
+    </div>
+    <div class="meme-card">
+      <iframe src="https://giphy.com/embed/1CrejqXxVZs9q" allowFullScreen></iframe>
+      <div class="caption">
+        <h3>"Just vibing"</h3>
+        <p>Sea otter float mode: activated</p>
+      </div>
+    </div>
+    <div class="meme-card">
+      <iframe src="https://giphy.com/embed/IzLlnc2Jo7TaJp2jBt" allowFullScreen></iframe>
+      <div class="caption">
+        <h3>"5 more minutes..."</h3>
+        <p>Me on Monday mornings, but make it otter</p>
+      </div>
+    </div>
+    <div class="meme-card">
+      <iframe src="https://giphy.com/embed/ZcXcaXXo39yOLHQAff" allowFullScreen></iframe>
+      <div class="caption">
+        <h3>"I love you THIS much"</h3>
+        <p>Oregon Zoo otter says I love you</p>
+      </div>
+    </div>
+    <div class="meme-card">
+      <iframe src="https://giphy.com/embed/h2B3o1iqmzNOo" allowFullScreen></iframe>
+      <div class="caption">
+        <h3>"Hold my hand forever"</h3>
+        <p>Otters hold hands so they don't drift apart while sleeping</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wave-divider">&#127754; &#127754; &#127754; &#127754; &#127754;</div>
+
+<!-- Videos Section -->
+<div class="section">
+  <div class="section-title">&#127916; Otter <span>Videos</span></div>
+  <div class="video-grid">
+    <div class="video-card">
+      <iframe src="https://www.youtube.com/embed/JbyXJO_yin4" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+      <div class="caption">
+        <h3>Pool Party!</h3>
+        <p>Kotaro & Hana go absolutely wild in their swimming pool</p>
+      </div>
+    </div>
+    <div class="video-card">
+      <iframe src="https://www.youtube.com/embed/_pwmDbS2858" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+      <div class="caption">
+        <h3>Seafood Breakfast</h3>
+        <p>Fine dining, otter style - Kotaro & Hana eat like royalty</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wave-divider">&#129446; &#128153; &#129446; &#128153; &#129446;</div>
+
+<!-- Fun Facts -->
+<div class="section">
+  <div class="section-title">&#129504; Otter <span>Fun Facts</span></div>
+  <div class="facts-grid">
+    <div class="fact-card">
+      <span class="fact-emoji">&#129309;</span>
+      <h3>Hand Holders</h3>
+      <p>Sea otters hold hands while sleeping so they don't drift away from each other. It's called a "raft."</p>
+    </div>
+    <div class="fact-card">
+      <span class="fact-emoji">&#129704;</span>
+      <h3>Pocket Rocks</h3>
+      <p>Otters have a favorite rock they keep in a pouch under their arm. They use it to crack open shellfish.</p>
+    </div>
+    <div class="fact-card">
+      <span class="fact-emoji">&#128171;</span>
+      <h3>Fur-ocious Density</h3>
+      <p>Sea otters have up to 1 MILLION hair follicles per square inch - the densest fur of any mammal.</p>
+    </div>
+    <div class="fact-card">
+      <span class="fact-emoji">&#127860;</span>
+      <h3>Big Appetite</h3>
+      <p>Otters eat 20-25% of their body weight every single day. That's like you eating 40 pounds of food daily.</p>
+    </div>
+    <div class="fact-card">
+      <span class="fact-emoji">&#128164;</span>
+      <h3>Wrap & Nap</h3>
+      <p>Sea otters wrap themselves in kelp before napping so ocean currents don't carry them away.</p>
+    </div>
+    <div class="fact-card">
+      <span class="fact-emoji">&#128118;</span>
+      <h3>Belly Nursery</h3>
+      <p>Otter moms carry their babies on their bellies while floating. The pups are too fluffy to sink!</p>
+    </div>
+  </div>
+</div>
+
+<div class="wave-divider">&#127754; &#127754; &#127754; &#127754; &#127754;</div>
+
+<!-- Otter Rating -->
+<div class="section">
+  <div class="section-title">&#128202; The Official <span>Otter Rating Scale</span></div>
+
+  <div class="rating-label"><strong>Cuteness</strong></div>
+  <div class="rating-bar">
+    <div class="rating-fill" style="--target: 100%; background: linear-gradient(90deg, #64c8ff, #a8e6cf);"></div>
+  </div>
+
+  <div class="rating-label"><strong>Floofiness</strong></div>
+  <div class="rating-bar">
+    <div class="rating-fill" style="--target: 97%; background: linear-gradient(90deg, #ffd3b6, #ffaaa5);"></div>
+  </div>
+
+  <div class="rating-label"><strong>Mischief Level</strong></div>
+  <div class="rating-bar">
+    <div class="rating-fill" style="--target: 88%; background: linear-gradient(90deg, #a8e6cf, #dcedc1);"></div>
+  </div>
+
+  <div class="rating-label"><strong>Hand-Holding Ability</strong></div>
+  <div class="rating-bar">
+    <div class="rating-fill" style="--target: 100%; background: linear-gradient(90deg, #ffd3b6, #64c8ff);"></div>
+  </div>
+
+  <div class="rating-label"><strong>Chance of Stealing Your Heart</strong></div>
+  <div class="rating-bar">
+    <div class="rating-fill" style="--target: 100%; background: linear-gradient(90deg, #ff6b6b, #ffd3b6);"></div>
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  <span class="big-otter">&#129446;</span>
+  <p>Made with love for otters everywhere</p>
+  <p style="margin-top: 8px;">If you're not smiling right now, scroll back up and try again</p>
+</div>
+
+<script>
+// Animate rating bars on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.querySelectorAll('.rating-fill').forEach(bar => {
+        bar.style.animation = 'none';
+        bar.offsetHeight;
+        bar.style.animation = 'fill-bar 2s ease-out forwards';
+      });
+    }
+  });
+}, { threshold: 0.3 });
+
+document.querySelectorAll('.rating-bar').forEach(bar => {
+  observer.observe(bar.parentElement);
+});
+</script>
+
+</body>
+</html>
