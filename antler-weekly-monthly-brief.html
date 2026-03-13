@@ -312,7 +312,7 @@
     <header>
         <h1>InspectConnect</h1>
         <p class="subtitle">Weekly &amp; Monthly Brief &middot; Antler Residency</p>
-        <p class="date">Updated March 10, 2026</p>
+        <p class="date">Updated March 13, 2026</p>
     </header>
 
     <details class="context-block">
@@ -350,7 +350,7 @@
         </summary>
         <div class="month-body">
 
-            <h2 style="margin-top:0;">Live Metrics &mdash; March 10, 2026</h2>
+            <h2 style="margin-top:0;">Live Metrics &mdash; March 13, 2026</h2>
             <table class="metric-table">
                 <tr><td class="metric-label">Agents in active conversation</td><td class="metric-value">23</td></tr>
                 <tr><td class="metric-label">Design partners committed</td><td class="metric-value">7</td></tr>
@@ -358,7 +358,7 @@
                 <tr><td class="metric-label">Reports processed (founder-prompted)</td><td class="metric-value">3</td></tr>
                 <tr><td class="metric-label">Agent-initiated uploads</td><td class="metric-value">2</td></tr>
                 <tr><td class="metric-label">Contractor &amp; realtor states scraped</td><td class="metric-value">3</td></tr>
-                <tr><td class="metric-label">Customer interviews this month</td><td class="metric-value">7</td></tr>
+                <tr><td class="metric-label">Customer interviews this month</td><td class="metric-value">10</td></tr>
                 <tr><td class="metric-label">User testing sessions</td><td class="metric-value">2</td></tr>
             </table>
 
@@ -449,7 +449,7 @@
             <details class="week" open>
                 <summary>
                     Week 2 &middot; Mar 9&ndash;13
-                    <span class="week-headline">2 agents onboarded &middot; 3-state contractor/realtor databases &middot; cross-persona flow + cost workflow shipped <span class="badge-now">now</span></span>
+                    <span class="week-headline">6 interviews &middot; Google Cloud CTO teardown &middot; 2 agents onboarded &middot; brand + legal intros secured <span class="badge-now">now</span></span>
                 </summary>
                 <div class="week-body">
 
@@ -460,7 +460,7 @@
                         <tr><td class="metric-label">Reports processed (founder-prompted)</td><td class="metric-value">3</td></tr>
                         <tr><td class="metric-label">Agent-initiated uploads</td><td class="metric-value">2</td></tr>
                         <tr><td class="metric-label">Contractor &amp; realtor states scraped</td><td class="metric-value">3</td></tr>
-                        <tr><td class="metric-label">Customer interviews this week</td><td class="metric-value">3 done &middot; 2 scheduled</td></tr>
+                        <tr><td class="metric-label">Customer interviews this week</td><td class="metric-value">6 done</td></tr>
                         <tr><td class="metric-label">User testing sessions</td><td class="metric-value">2</td></tr>
                     </table>
 
@@ -468,10 +468,12 @@
                         <div class="learning-card changed">
                             <h4>What changed</h4>
                             <p><strong>2 agents onboarded</strong> (one yesterday, one today) &mdash; first agent-initiated product usage. Design partners grew from 5 to 7, on track for 8&ndash;9. Contractor and realtor databases now span <strong>3 states</strong> (CA, IL, VA). Cross-persona flow and cost workflow shipped &mdash; the product now connects buyer/realtor/contractor portals end-to-end. Gary Martin (30&ndash;40 deals/yr, live deal in negotiation) committed as design partner and generated 2 new feature epics.</p>
+                            <p><strong>3 more interviews this week</strong> &mdash; Marlene Goldman (Miami, FL), Jill Davenport (Richmond, VA), Theo Chilicas (SF, CA). Total: <strong>6 customer interviews in Week 2</strong> spanning 5 states (IL, TX, FL, VA, CA). Google Cloud Field CTO <strong>Uday Ghatikar</strong> ran a product teardown &mdash; we were the <strong>only demo group he asked to stay 30 extra minutes</strong> with. He said we chose something &ldquo;ripe for transformation&rdquo; with stakeholders all getting value. Secured intros to a <strong>brand specialist</strong> and a <strong>legal contact</strong> for E&amp;O liability guidance.</p>
                         </div>
                         <div class="learning-card learned">
                             <h4>What we learned</h4>
                             <p>Gary Martin&rsquo;s feature requests reveal the next product direction: <strong>seller-facing credit request export</strong> and <strong>post-close agent-branded maintenance touchpoints</strong>. Agents now need ~30 touches to stay top of mind (up from 7). Inspection data creates natural, valuable touchpoints that serve buyers and agents simultaneously. Trade classification accuracy audit uncovered a critical substring matching bug &mdash; keyword &ldquo;rat&rdquo; was matching inside &ldquo;operate&rdquo;, causing 84% false positives. LLM classifier is the accurate path forward.</p>
+                            <p><strong>Litigation protection may be the primary GTM hook.</strong> Theo Chilicas (SF) confirmed California is the worst state for agent lawsuits &mdash; his realtor friend was sued 3 times in one year, all situations outside her control. The documentation trail InspectConnect creates (what was shared, acknowledged, decided) is a liability shield agents desperately want. This reframes our value prop from &ldquo;efficiency tool&rdquo; to &ldquo;legal protection + efficiency.&rdquo; Separately, Jill Davenport (VA) revealed that <strong>US Inspect already has a contractor-connect button</strong> in their reports &mdash; validates demand but adoption is low due to trust issues. Marlene Goldman (Miami) is the 5th agent pitched an AI tool &mdash; <strong>AI fatigue is real</strong> and differentiation from generic ChatGPT uploads is critical. In SF, buyers handle repairs themselves (don&rsquo;t ask the seller) &mdash; making our contractor matching even more relevant there.</p>
                         </div>
                         <div class="learning-card wrong">
                             <h4>What we got wrong</h4>
@@ -481,26 +483,37 @@
                         <div class="learning-card uncertain">
                             <h4>What we&rsquo;re still unsure about</h4>
                             <p>Whether AI shelf-life extraction from inspection reports will have enough signal &mdash; reports vary widely in how they describe component age. Some explicit (&ldquo;installed 2014&rdquo;), many vague (&ldquo;appears original&rdquo;), most say nothing. The feature&rsquo;s value scales with report quality, which we don&rsquo;t control.</p>
+                            <p>Uday Ghatikar challenged us to <strong>think bigger</strong>: should we be replacing more of the agent&rsquo;s role entirely, taking a Harvey AI approach (augmenting/replacing professionals, not just tooling for them)? This is a strategic fork &mdash; tool-for-agents vs. agent-replacement &mdash; and the answer depends on whether agent-mediated distribution is our moat or our constraint.</p>
                         </div>
                     </div>
 
                     <h3>Where We Are</h3>
-                    <p>Onboarded 2 agents (one yesterday, one today). Now 7 design partners committed, on track for 8&ndash;9. 23 agents in active conversation expected by end of week. Scraped contractor and realtor databases from 3 states (CA, IL, VA). Shipped the cross-persona flow connecting buyer, realtor, and contractor portals end-to-end (4 PRs merged). Shipped cost workflow redesign behind feature flag. Conducted 2 customer interviews &mdash; Michelle Vucko (Chicago agent, 5&ndash;10 deals/yr) and Gary Martin (30&ndash;40 deals/yr, live deal in negotiation). Gary&rsquo;s interview produced 2 new feature epics: seller-facing credit request export and post-close agent-branded touchpoints. Completed a trade classification accuracy audit that uncovered a critical substring bug and planned an LLM-only migration. 2 more interviews scheduled this week, both expected to convert to onboarding.</p>
+                    <p>Onboarded 2 agents (one yesterday, one today). Now 7 design partners committed, on track for 8&ndash;9. 23 agents in active conversation expected by end of week. Scraped contractor and realtor databases from 3 states (CA, IL, VA). Shipped the cross-persona flow connecting buyer, realtor, and contractor portals end-to-end (4 PRs merged). Shipped cost workflow redesign behind feature flag. Conducted <strong>6 customer interviews</strong> this week across 5 states: Michelle Vucko (Chicago, IL), Gary Martin (TX, 30&ndash;40 deals/yr), Marlene Goldman (Miami, FL), Jill Davenport (Richmond, VA), and Theo Chilicas (SF, CA). Gary&rsquo;s interview produced 2 new feature epics: seller-facing credit request export and post-close agent-branded touchpoints. Theo offered to recruit 5 agents immediately and validated litigation protection as the killer value prop in CA. Completed a trade classification accuracy audit that uncovered a critical substring bug and planned an LLM-only migration. Google Cloud Field CTO Uday Ghatikar ran a product teardown at Antler &mdash; we were the only team he asked to stay after for 30 extra minutes. Secured intros to a brand specialist and legal contact for E&amp;O liability counsel.</p>
 
                     <h3>Commercial</h3>
                     <ul>
                         <li><strong>2 agents onboarded</strong> (1 yesterday, 1 today) &mdash; first agent-initiated product usage <span class="status done">done</span></li>
-                        <li><strong>2 more interviews scheduled</strong> this week, both expected to convert to onboarding <span class="status progress">scheduled</span></li>
+                        <li><strong>6 customer interviews completed</strong> this week across 5 states (IL, TX, FL, VA, CA) <span class="status done">done</span></li>
                         <li>Design partners: 5 &rarr; <strong>7</strong>, on track for 8&ndash;9 by end of week</li>
                         <li>Pipeline growing: <strong>23 agents</strong> in active conversation expected by end of week</li>
                         <li><strong>Gary Martin</strong> committed as design partner with live deal in negotiation &mdash; generated 2 feature epics from interview <span class="status done">committed</span></li>
                         <li><strong>Michelle Vucko</strong> interview (Chicago, 5&ndash;10 deals/yr) &mdash; validates cost uncertainty as primary pain point, currently uses Porch, positive reaction to InspectConnect</li>
+                        <li><strong>Marlene Goldman</strong> interview (Miami, FL) &mdash; skeptical but agreed to trial. Catches inspector errors regularly (impact glass misclassification affects insurance). 5th AI pitch she&rsquo;s received &mdash; differentiation from generic LLM uploads is critical. Flagged kickback culture in South Florida as a sensitivity for contractor referrals</li>
+                        <li><strong>Jill Davenport</strong> interview (Richmond, VA) &mdash; spends &ldquo;several hours&rdquo; per report on negotiation strategy. Contractor network fragility is real (they go out of business, she rebuilds via Facebook groups). Noted US Inspect already has a contractor-connect button but she doesn&rsquo;t trust it. VA is &ldquo;buyer beware&rdquo; &mdash; no seller disclosure obligation</li>
+                        <li><strong>Theo Chilicas</strong> interview (SF, CA) &mdash; strongest positive reaction to date. CA is worst state for agent lawsuits; his friend was sued 3&times; in one year. Offered to <strong>recruit 5 agents immediately</strong>. SF buyers handle repairs themselves (don&rsquo;t ask seller), making contractor matching especially relevant. Introduced us to a brand specialist and legal contact <span class="status done">committed</span></li>
+                        <li><strong>Google Cloud Field CTO product teardown</strong> &mdash; Uday Ghatikar, only team asked to stay 30 extra min. Said we chose something &ldquo;ripe for transformation.&rdquo; Challenged us to think bigger &mdash; Harvey AI approach? <span class="status done">done</span></li>
+                        <li>Secured intros to <strong>brand specialist</strong> and <strong>legal contact</strong> (E&amp;O liability) <span class="status done">done</span></li>
                         <li>Henryk&rsquo;s personal trial in progress <span class="status progress">in progress</span></li>
                     </ul>
 
                     <div class="quote">
                         &ldquo;The more times we&rsquo;re in front of people the better. It used to take 7 touches to stay top of mind, now you need close to 30.&rdquo;
                         <cite>&mdash; Gary Martin, Real Estate Agent &mdash; 30&ndash;40 deals/yr</cite>
+                    </div>
+
+                    <div class="quote">
+                        &ldquo;You&rsquo;re hitting the nail on the head. Realtors are going to understand this instantly. I can think of 5 agents who would sign up right now.&rdquo;
+                        <cite>&mdash; Theo Chilicas, Real Estate Agent &mdash; SF, CA (ABIO Properties)</cite>
                     </div>
 
                     <h3>Product</h3>
@@ -517,9 +530,11 @@
 
                     <h3>Goals for This Week</h3>
                     <ul>
-                        <li>Onboard 2 more agents from scheduled interviews <span class="status upcoming">this week</span></li>
-                        <li>Complete remaining 2 interviews <span class="status progress">in progress</span></li>
+                        <li>Complete 6 customer interviews <span class="status done">done</span></li>
+                        <li>Google Cloud CTO product teardown <span class="status done">done</span></li>
+                        <li>Secure brand specialist and legal contact intros <span class="status done">done</span></li>
                         <li>Begin implementing seller-facing credit request export (P0 &mdash; Gary has live deal NOW) <span class="status upcoming">this week</span></li>
+                        <li>Follow up with Theo&rsquo;s 5 agent referrals <span class="status upcoming">this week</span></li>
                         <li>Henryk&rsquo;s personal trial feedback <span class="status progress">in progress</span></li>
                     </ul>
 
@@ -529,6 +544,9 @@
                         <li>Begin post-close touchpoint infrastructure (schema + milestone emails) <span class="status upcoming">next week</span></li>
                         <li>Expand to 4th state for contractor/realtor scraping <span class="status upcoming">next week</span></li>
                         <li>Target: 8&ndash;9 design partners, 25+ agents in conversation <span class="status upcoming">next week</span></li>
+                        <li>Initial meeting with legal contact re: E&amp;O liability structure <span class="status upcoming">next week</span></li>
+                        <li>Initial meeting with brand specialist <span class="status upcoming">next week</span></li>
+                        <li>Onboard Theo&rsquo;s SF agent referrals <span class="status upcoming">next week</span></li>
                     </ul>
 
                 </div>
@@ -653,8 +671,8 @@
         <h3>Data asset to data moat</h3>
         <p>We are building a contractor dataset that will be 9x Angi&rsquo;s total database (2.3M vs 250K). Data accumulation is an asset; a moat requires it to compound into something competitors can&rsquo;t replicate. What frameworks have you used with portfolio companies to make that transition? Where does this most often fail?</p>
 
-        <h3>Liability transfer &mdash; do we need a lawyer now?</h3>
-        <p>Brokerages are excited about InspectConnect because their agents are already doing exactly what we automate &mdash; interpreting inspection reports, advising on severity, recommending contractors &mdash; and <strong>brokerages are getting sued for it</strong>. The agent isn&rsquo;t licensed to give that advice, and when it goes wrong the brokerage carries the liability. Our tool gives agents something defensible to point to instead of winging it. But the question we need answered is whether we&rsquo;re absorbing that same liability by being the source of the guidance. If an agent follows our AI-generated recommendation and the buyer gets burned, does the lawsuit land on us? We need legal counsel who understands real estate E&amp;O liability and AI-generated professional advice to tell us where the line is &mdash; and how to structure our product, disclaimers, and terms to stay on the right side of it. Do you have attorneys in your network with this expertise?</p>
+        <h3>Liability transfer &mdash; legal contact secured, meetings starting</h3>
+        <p>Brokerages are excited about InspectConnect because their agents are already doing exactly what we automate &mdash; interpreting inspection reports, advising on severity, recommending contractors &mdash; and <strong>brokerages are getting sued for it</strong>. The agent isn&rsquo;t licensed to give that advice, and when it goes wrong the brokerage carries the liability. Our tool gives agents something defensible to point to instead of winging it. <strong>Update:</strong> We&rsquo;ve now secured an intro to a legal contact with E&amp;O liability expertise and will begin meetings next week. Theo Chilicas (SF) validated this urgency &mdash; his realtor friend was sued 3 times in one year in California, all situations outside her control. The litigation-protection angle may be our strongest GTM hook in litigious markets like CA and NY. We still welcome additional legal connections, especially attorneys who understand AI-generated professional advice liability.</p>
 
         <h3>Where is our thinking wrong?</h3>
         <p>We have strong conviction on the problem, the distribution wedge, and the contractor-side opportunity. We are not looking for validation &mdash; we are looking for the angles we are not seeing. Where does our current model have a hidden assumption that will break? What would make you walk away from this, and do you see it here?</p>
