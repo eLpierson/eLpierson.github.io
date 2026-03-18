@@ -312,7 +312,7 @@
     <header>
         <h1>InspectConnect</h1>
         <p class="subtitle">Weekly &amp; Monthly Brief &middot; Antler Residency</p>
-        <p class="date">Updated March 13, 2026</p>
+        <p class="date">Updated March 18, 2026</p>
     </header>
 
     <details class="context-block">
@@ -346,19 +346,19 @@
     <details class="month">
         <summary>
             March 2026 &mdash; Antler Residency Begins
-            <span class="month-meta">Mar 9&ndash;13 &middot; Week 2</span>
+            <span class="month-meta">Mar 16&ndash;20 &middot; Week 3</span>
         </summary>
         <div class="month-body">
 
-            <h2 style="margin-top:0;">Live Metrics &mdash; March 13, 2026</h2>
+            <h2 style="margin-top:0;">Live Metrics &mdash; March 18, 2026</h2>
             <table class="metric-table">
                 <tr><td class="metric-label">Agents in active conversation</td><td class="metric-value">24</td></tr>
                 <tr><td class="metric-label">Design partners committed</td><td class="metric-value">8</td></tr>
-                <tr><td class="metric-label">Brokerages in pipeline</td><td class="metric-value">3</td></tr>
+                <tr><td class="metric-label">Brokerages in pipeline</td><td class="metric-value">4</td></tr>
                 <tr><td class="metric-label">Reports processed (founder-prompted)</td><td class="metric-value">6</td></tr>
-                <tr><td class="metric-label">Agent-initiated uploads</td><td class="metric-value">3</td></tr>
+                <tr><td class="metric-label">Agent-initiated uploads</td><td class="metric-value">4</td></tr>
                 <tr><td class="metric-label">Contractor &amp; realtor states scraped</td><td class="metric-value">3</td></tr>
-                <tr><td class="metric-label">Customer interviews this month</td><td class="metric-value">10</td></tr>
+                <tr><td class="metric-label">Customer interviews this month</td><td class="metric-value">11</td></tr>
                 <tr><td class="metric-label">User testing sessions</td><td class="metric-value">3</td></tr>
             </table>
 
@@ -445,8 +445,78 @@
                 </div>
             </details>
 
-            <!-- Week 2 Mar 9-13 -->
+            <!-- Week 3 Mar 16-20 -->
             <details class="week" open>
+                <summary>
+                    Week 3 &middot; Mar 16&ndash;20
+                    <span class="week-headline">first real-client usage &middot; organic brokerage intro &middot; same-day adoption &middot; pricing gut check <span class="badge-now">now</span></span>
+                </summary>
+                <div class="week-body">
+
+                    <table class="metric-table">
+                        <tr><td class="metric-label">Agents in active conversation</td><td class="metric-value">24</td></tr>
+                        <tr><td class="metric-label">Design partners committed</td><td class="metric-value">8</td></tr>
+                        <tr><td class="metric-label">Brokerages in pipeline</td><td class="metric-value">4</td></tr>
+                        <tr><td class="metric-label">Reports processed (founder-prompted)</td><td class="metric-value">6</td></tr>
+                        <tr><td class="metric-label">Agent-initiated uploads</td><td class="metric-value">4</td></tr>
+                        <tr><td class="metric-label">Contractor &amp; realtor states scraped</td><td class="metric-value">3</td></tr>
+                        <tr><td class="metric-label">Customer interviews this week</td><td class="metric-value">1</td></tr>
+                        <tr><td class="metric-label">User testing sessions</td><td class="metric-value">3</td></tr>
+                    </table>
+
+                    <div class="learning-grid">
+                        <div class="learning-card changed">
+                            <h4>What changed</h4>
+                            <p>Roy Fillyaw onboarded and started using the product <strong>same day</strong>. An agent onboarded last week is using InspectConnect with a <strong>real client this Sunday</strong> during a live inspection, giving us our first homeowner feedback. A new brokerage intro came in organically: &ldquo;Can I use it? Can I tell my broker and office business manager?&rdquo; Product: contractor onboarding flow fixed, sidebar restructured, search performance improved (GIN trigram indexes), pricing page added.</p>
+                        </div>
+                        <div class="learning-card learned">
+                            <h4>What we learned</h4>
+                            <p>Same-day adoption is a strong signal. Agents who get it don&rsquo;t need hand-holding. The organic brokerage ask confirms the referral loop is real. We&rsquo;re ready to test pricing this week for the first gut check on willingness to pay.</p>
+                        </div>
+                        <div class="learning-card wrong">
+                            <h4>What we got wrong</h4>
+                            <p>Contractor onboarding had validation bugs that blocked completion. Search was slow without proper indexes. Sidebar navigation was cluttered on mobile. All fixed this week.</p>
+                        </div>
+                        <div class="learning-card uncertain">
+                            <h4>What we&rsquo;re still unsure about</h4>
+                            <p>How homeowners will react when they see the product for the first time through their agent this weekend. And whether agents will pay, or if the money comes from somewhere else entirely.</p>
+                        </div>
+                    </div>
+
+                    <h3>Where We Are</h3>
+                    <p>Roy Fillyaw onboarded and used the product same day. An agent from last week is taking it into a live Sunday inspection with a real client, which will be our first homeowner feedback. A new brokerage intro came organically. Product bugs in contractor onboarding, search, and navigation are all resolved. Getting our first gut check on pricing this week.</p>
+
+                    <h3>Commercial</h3>
+                    <ul>
+                        <li><strong>Roy Fillyaw</strong> onboarded and started using same day <span class="status done">done</span></li>
+                        <li><strong>First real-client usage</strong> this Sunday: agent using InspectConnect during live inspection, first homeowner feedback <span class="status progress">this week</span></li>
+                        <li><strong>Organic brokerage intro:</strong> &ldquo;Can I use it? Can I tell my broker and office business manager?&rdquo; <span class="status done">done</span></li>
+                        <li><strong>First pricing gut check</strong> this week <span class="status progress">this week</span></li>
+                    </ul>
+
+                    <h3>Product</h3>
+                    <ul>
+                        <li>Contractor onboarding: validation fixes, skip flow, completion handler <span class="status done">done</span></li>
+                        <li>Sidebar layout restructure + mobile nav fix <span class="status done">done</span></li>
+                        <li>GIN trigram indexes for all search endpoints (performance) <span class="status done">done</span></li>
+                        <li>Search input debounce for contractor and property search <span class="status done">done</span></li>
+                        <li>Pricing coming soon page <span class="status done">done</span></li>
+                        <li>Role-aware redirects for /projects and /clients <span class="status done">done</span></li>
+                        <li>Address extraction fix (null instead of placeholder text) <span class="status done">done</span></li>
+                    </ul>
+
+                    <h3>Goals for This Week</h3>
+                    <ul>
+                        <li>Get homeowner feedback from Sunday live inspection <span class="status upcoming">this week</span></li>
+                        <li>First pricing conversation with agents <span class="status upcoming">this week</span></li>
+                        <li>Follow up on organic brokerage intro <span class="status upcoming">this week</span></li>
+                    </ul>
+
+                </div>
+            </details>
+
+            <!-- Week 2 Mar 9-13 -->
+            <details class="week">
                 <summary>
                     Week 2 &middot; Mar 9&ndash;13
                     <span class="week-headline">6 interviews &middot; Google Cloud CTO teardown &middot; 3 agents onboarded &middot; first organic referral engine &middot; brand + legal intros <span class="badge-now">now</span></span>
