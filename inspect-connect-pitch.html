@@ -362,6 +362,51 @@
       flex-shrink: 0;
     }
 
+    /* ── Mobile Responsive ── */
+    @media (max-width: 768px) {
+      html, body { overflow: auto; }
+      #deck { height: auto; min-height: 100vh; }
+
+      .slide {
+        position: relative;
+        padding: 32px 24px;
+        min-height: 100vh;
+        display: none;
+        opacity: 1;
+        pointer-events: auto;
+        overflow: visible;
+      }
+      .slide.active { display: flex; }
+
+      /* Grids stack vertically */
+      .moat-grid,
+      .team-grid { grid-template-columns: 1fr; gap: 16px; }
+
+      .tam-row,
+      .ask-row,
+      .quote-strip { flex-direction: column; gap: 12px; }
+
+      .q-divider { width: 100%; height: 1px; }
+
+      /* Flow steps wrap nicely */
+      .flow { gap: 6px; }
+      .flow-step { padding: .4rem .7rem; font-size: 12px; }
+      .flow-arrow { font-size: 14px; }
+
+      /* Traction stat row */
+      .traction-stat-row { flex-direction: column; align-items: flex-start; gap: 4px; }
+      .traction-context { max-width: 100%; align-self: flex-start; }
+
+      /* Progress bar and counter */
+      #counter { bottom: 10px; right: 14px; }
+    }
+
+    @media (max-width: 480px) {
+      .slide { padding: 24px 18px; }
+      .cover-tag { max-width: 100%; }
+      .pt .label { white-space: normal; }
+    }
+
   </style>
 </head>
 <body>
