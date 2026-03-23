@@ -362,51 +362,6 @@
       flex-shrink: 0;
     }
 
-    /* ── Mobile Responsive ── */
-    @media (max-width: 768px) {
-      html, body { overflow: auto; }
-      #deck { height: auto; min-height: 100vh; }
-
-      .slide {
-        position: relative;
-        padding: 32px 24px;
-        min-height: 100vh;
-        display: none;
-        opacity: 1;
-        pointer-events: auto;
-        overflow: visible;
-      }
-      .slide.active { display: flex; }
-
-      /* Grids stack vertically */
-      .moat-grid,
-      .team-grid { grid-template-columns: 1fr; gap: 16px; }
-
-      .tam-row,
-      .ask-row,
-      .quote-strip { flex-direction: column; gap: 12px; }
-
-      .q-divider { width: 100%; height: 1px; }
-
-      /* Flow steps wrap nicely */
-      .flow { gap: 6px; }
-      .flow-step { padding: .4rem .7rem; font-size: 12px; }
-      .flow-arrow { font-size: 14px; }
-
-      /* Traction stat row */
-      .traction-stat-row { flex-direction: column; align-items: flex-start; gap: 4px; }
-      .traction-context { max-width: 100%; align-self: flex-start; }
-
-      /* Progress bar and counter */
-      #counter { bottom: 10px; right: 14px; }
-    }
-
-    @media (max-width: 480px) {
-      .slide { padding: 24px 18px; }
-      .cover-tag { max-width: 100%; }
-      .pt .label { white-space: normal; }
-    }
-
   </style>
 </head>
 <body>
@@ -601,7 +556,7 @@
   <!-- S11: Traction -->
   <div class="slide" id="s11">
     <div class="eyebrow">Traction</div>
-    <h2>Early proof 5 weeks in.</h2>
+    <h2>Early proof.</h2>
     <div class="rule"></div>
 
     <!-- Hero stat -->
@@ -630,8 +585,8 @@
         <div class="tlabel">brokerages<br/>in pipeline</div>
       </div>
       <div class="tam-box">
-        <div class="tnum" style="color:var(--mint);">0→4</div>
-        <div class="tlabel">agent-initiated uploads<br/>self-adoption beginning</div>
+        <div class="tnum" style="color:var(--mint); font-size:clamp(11px,1.4vw,16px); line-height:1.35;">Partner<br/>Integration</div>
+        <div class="tlabel">in progress &middot; being embedded<br/>into a partner startup&rsquo;s platform</div>
       </div>
     </div>
 
