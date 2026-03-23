@@ -761,12 +761,23 @@
 <script>
   const N = 13;
   let c = 1;
+  let pending = null, pendingFrom = null, pendingTo = null;
   function go(n) {
     if (n < 1 || n > N) return;
+    if (pending !== null) {
+      clearTimeout(pending);
+      if (pendingFrom) { pendingFrom.classList.remove('exit'); }
+      if (pendingTo)   { pendingTo.classList.add('active'); }
+      pending = pendingFrom = pendingTo = null;
+    }
     const f = document.getElementById('s' + c);
     const t = document.getElementById('s' + n);
     f.classList.remove('active'); f.classList.add('exit');
-    setTimeout(() => { f.classList.remove('exit'); t.classList.add('active'); }, 350);
+    pendingFrom = f; pendingTo = t;
+    pending = setTimeout(() => {
+      f.classList.remove('exit'); t.classList.add('active');
+      pending = pendingFrom = pendingTo = null;
+    }, 350);
     c = n;
     document.getElementById('progress').style.width = (c / N * 100) + '%';
     document.getElementById('counter').textContent = c + ' / ' + N;
