@@ -312,7 +312,7 @@
     <header>
         <h1>InspectConnect</h1>
         <p class="subtitle">Weekly &amp; Monthly Brief &middot; Antler Residency</p>
-        <p class="date">Updated March 24, 2026</p>
+        <p class="date">Updated March 25, 2026</p>
     </header>
 
     <details class="context-block">
@@ -350,7 +350,7 @@
         </summary>
         <div class="month-body">
 
-            <h2 style="margin-top:0;">Live Metrics &mdash; March 24, 2026</h2>
+            <h2 style="margin-top:0;">Live Metrics &mdash; March 25, 2026</h2>
             <table class="metric-table">
                 <tr><td class="metric-label">Agents in active conversation</td><td class="metric-value">25</td></tr>
                 <tr><td class="metric-label">Design partners committed</td><td class="metric-value">8</td></tr>
@@ -358,15 +358,15 @@
                 <tr><td class="metric-label">Reports processed (founder-prompted)</td><td class="metric-value">6</td></tr>
                 <tr><td class="metric-label">Agent-initiated uploads</td><td class="metric-value">4</td></tr>
                 <tr><td class="metric-label">Contractor &amp; realtor states scraped</td><td class="metric-value">4</td></tr>
-                <tr><td class="metric-label">Customer interviews this month</td><td class="metric-value">14</td></tr>
-                <tr><td class="metric-label">User testing sessions</td><td class="metric-value">7</td></tr>
+                <tr><td class="metric-label">Customer interviews this month</td><td class="metric-value">15</td></tr>
+                <tr><td class="metric-label">User testing sessions</td><td class="metric-value">8</td></tr>
             </table>
 
             <!-- Week 4 Mar 23-27 -->
             <details class="week" open>
                 <summary>
                     Week 4 &middot; Mar 23&ndash;27
-                    <span class="week-headline">first live product test results &middot; homeowner challenges agent-first model &middot; new agent onboarding <span class="badge-now">now</span></span>
+                    <span class="week-headline">second user feedback session &middot; WhatsApp distribution channel &middot; 4 user story PRs &middot; DIY analysis complete <span class="badge-now">now</span></span>
                 </summary>
                 <div class="week-body">
 
@@ -377,18 +377,18 @@
                         <tr><td class="metric-label">Reports processed (founder-prompted)</td><td class="metric-value">6</td></tr>
                         <tr><td class="metric-label">Agent-initiated uploads</td><td class="metric-value">4</td></tr>
                         <tr><td class="metric-label">Contractor &amp; realtor states scraped</td><td class="metric-value">4</td></tr>
-                        <tr><td class="metric-label">Customer interviews this week</td><td class="metric-value">2</td></tr>
-                        <tr><td class="metric-label">User testing sessions</td><td class="metric-value">2</td></tr>
+                        <tr><td class="metric-label">Customer interviews this week</td><td class="metric-value">3</td></tr>
+                        <tr><td class="metric-label">User testing sessions</td><td class="metric-value">3</td></tr>
                     </table>
 
                     <div class="learning-grid">
                         <div class="learning-card changed">
                             <h4>What changed</h4>
-                            <p>Ran our <strong>first live product test</strong> with Michelle Vucko, a real estate agent who used InspectConnect during an active deal. She didn&rsquo;t feel comfortable putting it in front of a buyer yet but will re-engage after fixes. Sai Santhosh Polagani (homeowner, NC) tested on his own report and surfaced duplicate issues, inflated cost estimates, and a strong case for DIY pricing. Angelo Dilan (real estate agent) began onboarding. Product fixes shipped: multi-report address extraction race conditions, auto-detect buyer role from invite links, inline contractor add from empty state, branding persistence during realtor onboarding, Sentry error cleanup, and share modal cost flag respect.</p>
+                            <p>Ran our <strong>first live product test</strong> with Michelle Vucko, then a <strong>second feedback session</strong> where she validated processing speed, sorting, and trade filters &mdash; and proposed new features: inspector quality ratings, DIY tasks with affiliate links to Ace/Home Depot/Lowe&rsquo;s, product recall alerts, home-age-based warnings (lead paint, asbestos, aluminum wiring), and market-specific negotiation protocols. She&rsquo;s running 3 active deals through the tool. Sai Santhosh found a <strong>WhatsApp group of 200&ndash;300 realtors</strong> and offered to help us post when ready. Completed a <strong>23-report DIY analysis</strong> (450+ issues) proving 30&ndash;35% of inspection items are DIY-eligible with ~$2,500 avg savings per report. Wrote 4 user story PRs: mobile optimization, DIY guidance, action-oriented triage (Act Now / Plan Ahead), and filtered share/PDF. Product: view original inspection report document, contractor portal claim + pending notifications, trade pill overflow click-to-expand.</p>
                         </div>
                         <div class="learning-card learned">
                             <h4>What we learned</h4>
-                            <p>Duplicate issues are the #1 credibility killer &mdash; they inflate the issue count and make buyers more anxious than the report warrants. Cost estimates need a DIY tier: $150&ndash;$400 for caulking when a $15 trip to Lowe&rsquo;s fixes it destroys trust. Invite emails are hitting spam folders &mdash; deliverability is a blocker to self-serve adoption. AI severity classification needs recalibration: items that agents consider health/safety are being triaged as &ldquo;good to know.&rdquo;</p>
+                            <p>Duplicate issues are the #1 credibility killer &mdash; they inflate the issue count and make buyers more anxious than the report warrants. Cost estimates need a DIY tier: $150&ndash;$400 for caulking when a $15 trip to Lowe&rsquo;s fixes it destroys trust. Invite emails are hitting spam folders &mdash; deliverability is a blocker to self-serve adoption. AI severity classification needs recalibration: items that agents consider health/safety are being triaged as &ldquo;good to know.&rdquo; Michelle&rsquo;s second session confirmed: users want an <strong>action list</strong>, not a wall of issues. They want to know &ldquo;what do I do now?&rdquo; not &ldquo;here are 180 findings.&rdquo; Market-specific protocols matter: IL only negotiates health &amp; safety items. Recall alerts on electrical panels and appliances could be a trust differentiator.</p>
                         </div>
                         <div class="learning-card wrong">
                             <h4>What we got wrong</h4>
@@ -401,18 +401,22 @@
                     </div>
 
                     <h3>Where We Are</h3>
-                    <p>First live product test completed &mdash; Michelle Vucko used InspectConnect on a real deal and surfaced critical UX issues: spam folder delivery, misclassified severity, missing items, duplicates, and disconnected invite flows. She&rsquo;ll re-engage after fixes. Sai Santhosh tested on his own report and challenged both our cost estimates and our agent-first model. Angelo Dilan is onboarding as a new agent. On the product side, shipped fixes across address extraction, buyer role detection, contractor add flows, branding persistence, and Sentry error resolution.</p>
+                    <p>Two user feedback sessions with Michelle Vucko this week &mdash; she validated core features (processing speed, sorting, trade filters) and proposed inspector ratings, DIY affiliate links, recall alerts, and market-specific protocols. She&rsquo;s running 3 active deals through the tool. Sai Santhosh found a WhatsApp group of 200&ndash;300 realtors and will help us post when ready. Completed a 23-report DIY analysis confirming 30&ndash;35% of inspection items are DIY-eligible. Wrote and opened PRs for 4 user stories: mobile optimization, DIY guidance, action-oriented triage (Act Now / Plan Ahead), and filtered share/PDF. Product shipped: view original inspection report, contractor portal claim flow with pending notifications, and trade pill click-to-expand.</p>
 
                     <h3>Commercial</h3>
                     <ul>
-                        <li><strong>Michelle Vucko</strong> first live product test on a real deal &mdash; not ready for buyer-facing use yet, will re-test after fixes <span class="status done">done</span></li>
-                        <li><strong>Sai Santhosh Polagani</strong> homeowner product test &mdash; surfaced duplicates, inflated pricing, DIY opportunity, challenged agent-first GTM <span class="status done">done</span></li>
+                        <li><strong>Michelle Vucko</strong> second feedback session &mdash; validated speed, sorting, trade filters; proposed inspector ratings, DIY affiliate links, recall alerts, market-specific protocols. Running 3 active deals through the tool <span class="status done">done</span></li>
+                        <li><strong>Sai Santhosh Polagani</strong> found WhatsApp group of 200&ndash;300 realtors, offered to help us post or get a realtor to post about InspectConnect <span class="status done">done</span></li>
                         <li><strong>Angelo Dilan</strong> onboarding as new agent <span class="status progress">in progress</span></li>
                         <li><strong>Sai scheduling intro</strong> with his realtor friend in Denver for us <span class="status progress">in progress</span></li>
+                        <li><strong>23-report DIY analysis</strong> complete &mdash; 450+ issues analyzed, 30&ndash;35% DIY-eligible, ~$2,500 avg savings per report <span class="status done">done</span></li>
                     </ul>
 
                     <h3>Product</h3>
                     <ul>
+                        <li>View original inspection report document <span class="status done">done</span></li>
+                        <li>Contractor portal: show quotes after profile claim + send pending notifications <span class="status done">done</span></li>
+                        <li>Trade pills overflow badge click-to-expand <span class="status done">done</span></li>
                         <li>Multi-report address extraction race condition fix <span class="status done">done</span></li>
                         <li>Auto-detect buyer role from invite link <span class="status done">done</span></li>
                         <li>Add contractor inline from get-quotes empty state <span class="status done">done</span></li>
@@ -420,7 +424,13 @@
                         <li>Sentry error cleanup: redirect loops, Places race condition, noise filters <span class="status done">done</span></li>
                         <li>Respect hideCosts feature flag in share modal <span class="status done">done</span></li>
                         <li>Pitch deck: mobile responsive + rapid-click transition fix <span class="status done">done</span></li>
+                        <li>User stories: US-037 mobile optimization, US-038 DIY guidance, US-039 Act Now / Plan Ahead triage, US-040 filtered share/PDF &mdash; PRs open for review <span class="status done">done</span></li>
                     </ul>
+
+                    <div class="quote">
+                        &ldquo;She said she will try it again and keep trying it to help us improve it until it is in a place where it helps her buyers have confidence during this moment and be calm.&rdquo;
+                        <cite>&mdash; Michelle Vucko, Real Estate Agent &mdash; second feedback session</cite>
+                    </div>
 
                     <h3>Goals for This Week</h3>
                     <ul>
@@ -429,6 +439,7 @@
                         <li>Investigate email deliverability (spam folder issue) <span class="status upcoming">this week</span></li>
                         <li>Complete Angelo Dilan onboarding <span class="status upcoming">this week</span></li>
                         <li>Connect with Sai&rsquo;s realtor friend <span class="status upcoming">this week</span></li>
+                        <li>Prepare WhatsApp group post messaging with Sai <span class="status upcoming">this week</span></li>
                     </ul>
 
                 </div>
@@ -810,7 +821,7 @@
     </div>
 
     <footer>
-        <p>InspectConnect &middot; Weekly &amp; Monthly Brief &middot; Antler Residency &middot; Updated March 24, 2026<br>
+        <p>InspectConnect &middot; Weekly &amp; Monthly Brief &middot; Antler Residency &middot; Updated March 25, 2026<br>
         <a href="https://www.inspectconnect.app">inspectconnect.app</a></p>
     </footer>
 
