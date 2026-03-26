@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InspectConnect — Investor Brief</title>
+    <style>
+        :root {
+            --primary: #1a1a2e;
+            --accent: #e94560;
+            --bg: #f8f9fa;
+            --card: #ffffff;
+            --text: #2d2d2d;
+            --muted: #6c757d;
+            --border: #e0e0e0;
+            --green: #28a745;
+            --amber: #f0ad4e;
+            --purple: #7B61FD;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 2rem;
+        }
+        .container { max-width: 720px; margin: 0 auto; }
+
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 3px solid var(--accent);
+        }
+        header h1 { font-size: 2rem; color: var(--primary); margin-bottom: 0.25rem; }
+        header .subtitle { font-size: 1.05rem; color: var(--muted); margin-bottom: 0.25rem; }
+        header .date { font-size: 0.85rem; color: var(--muted); }
+
+        h2 {
+            font-size: 1.35rem;
+            color: var(--primary);
+            margin: 2rem 0 0.75rem;
+            padding-bottom: 0.35rem;
+            border-bottom: 2px solid var(--border);
+        }
+        h3 { font-size: 1.05rem; color: var(--accent); margin: 1.25rem 0 0.4rem; font-weight: 700; }
+        p { margin-bottom: 0.9rem; font-size: 0.95rem; }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin-bottom: 1.25rem;
+        }
+        .card.highlight { border-left: 4px solid var(--accent); }
+        .card.green { border-left: 4px solid var(--green); }
+        .card.amber { border-left: 4px solid var(--amber); }
+
+        .metric-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 0.75rem;
+            margin: 1rem 0 1.5rem;
+        }
+        .metric {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+        .metric .number { font-size: 1.6rem; font-weight: 700; color: var(--accent); display: block; line-height: 1.2; }
+        .metric .label { font-size: 0.78rem; color: var(--muted); margin-top: 0.2rem; display: block; }
+
+        ul { margin: 0.4rem 0 1rem 1.25rem; }
+        li { margin-bottom: 0.4rem; font-size: 0.95rem; }
+
+        .status {
+            display: inline-block;
+            padding: 0.1rem 0.45rem;
+            border-radius: 4px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            margin-left: 0.3rem;
+            vertical-align: middle;
+        }
+        .status.done { background: #d4edda; color: #155724; }
+        .status.progress { background: #fff3cd; color: #856404; }
+        .status.upcoming { background: #e2e3e5; color: #383d41; }
+
+        .quote {
+            border-left: 3px solid var(--purple);
+            padding: 0.6rem 1rem;
+            margin: 0.75rem 0;
+            background: #faf9ff;
+            border-radius: 0 6px 6px 0;
+            font-style: italic;
+            font-size: 0.93rem;
+        }
+        .quote cite {
+            display: block;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: var(--accent);
+            margin-top: 0.3rem;
+        }
+
+        /* Collapsible months */
+        details.month {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 1.25rem;
+        }
+        details.month > summary {
+            padding: 1rem 1.25rem;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            user-select: none;
+            list-style: none;
+            border-bottom: 2px solid transparent;
+        }
+        details.month > summary::-webkit-details-marker { display: none; }
+        details.month > summary::after { content: "▸"; font-size: 0.9rem; color: var(--muted); transition: transform 0.2s; }
+        details.month[open] > summary::after { transform: rotate(90deg); }
+        details.month > summary:hover { background: #f0f0f5; }
+        details.month[open] > summary { border-bottom-color: var(--border); background: #f6f6fb; }
+        .month-meta { font-size: 0.78rem; color: var(--muted); font-weight: 400; margin-left: 0.75rem; }
+        .month-body { padding: 1.25rem; }
+
+        /* Collapsible weeks */
+        details.week {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            background: #fafafa;
+        }
+        details.week > summary {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            user-select: none;
+            list-style: none;
+        }
+        details.week > summary::-webkit-details-marker { display: none; }
+        details.week > summary::after { content: "▸"; font-size: 0.8rem; color: var(--muted); transition: transform 0.2s; }
+        details.week[open] > summary::after { transform: rotate(90deg); }
+        details.week > summary:hover { background: #eeeef5; border-radius: 8px; }
+        details.week[open] > summary { border-bottom: 1px solid var(--border); border-radius: 8px 8px 0 0; background: #ebebf8; }
+        .week-headline { font-size: 0.75rem; color: var(--muted); font-weight: 400; margin-left: 0.6rem; }
+        .week-body { padding: 1rem 1.25rem; }
+        .week-body h3 { margin-top: 0.75rem; }
+        .week-body h3:first-child { margin-top: 0; }
+
+        .badge-now {
+            background: var(--accent);
+            color: white;
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 0.1rem 0.45rem;
+            border-radius: 3px;
+            margin-left: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 2.5rem;
+            padding-top: 1.25rem;
+            border-top: 2px solid var(--border);
+            color: var(--muted);
+            font-size: 0.8rem;
+        }
+        a { color: var(--accent); }
+
+        /* Collapsible context sections */
+        details.context-block {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 1.25rem;
+            background: #f8f8fc;
+        }
+        details.context-block > summary {
+            padding: 0.85rem 1.25rem;
+            cursor: pointer;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            user-select: none;
+            list-style: none;
+        }
+        details.context-block > summary::-webkit-details-marker { display: none; }
+        details.context-block > summary::after { content: "▸"; font-size: 0.85rem; color: var(--muted); transition: transform 0.2s; }
+        details.context-block[open] > summary::after { transform: rotate(90deg); }
+        details.context-block > summary:hover { background: #ededf7; }
+        details.context-block[open] > summary { border-bottom: 1px solid var(--border); }
+        details.context-block .context-body { padding: 1.25rem; }
+        details.context-block .context-body > p:last-child { margin-bottom: 0; }
+        details.context-block .context-body > .card:last-child { margin-bottom: 0; }
+
+        /* Metric table */
+        .metric-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0.75rem 0 1.25rem;
+        }
+        .metric-table td {
+            padding: 0.5rem 0.25rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+        .metric-table tr:last-child td { border-bottom: none; }
+        .metric-table td.metric-label {
+            color: var(--muted);
+            font-size: 0.83rem;
+            width: 70%;
+        }
+        .metric-table td.metric-value {
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--accent);
+            text-align: right;
+            white-space: nowrap;
+        }
+        .metric-table-section { margin: 1rem 0 1.5rem; }
+        .metric-table-section h4 {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+            font-weight: 700;
+            margin-bottom: 0.35rem;
+        }
+
+        /* Learning 2x2 grid */
+        .learning-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.65rem;
+            margin: 1.25rem 0 0.5rem;
+        }
+        .learning-card {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.85rem 1rem;
+            background: var(--card);
+        }
+        .learning-card h4 {
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .learning-card.changed { border-top: 3px solid var(--primary); }
+        .learning-card.changed h4 { color: var(--primary); }
+        .learning-card.learned { border-top: 3px solid var(--green); }
+        .learning-card.learned h4 { color: var(--green); }
+        .learning-card.wrong { border-top: 3px solid var(--amber); }
+        .learning-card.wrong h4 { color: #856404; }
+        .learning-card.uncertain { border-top: 3px solid var(--purple); }
+        .learning-card.uncertain h4 { color: var(--purple); }
+        .learning-card p { font-size: 0.85rem; margin-bottom: 0.5rem; }
+        .learning-card p:last-child { margin-bottom: 0; }
+        .learning-card ul { margin: 0.2rem 0 0 1rem; }
+        .learning-card li { font-size: 0.85rem; margin-bottom: 0.3rem; }
+
+        @media (max-width: 600px) {
+            .metric-grid { grid-template-columns: 1fr 1fr; }
+            .learning-grid { grid-template-columns: 1fr; }
+            body { padding: 1rem; }
+            header h1 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <header>
+        <h1>InspectConnect</h1>
+        <p class="subtitle">Investor Brief &middot; Antler Residency</p>
+        <p class="date">Updated March 25, 2026</p>
+    </header>
+
+    <details class="context-block">
+        <summary>What We Do</summary>
+        <div class="context-body">
+            <p>You&rsquo;re a residential real estate agent. Your clients trust you on the inspection report. Now you can too. InspectConnect reads your client&rsquo;s inspection report, surfaces what actually matters, and tells you how to advise so you walk into every post-inspection conversation prepared. Stop spending hours parsing 80-page PDFs. Start closing deals with confidence.</p>
+        </div>
+    </details>
+
+    <details class="context-block">
+        <summary>Why This Exists</summary>
+        <div class="context-body">
+            <div class="card" style="margin-bottom: 0.75rem;">
+                <h3 style="color: var(--muted); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700; margin-bottom: 0.75rem;">Real Estate Agents</h3>
+                <p>Every residential sale ends with an 80+ page inspection report that agents are expected to interpret and advise on &mdash; even though it&rsquo;s not their job. They&rsquo;re not contractors, engineers, or inspectors. The industry treats this as table stakes: a good agent knows the report and guides their client through it. The insight is that the report genuinely does require judgment &mdash; it&rsquo;s often the reason a deal falls apart &mdash; but agents are exercising that judgment without the preparation to do it well. After every inspection, they spend 3&ndash;5 hours going back and forth with their client: figuring out what actually matters, prioritizing issues, recommending contractors, getting quotes, estimating costs, and building a negotiation strategy &mdash; for a document they were never trained to interpret, in a role they were never licensed to fill. InspectConnect gives them the preparation so the judgment they bring is actually grounded.</p>
+            </div>
+            <div class="card" style="margin-bottom: 0.75rem;">
+                <h3 style="color: var(--muted); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700; margin-bottom: 0.75rem;">Homebuyers</h3>
+                <p>9 out of 10 homebuyers rely on their agent to tell them what the inspection report means and what to do about it. The accepted belief is that the agent knows &mdash; they&rsquo;ve seen enough deals to understand what&rsquo;s serious and what isn&rsquo;t. The insight is two-layered. First: most agents don&rsquo;t actually know what they&rsquo;re talking about when it comes to the technical findings. They aren&rsquo;t contractors or inspectors, and the report wasn&rsquo;t written for them. Second: the agents who do understand it are often not legally permitted to advise on it &mdash; recommending repairs, assessing severity, or directing contractors creates liability exposure they&rsquo;re not licensed to carry. But they advise anyway, because their client has nowhere else to turn. The buyer is either getting guidance from someone who doesn&rsquo;t know, or from someone who knows but legally shouldn&rsquo;t be saying it. InspectConnect closes that gap without putting the agent at risk.</p>
+            </div>
+            <div class="card">
+                <h3 style="color: var(--muted); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700; margin-bottom: 0.75rem;">Contractors</h3>
+                <p style="margin-bottom:0;">Post-inspection leads close faster and at higher conversion rates than any cold marketplace lead &mdash; the problem is documented, the scope is defined, and a trusted advisor is already in the room. The industry believes the best place to find home service demand is a marketplace where homeowners search. The insight is that the highest-intent moment isn&rsquo;t when someone searches Angi. It&rsquo;s the 48 hours after an inspection report lands. That window has never had a product built for it. InspectConnect puts the right contractor in front of the right buyer at exactly that moment &mdash; before they ever open a browser.</p>
+            </div>
+        </div>
+    </details>
+
+    <!-- ═══════════════════════════════════════════
+         MARCH 2026 — open by default (current)
+    ═══════════════════════════════════════════ -->
+    <details class="month" open>
+        <summary>
+            March 2026 &mdash; Antler Residency Begins
+            <span class="month-meta">Mar 23&ndash;27 &middot; Week 4</span>
+        </summary>
+        <div class="month-body">
+
+            <h2 style="margin-top:0;">Live Metrics &mdash; March 25, 2026</h2>
+            <table class="metric-table">
+                <tr><td class="metric-label">Agents in active conversation</td><td class="metric-value">26</td></tr>
+                <tr><td class="metric-label">Design partners committed</td><td class="metric-value">9</td></tr>
+                <tr><td class="metric-label">Brokerages in pipeline</td><td class="metric-value">4</td></tr>
+                <tr><td class="metric-label">Contractor &amp; realtor states scraped</td><td class="metric-value">4</td></tr>
+                <tr><td class="metric-label">Customer interviews this month</td><td class="metric-value">16</td></tr>
+                <tr><td class="metric-label">User testing sessions</td><td class="metric-value">8</td></tr>
+            </table>
+
+            <!-- Week 4 Mar 23-27 -->
+            <details class="week" open>
+                <summary>
+                    Week 4 &middot; Mar 23&ndash;27
+                    <span class="week-headline">new agent committed &middot; liability use case validated &middot; WhatsApp 300-realtor channel &middot; DIY analysis complete <span class="badge-now">now</span></span>
+                </summary>
+                <div class="week-body">
+
+                    <table class="metric-table">
+                        <tr><td class="metric-label">Agents in active conversation</td><td class="metric-value">26</td></tr>
+                        <tr><td class="metric-label">Design partners committed</td><td class="metric-value">9</td></tr>
+                        <tr><td class="metric-label">Brokerages in pipeline</td><td class="metric-value">4</td></tr>
+                        <tr><td class="metric-label">Contractor &amp; realtor states scraped</td><td class="metric-value">4</td></tr>
+                        <tr><td class="metric-label">Customer interviews this week</td><td class="metric-value">4</td></tr>
+                        <tr><td class="metric-label">User testing sessions</td><td class="metric-value">3</td></tr>
+                    </table>
+
+                    <div class="learning-grid">
+                        <div class="learning-card changed">
+                            <h4>What changed</h4>
+                            <p>Ran our <strong>first live product test</strong> with Michelle Vucko, then a <strong>second feedback session</strong> where she validated processing speed, sorting, and trade filters &mdash; and proposed new features: inspector quality ratings, DIY tasks with affiliate links to Ace/Home Depot/Lowe&rsquo;s, product recall alerts, home-age-based warnings (lead paint, asbestos, aluminum wiring), and market-specific negotiation protocols. She&rsquo;s running 3 active deals through the tool. Sai Santhosh found a <strong>WhatsApp group of 200&ndash;300 realtors</strong> and offered to help us post when ready. Completed a <strong>23-report DIY analysis</strong> (450+ issues) proving 30&ndash;35% of inspection items are DIY-eligible with ~$2,500 avg savings per report. Wrote 4 user story PRs: mobile optimization, DIY guidance, action-oriented triage (Act Now / Plan Ahead), and filtered share/PDF. <strong>Shianne Kurkina</strong> (Oakland, Abio Properties) &mdash; licensed GC + realtor who has built 12+ homes &mdash; committed to onboard after a 1.5-hour call and will intro more agents unprompted. She validated liability protection as a key use case: sued $130K over a roof despite documenting the issue. Product: view original inspection report document, contractor portal claim + pending notifications, trade pill overflow click-to-expand.</p>
+                        </div>
+                        <div class="learning-card learned">
+                            <h4>What we learned</h4>
+                            <p>Duplicate issues are the #1 credibility killer &mdash; they inflate the issue count and make buyers more anxious than the report warrants. Cost estimates need a DIY tier: $150&ndash;$400 for caulking when a $15 trip to Lowe&rsquo;s fixes it destroys trust. Invite emails are hitting spam folders &mdash; deliverability is a blocker to self-serve adoption. AI severity classification needs recalibration: items that agents consider health/safety are being triaged as &ldquo;good to know.&rdquo; Michelle&rsquo;s second session confirmed: users want an <strong>action list</strong>, not a wall of issues. They want to know &ldquo;what do I do now?&rdquo; not &ldquo;here are 180 findings.&rdquo; Market-specific protocols matter: IL only negotiates health &amp; safety items. Recall alerts on electrical panels and appliances could be a trust differentiator. Shianne (licensed GC + realtor) validated that <strong>liability protection</strong> is a major value prop &mdash; she&rsquo;s been sued twice and sees InspectConnect as documentation and proof. Contractors actively price-gouge uninformed homeowners &mdash; her clients have been quoted $10K for nonexistent code requirements and $385 for a $50 locksmith job. Post-close reminders resonated strongly: &ldquo;one of the coolest features.&rdquo;</p>
+                        </div>
+                        <div class="learning-card wrong">
+                            <h4>What we got wrong</h4>
+                            <p>We assumed realtors are the trusted point of contact that buyers rely on. The more we talk to homeowners, the clearer it becomes: buyers use realtors because they have <strong>nowhere else to turn</strong>, not because they trust them. Realtors see themselves as the trusted advisor, but buyers don&rsquo;t feel the same way. We need to do the work to become that trusted platform ourselves &mdash; not just build on top of a relationship that&rsquo;s weaker than we thought.</p>
+                        </div>
+                        <div class="learning-card uncertain">
+                            <h4>What we&rsquo;re still unsure about</h4>
+                            <p>Is InspectConnect actually a <strong>feature, not a product</strong>? The real product might be an automated platform where buyers and sellers connect directly &mdash; and inspection report analysis is just one feature on that platform. Did we build a feature? Sai&rsquo;s feedback reinforces this: he and his friends bypass realtors entirely, go straight to the seller, and use friends/family for contractor referrals. The question is whether we&rsquo;re building the platform or a tool that sits inside someone else&rsquo;s.</p>
+                        </div>
+                    </div>
+
+                    <h3>Where We Are</h3>
+                    <p>Two user feedback sessions with Michelle Vucko &mdash; she validated core features and proposed inspector ratings, DIY affiliate links, recall alerts, and market-specific protocols. She&rsquo;s running 3 active deals through the tool. Shianne Kurkina (Oakland, licensed GC + realtor, 12+ home builds) committed to onboard after a 1.5-hour call and will intro more agents &mdash; validated liability protection as a key value prop. Sai Santhosh found a WhatsApp group of 200&ndash;300 realtors and will help us post when ready. Completed a 23-report DIY analysis confirming 30&ndash;35% of inspection items are DIY-eligible. Wrote and opened PRs for 4 user stories. Product shipped: view original inspection report, contractor portal claim flow, and trade pill click-to-expand.</p>
+
+                    <h3>Commercial</h3>
+                    <ul>
+                        <li><strong>Michelle Vucko</strong> second feedback session &mdash; validated speed, sorting, trade filters; proposed inspector ratings, DIY affiliate links, recall alerts, market-specific protocols. Running 3 active deals through the tool <span class="status done">done</span></li>
+                        <li><strong>Sai Santhosh Polagani</strong> found WhatsApp group of 200&ndash;300 realtors, offered to help us post or get a realtor to post about InspectConnect <span class="status done">done</span></li>
+                        <li><strong>Shianne Kurkina</strong> (Oakland, Abio Properties) &mdash; licensed GC + realtor, built 12+ homes. 1.5-hour call. Committed to onboard and intro more agents unprompted. Validated liability protection use case <span class="status done">done</span></li>
+                        <li><strong>Angelo Dilan</strong> onboarding as new agent <span class="status progress">in progress</span></li>
+                        <li><strong>Sai scheduling intro</strong> with his realtor friend in Denver for us <span class="status progress">in progress</span></li>
+                        <li><strong>23-report DIY analysis</strong> complete &mdash; 450+ issues analyzed, 30&ndash;35% DIY-eligible, ~$2,500 avg savings per report <span class="status done">done</span></li>
+                    </ul>
+
+                    <h3>Product</h3>
+                    <ul>
+                        <li>View original inspection report document <span class="status done">done</span></li>
+                        <li>Contractor portal: show quotes after profile claim + send pending notifications <span class="status done">done</span></li>
+                        <li>Trade pills overflow badge click-to-expand <span class="status done">done</span></li>
+                        <li>Multi-report address extraction race condition fix <span class="status done">done</span></li>
+                        <li>Auto-detect buyer role from invite link <span class="status done">done</span></li>
+                        <li>Add contractor inline from get-quotes empty state <span class="status done">done</span></li>
+                        <li>Persist branding during realtor onboarding flow <span class="status done">done</span></li>
+                        <li>Sentry error cleanup: redirect loops, Places race condition, noise filters <span class="status done">done</span></li>
+                        <li>Respect hideCosts feature flag in share modal <span class="status done">done</span></li>
+                        <li>Pitch deck: mobile responsive + rapid-click transition fix <span class="status done">done</span></li>
+                        <li>User stories: US-037 mobile optimization, US-038 DIY guidance, US-039 Act Now / Plan Ahead triage, US-040 filtered share/PDF &mdash; PRs open for review <span class="status done">done</span></li>
+                    </ul>
+
+                    <div class="quote">
+                        &ldquo;She said she will try it again and keep trying it to help us improve it until it is in a place where it helps her buyers have confidence during this moment and be calm.&rdquo;
+                        <cite>&mdash; Michelle Vucko, Real Estate Agent &mdash; second feedback session</cite>
+                    </div>
+
+                    <div class="quote">
+                        &ldquo;What you are doing is not only brilliant but it is saving people from getting scammed. Let&rsquo;s go!&rdquo;
+                        <cite>&mdash; Shianne Kurkina, Real Estate Agent &amp; Licensed GC &mdash; Oakland (Abio Properties)</cite>
+                    </div>
+
+                    <h3>Goals for This Week</h3>
+                    <ul>
+                        <li>Fix duplicate issue deduction in report parsing <span class="status upcoming">this week</span></li>
+                        <li>Recalibrate AI severity classification (health/safety items) <span class="status upcoming">this week</span></li>
+                        <li>Investigate email deliverability (spam folder issue) <span class="status upcoming">this week</span></li>
+                        <li>Complete Angelo Dilan onboarding <span class="status upcoming">this week</span></li>
+                        <li>Connect with Sai&rsquo;s realtor friend <span class="status upcoming">this week</span></li>
+                        <li>Prepare WhatsApp group post messaging with Sai <span class="status upcoming">this week</span></li>
+                    </ul>
+
+                </div>
+            </details>
+
+            <!-- Week 3 Mar 16-20 -->
+            <details class="week">
+                <summary>
+                    Week 3 &middot; Mar 16&ndash;20
+                    <span class="week-headline">first real-client usage &middot; organic brokerage intro &middot; proptech integration agreed</span>
+                </summary>
+                <div class="week-body">
+
+                    <table class="metric-table">
+                        <tr><td class="metric-label">Agents in active conversation</td><td class="metric-value">25</td></tr>
+                        <tr><td class="metric-label">Design partners committed</td><td class="metric-value">8</td></tr>
+                        <tr><td class="metric-label">Brokerages in pipeline</td><td class="metric-value">4</td></tr>
+                        <tr><td class="metric-label">Contractor &amp; realtor states scraped</td><td class="metric-value">4</td></tr>
+                        <tr><td class="metric-label">Customer interviews this week</td><td class="metric-value">2</td></tr>
+                        <tr><td class="metric-label">User testing sessions</td><td class="metric-value">5</td></tr>
+                    </table>
+
+                    <div class="learning-grid">
+                        <div class="learning-card changed">
+                            <h4>What changed</h4>
+                            <p>An agent onboarded last week is using InspectConnect with a <strong>real client this Sunday</strong> during a live inspection. A homeowner ran a product test today on his own inspection report ahead of the live end-user test this weekend. A new brokerage intro came in organically: &ldquo;Can I use it? Can I tell my broker and office business manager?&rdquo; Agreed with a proptech startup (intro via Uday) to integrate our APIs into their platform serving brokerages. Licensed trades database expanded to 4 states (added FL). Started building out AI image functionality for inspection report analysis.</p>
+                        </div>
+                        <div class="learning-card learned">
+                            <h4>What we learned</h4>
+                            <p>Agents who get it don&rsquo;t need hand-holding. The organic brokerage ask confirms the referral loop is real. Running a homeowner product test before the live end-user session gives us a controlled feedback loop. The proptech integration means another company&rsquo;s customers become our distribution.</p>
+                        </div>
+                        <div class="learning-card wrong">
+                            <h4>What we got wrong</h4>
+                            <p></p>
+                        </div>
+                        <div class="learning-card uncertain">
+                            <h4>What we&rsquo;re still unsure about</h4>
+                            <p>How homeowners will react when they see the product for the first time through their agent this weekend. And pricing.</p>
+                        </div>
+                    </div>
+
+                    <h3>Where We Are</h3>
+                    <p>An agent from last week is taking it into a live Sunday inspection with a real client. A homeowner ran a product test today on his own report ahead of the live end-user test this weekend. A new brokerage intro came organically. Agreed with a proptech startup to integrate our APIs into their brokerage platform. Licensed trades database expanded to 4 states (added FL). Started building AI image functionality. Product bugs in contractor onboarding, search, and navigation are all resolved.</p>
+
+                    <h3>Commercial</h3>
+                    <ul>
+                        <li><strong>Roy Fillyaw</strong> onboarded <span class="status done">done</span></li>
+                        <li><strong>First real-client usage</strong> this Sunday: agent using InspectConnect during live inspection, first homeowner feedback <span class="status progress">this week</span></li>
+                        <li><strong>Organic brokerage intro:</strong> &ldquo;Can I use it? Can I tell my broker and office business manager?&rdquo; <span class="status done">done</span></li>
+                        <li><strong>First pricing gut check</strong> this week <span class="status progress">this week</span></li>
+                        <li><strong>Proptech integration agreed:</strong> partnering with a proptech startup (intro via Uday) that sells to brokerages and connects sellers directly with buyers. They will integrate our APIs into their platform. Our APIs are already ready <span class="status done">done</span></li>
+                        <li><strong>Homeowner product test:</strong> a homeowner ran a product test today on his own inspection report, giving us controlled feedback ahead of the live end-user test this weekend <span class="status done">done</span></li>
+                        <li><strong>Sai Santhosh Polagani</strong> product user feedback (Homeowner, NC) &mdash; closed with 40 issues, builder hasn&rsquo;t fixed them a year later, relied on realtor who &ldquo;didn&rsquo;t know what she was talking about.&rdquo; Getting wildly different quotes from neighbors. Offered to intro a Denver realtor friend. Validated core pain across cost transparency, contractor trust, and post-close follow-through <span class="status done">done</span></li>
+                    </ul>
+
+                    <div class="quote">
+                        &ldquo;It was great meeting you seeing the tool you&rsquo;re creating! It will be so helpful and I know buyers will appreciate it too.&rdquo;
+                        <cite>&mdash; Roy Fillyaw, Real Estate Agent</cite>
+                    </div>
+
+                    <div class="quote">
+                        &ldquo;This is a huge problem. This would solve all of it.&rdquo;
+                        <cite>&mdash; Sai Santhosh Polagani, Homeowner &mdash; NC (product user feedback)</cite>
+                    </div>
+
+                    <h3>Product</h3>
+                    <ul>
+                        <li>Contractor onboarding: validation fixes, skip flow, completion handler <span class="status done">done</span></li>
+                        <li>Sidebar layout restructure + mobile nav fix <span class="status done">done</span></li>
+                        <li>GIN trigram indexes for all search endpoints (performance) <span class="status done">done</span></li>
+                        <li>Search input debounce for contractor and property search <span class="status done">done</span></li>
+                        <li>Pricing coming soon page <span class="status done">done</span></li>
+                        <li>Role-aware redirects for /projects and /clients <span class="status done">done</span></li>
+                        <li>Address extraction fix (null instead of placeholder text) <span class="status done">done</span></li>
+                        <li>AI image feature (inspection photo extraction + analysis) <span class="status progress">in progress</span></li>
+                        <li>Started working on <a href="https://elpierson.github.io/inspect-connect-pitch.html" target="_blank">pitch deck</a> <span class="status progress">in progress</span></li>
+                    </ul>
+
+                    <h3>Goals for This Week</h3>
+                    <ul>
+                        <li>Get homeowner feedback from Sunday live inspection <span class="status upcoming">this week</span></li>
+                        <li>Align on integration steps and timeline <span class="status upcoming">this week</span></li>
+                        <li>Follow up on organic brokerage intro <span class="status upcoming">this week</span></li>
+                    </ul>
+
+                </div>
+            </details>
+
+            <!-- Week 2 Mar 9-13 -->
+            <details class="week">
+                <summary>
+                    Week 2 &middot; Mar 9&ndash;13
+                    <span class="week-headline">6 interviews &middot; Google Cloud CTO teardown &middot; 3 agents onboarded &middot; first organic referral engine &middot; brand + legal intros</span>
+                </summary>
+                <div class="week-body">
+
+                    <table class="metric-table">
+                        <tr><td class="metric-label">Agents in active conversation</td><td class="metric-value">24</td></tr>
+                        <tr><td class="metric-label">Design partners committed</td><td class="metric-value">8</td></tr>
+                        <tr><td class="metric-label">Brokerages in pipeline</td><td class="metric-value">3</td></tr>
+                        <tr><td class="metric-label">Contractor &amp; realtor states scraped</td><td class="metric-value">3</td></tr>
+                        <tr><td class="metric-label">Customer interviews this week</td><td class="metric-value">6</td></tr>
+                        <tr><td class="metric-label">User testing sessions</td><td class="metric-value">3</td></tr>
+                    </table>
+
+                    <div class="learning-grid">
+                        <div class="learning-card changed">
+                            <h4>What changed</h4>
+                            <p><strong>3 agents onboarded</strong>, including our <strong>first organic referral engine</strong> (Theo, SF, will send 5+ agents to self-onboard). Design partners: 5 &rarr; 8. 6 interviews across 5 states. Google Cloud Field CTO product teardown: asked to stay 30 extra min. Secured brand specialist and legal contact intros. Cross-persona flow and cost workflow shipped. Contractor/realtor databases: 3 states (CA, IL, VA), FL next.</p>
+                        </div>
+                        <div class="learning-card learned">
+                            <h4>What we learned</h4>
+                            <p><strong>Litigation protection may be the primary GTM hook.</strong> CA agents are being sued for doing exactly what we automate. Next product direction: seller-facing credit request export + post-close agent-branded touchpoints (from Gary Martin interview). US Inspect already has a contractor-connect button but adoption is low. AI fear is real among agents. SF buyers handle repairs themselves, making contractor matching more relevant there.</p>
+                        </div>
+                        <div class="learning-card wrong">
+                            <h4>What we got wrong</h4>
+                            <p>Keyword trade classification was misclassifying ~25% of issues. LLM-only migration planned. We said there were no competitors, but <strong>Porch</strong> started with contractor matching and pivoted to insurance. Their pivot suggests pure contractor matching needs a recurring model on top. One design partner already uses Porch and was positive about switching.</p>
+                        </div>
+                        <div class="learning-card uncertain">
+                            <h4>What we&rsquo;re still unsure about</h4>
+                            <p>Whether AI shelf-life extraction will have enough signal from reports. Uday Ghatikar challenged us to think bigger: should we take a <strong>Harvey AI approach</strong> and replace more of the agent role, or stay as a tool for agents?</p>
+                        </div>
+                    </div>
+
+                    <h3>Where We Are</h3>
+                    <p>Onboarded 3 agents this week. Now <strong>8 design partners committed</strong>, with 2 more intros in pipeline. <strong>24 agents</strong> in active conversation. Scraped contractor and realtor databases from 3 states (CA, IL, VA). Shipped the cross-persona flow connecting buyer, realtor, and contractor portals end-to-end (4 PRs merged). Shipped cost workflow redesign behind feature flag. Conducted <strong>6 customer interviews</strong> this week across 5 states. Gary&rsquo;s interview produced 2 new feature epics: seller-facing credit request export and post-close agent-branded touchpoints. Theo offered to recruit 5 agents immediately and validated litigation protection as the killer value prop in CA. Completed a trade classification accuracy audit that uncovered a critical substring bug and planned an LLM-only migration. Google Cloud Field CTO Uday Ghatikar ran a product teardown at Antler and asked us to stay after for 30 extra minutes. Secured intros to a brand specialist and legal contact for E&amp;O liability counsel.</p>
+
+                    <h3>Commercial</h3>
+                    <ul>
+                        <li><strong>3 agents onboarded</strong> this week &mdash; Theo Chilicas (3rd) became our first organic referral engine <span class="status done">done</span></li>
+                        <li><strong>6 customer interviews completed</strong> this week across 5 states (IL, TX, FL, VA, CA) <span class="status done">done</span></li>
+                        <li>Design partners: 5 &rarr; <strong>8</strong>, plus 2 intros to potential design partners in pipeline</li>
+                        <li>Pipeline growing: <strong>24 agents</strong> in active conversation</li>
+                        <li><strong>First organic referral engine:</strong> Theo will send 5+ agents directly &mdash; they&rsquo;ll self-onboard without us speaking to them first <span class="status progress">in motion</span></li>
+                        <li><strong>Gary Martin</strong> committed as design partner with live deal in negotiation &mdash; generated 2 feature epics from interview <span class="status done">committed</span></li>
+                        <li><strong>Michelle Vucko</strong> interview (Chicago, 5&ndash;10 deals/yr) &mdash; validates cost uncertainty as primary pain point, currently uses Porch, positive reaction to InspectConnect</li>
+                        <li><strong>Marlene Goldman</strong> interview (Miami, FL) &mdash; skeptical but agreed to trial. Catches inspector errors regularly (impact glass misclassification affects insurance). 5th AI pitch she&rsquo;s received &mdash; differentiation from generic LLM uploads is critical. Flagged kickback culture in South Florida as a sensitivity for contractor referrals</li>
+                        <li><strong>Jill Davenport</strong> interview (Richmond, VA) &mdash; spends &ldquo;several hours&rdquo; per report on negotiation strategy. Contractor network fragility is real (they go out of business, she rebuilds via Facebook groups). Noted US Inspect already has a contractor-connect button but she doesn&rsquo;t trust it. VA is &ldquo;buyer beware&rdquo; &mdash; no seller disclosure obligation</li>
+                        <li><strong>Theo Chilicas</strong> interview (SF, CA) &mdash; strongest positive reaction to date. CA is worst state for agent lawsuits; his friend was sued 3&times; in one year. Offered to <strong>recruit 5 agents immediately</strong>. SF buyers handle repairs themselves (don&rsquo;t ask seller), making contractor matching especially relevant. Introduced us to a brand specialist and legal contact <span class="status done">committed</span></li>
+                        <li><strong>Google Cloud Field CTO product teardown</strong> &mdash; Uday Ghatikar, asked to stay 30 extra min. Said we chose something &ldquo;ripe for transformation.&rdquo; Challenged us to think bigger &mdash; Harvey AI approach? <span class="status done">done</span></li>
+                        <li>Secured intros to <strong>brand specialist</strong> and <strong>legal contact</strong> (E&amp;O liability) <span class="status done">done</span></li>
+                        <li>Henryk&rsquo;s personal trial in progress <span class="status progress">in progress</span></li>
+                    </ul>
+
+                    <div class="quote">
+                        &ldquo;The more times we&rsquo;re in front of people the better. It used to take 7 touches to stay top of mind, now you need close to 30.&rdquo;
+                        <cite>&mdash; Gary Martin, Real Estate Agent &mdash; 30&ndash;40 deals/yr</cite>
+                    </div>
+
+                    <div class="quote">
+                        &ldquo;You&rsquo;re hitting the nail on the head. Realtors are going to understand this instantly. I can think of 5 agents who would sign up right now.&rdquo;
+                        <cite>&mdash; Theo Chilicas, Real Estate Agent &mdash; SF, CA (ABIO Properties)</cite>
+                    </div>
+
+                    <h3>Product</h3>
+                    <ul>
+                        <li><strong>Cross-persona flow shipped</strong> (4 PRs): ZenStack policies, invitation accept flow, buyer quotes page, report selector, E2E test chain <span class="status done">done</span></li>
+                        <li><strong>Cost workflow P0 shipped</strong>: per-issue quote status in negotiation tab, costs behind PostHog feature flag <span class="status done">done</span></li>
+                        <li>Centralized Address model with structured normalization (4 phases) <span class="status done">done</span></li>
+                        <li><strong>Contractor &amp; realtor databases: 3 states complete</strong> (CA, IL, VA) &mdash; scraped from public records <span class="status done">done</span></li>
+                        <li>Trade classification accuracy audit: discovered critical substring bug &rarr; LLM-only migration planned (4 user stories) <span class="status done">done</span></li>
+                        <li>Gary Martin feature requests: 14 user stories (seller export + post-close touchpoints) + UX test plan <span class="status done">done</span></li>
+                        <li>Observability: Sentry/PostHog config, Resend webhook hardening, auto-triage rewrite <span class="status done">done</span></li>
+                        <li>E2E test consolidation: removed 6 redundant files, CI improvements <span class="status done">done</span></li>
+                    </ul>
+
+                    <h3>Goals for This Week</h3>
+                    <ul>
+                        <li>Complete 6 customer interviews <span class="status done">done</span></li>
+                        <li>Google Cloud CTO product teardown <span class="status done">done</span></li>
+                        <li>Secure brand specialist and legal contact intros <span class="status done">done</span></li>
+                        <li>Begin implementing seller-facing credit request export (P0 &mdash; Gary has live deal NOW) <span class="status upcoming">this week</span></li>
+                        <li>Follow up with Theo&rsquo;s 5 agent referrals <span class="status upcoming">this week</span></li>
+                        <li>Henryk&rsquo;s personal trial feedback <span class="status progress">in progress</span></li>
+                    </ul>
+
+                    <h3>Goals for Next Week</h3>
+                    <ul>
+                        <li>Ship seller-facing credit request (export modal + PDF) for Gary&rsquo;s live deal <span class="status upcoming">next week</span></li>
+                        <li>Begin post-close touchpoint infrastructure (schema + milestone emails) <span class="status upcoming">next week</span></li>
+                        <li>Target: 10+ design partners, 30+ agents in conversation (Theo&rsquo;s referrals) <span class="status upcoming">next week</span></li>
+                        <li>Initial meeting with legal contact re: E&amp;O liability structure <span class="status upcoming">next week</span></li>
+                        <li>Initial meeting with brand specialist <span class="status upcoming">next week</span></li>
+                        <li>Onboard Theo&rsquo;s SF agent referrals <span class="status upcoming">next week</span></li>
+                        <li>Get Henryk&rsquo;s feedback on his personal pilot <span class="status upcoming">next week</span></li>
+                        <li>Get names from Henryk for who else at his firm should try it <span class="status upcoming">next week</span></li>
+                    </ul>
+
+                </div>
+            </details>
+
+            <!-- Week 1 Mar 2-6 -->
+            <details class="week">
+                <summary>
+                    Week 1 &middot; Mar 2&ndash;6
+                    <span class="week-headline">400-agent brokerage commits to pilot &middot; 3 interviews</span>
+                </summary>
+                <div class="week-body">
+
+                    <table class="metric-table">
+                        <tr><td class="metric-label">Agents in active conversation</td><td class="metric-value">18</td></tr>
+                        <tr><td class="metric-label">Design partners committed</td><td class="metric-value">5</td></tr>
+                        <tr><td class="metric-label">Brokerages in pipeline</td><td class="metric-value">2</td></tr>
+                        <tr><td class="metric-label">Contractor states seeded</td><td class="metric-value">1</td></tr>
+                        <tr><td class="metric-label">Customer interviews this week</td><td class="metric-value">3</td></tr>
+                        <tr><td class="metric-label">User testing sessions</td><td class="metric-value">0</td></tr>
+                    </table>
+
+                    <div class="learning-grid">
+                        <div class="learning-card changed">
+                            <h4>What changed</h4>
+                            <p>400-agent brokerage committed to pilot after Friday demo. Henryk will try it himself first, then onboard 10&ndash;20 middle-performing agents. 2 new agents committed for next week. 4 committed intros in pipeline. Phase shifted from proving to activating.</p>
+                        </div>
+                        <div class="learning-card learned">
+                            <h4>What we learned</h4>
+                            <p><strong>The broker angle is liability.</strong> Brokers care about liability shield, not just differentiation or agent productivity. When an agent gives advice on an inspection report without expertise, the brokerage carries the risk. InspectConnect gives agents something defensible to point to.</p>
+                        </div>
+                        <div class="learning-card wrong">
+                            <h4>What we got wrong</h4>
+                            <p><strong>Cost estimates upfront may be counterproductive.</strong> Early feedback suggests sticker shock before context scares off buyers and agents. Rethinking where cost estimates belong in the workflow.</p>
+                        </div>
+                        <div class="learning-card uncertain">
+                            <h4>What we&rsquo;re still uncertain about</h4>
+                            <p>Whether Henryk&rsquo;s pilot converts to full brokerage adoption. Whether liability framing changes our go-to-market messaging. Where cost estimates should live in the workflow.</p>
+                        </div>
+                    </div>
+
+                    <h3>Where We Are</h3>
+                    <p>The Antler residency officially began March 2. The 400-agent brokerage demo happened Friday March 6. Henryk Sakowski, the managing broker, committed to try InspectConnect himself first, then onboard 10&ndash;20 of his middle-performing agents within 1&ndash;2 weeks. Two new agents committed for next week. Four more committed intros in the pipeline for interviews.</p>
+
+                    <h3>Commercial</h3>
+                    <ul>
+                        <li><strong>400-agent brokerage committed to pilot</strong> <span class="status done">committed</span></li>
+                        <li><strong>2 new agents</strong> committed for next week <span class="status progress">next week</span></li>
+                        <li><strong>4 committed intros</strong> in pipeline for interviews <span class="status progress">in progress</span></li>
+                        <li><strong>15+ agents</strong> in active conversation</li>
+                        <li><strong>5 design partner agents</strong> committed</li>
+                        <li><strong>3 customer interviews</strong> conducted this week</li>
+                    </ul>
+
+                    <h3>Product</h3>
+                    <ul>
+                        <li>California realtor database complete (71k licensed realtors) <span class="status done">done</span></li>
+                        <li>Illinois contractor database underway <span class="status progress">in progress</span></li>
+                        <li>Multi-document upload shipped for SF market <span class="status done">done</span></li>
+                        <li>Tone calibration ongoing for AI summary severity language</li>
+                    </ul>
+
+                </div>
+            </details>
+
+        </div>
+    </details>
+
+    <!-- ═══════════════════════════════════════════
+         FEBRUARY 2026 — collapsed by default
+    ═══════════════════════════════════════════ -->
+    <details class="month">
+        <summary>
+            February 2026 &mdash; Foundation Building (Pre-Residency)
+            <span class="month-meta">Feb 2&ndash;28 &middot; MVP shipped &middot; 5 design partners &middot; 14 interviews</span>
+        </summary>
+        <div class="month-body">
+
+            <h2 style="margin-top:0;">Metrics &mdash; End of February</h2>
+            <table class="metric-table">
+                <tr><td class="metric-label">Agents in active conversation</td><td class="metric-value">15+</td></tr>
+                <tr><td class="metric-label">Design partners committed</td><td class="metric-value">5</td></tr>
+                <tr><td class="metric-label">Brokerages in pipeline</td><td class="metric-value">2</td></tr>
+                <tr><td class="metric-label">Contractor states seeded</td><td class="metric-value">1</td></tr>
+                <tr><td class="metric-label">Customer interviews this month</td><td class="metric-value">14</td></tr>
+                <tr><td class="metric-label">User testing sessions</td><td class="metric-value">10</td></tr>
+            </table>
+
+            <div class="card highlight">
+                <p><strong>February in summary:</strong> Built a production-grade MVP from scratch, ran 14 customer discovery interviews, committed 5 design partners, invalidated a key model assumption that improved our economics, and sharpened the investor narrative through multiple rounds of rigorous refinement. Entered March with product live, distribution committed, and two organic beachheads in focus.</p>
+            </div>
+
+            <!-- Week 4: Feb 23 - Mar 1 -->
+            <details class="week">
+                <summary>
+                    Week 4 &middot; Feb 23&ndash;Mar 1
+                    <span class="week-headline">10 interviews &middot; 10 user tests &middot; 3 prompted reports &middot; brokerage demo booked</span>
+                </summary>
+                <div class="week-body">
+
+                    <table class="metric-table">
+                        <tr><td class="metric-label">Agents in active conversation</td><td class="metric-value">15+</td></tr>
+                        <tr><td class="metric-label">Design partners committed</td><td class="metric-value">5</td></tr>
+                        <tr><td class="metric-label">Brokerages in pipeline</td><td class="metric-value">2</td></tr>
+                        <tr><td class="metric-label">Contractor states seeded</td><td class="metric-value">1</td></tr>
+                        <tr><td class="metric-label">Customer interviews this week</td><td class="metric-value">10</td></tr>
+                        <tr><td class="metric-label">User testing sessions</td><td class="metric-value">10</td></tr>
+                    </table>
+
+                    <div class="learning-grid">
+                        <div class="learning-card changed">
+                            <h4>What changed</h4>
+                            <ul>
+                                <li>Agent pipeline reached 15+; 5 design partners committed with real intent</li>
+                                <li>Second brokerage entered pipeline independently &mdash; no shared origin with the first</li>
+                                <li>California contractor database seeded from public licensing records</li>
+                                <li>Harrison Cohen stopped a discovery interview to ask if we were open to other investors &mdash; now reviewing pitch deck with his business partner</li>
+                                <li>Brokerage demo booked for Friday March 6 (400-agent firm)</li>
+                                <li>3 design partners ran live reports in founder-prompted sessions</li>
+                            </ul>
+                        </div>
+                        <div class="learning-card learned">
+                            <h4>What we learned</h4>
+                            <ul>
+                                <li>Product held up against real data across 10 user testing sessions</li>
+                                <li>10 interviews reinforced that post-inspection is the most painful part of the transaction for agents</li>
+                                <li>Brokerage distribution surfaced bottom-up (agent &rarr; broker), not through broker-first outreach &mdash; agents are the real distribution lever</li>
+                                <li>Investor pull can emerge from unexpected places &mdash; customer discovery became an investor signal without being engineered</li>
+                            </ul>
+                        </div>
+                        <div class="learning-card wrong">
+                            <h4>What we got wrong</h4>
+                            <p>We assumed the San Francisco market would value negotiation strategy as a core output. They don&rsquo;t. SF agents care about the inspection report as one document within a much larger disclosure package &mdash; sometimes 10&ndash;20 documents at once. The negotiation angle doesn&rsquo;t land; the ability to process the full disclosure pack does.</p>
+                        </div>
+                        <div class="learning-card uncertain">
+                            <h4>What we&rsquo;re still uncertain about</h4>
+                            <p>Whether we should build in parallel for SF and Chicago given how different the product needs are. The core problem is the same &mdash; agents navigating complex inspection and disclosure documents they weren&rsquo;t trained to interpret &mdash; but SF requires multi-document processing and a different workflow entirely. Same pain, different product shape.</p>
+                        </div>
+                    </div>
+
+
+                    <h3>Commercial</h3>
+                    <ul>
+                        <li><strong>3 design partner agents</strong> ran real inspection reports in founder-prompted sessions &mdash; product held up against live data <span class="status done">done</span></li>
+                        <li>0 unprompted uploads &mdash; pull not yet established, but the product is proven end-to-end with real users</li>
+                        <li>A design partner agent pitched the product to her broker without being asked. He was interested enough that they spent an hour together. <strong>Demo now scheduled Friday March 6</strong> &mdash; this is the 400-agent firm. <span class="status done">done</span></li>
+                        <li>Second brokerage (20-agent firm) in pipeline independently &mdash; separate relationship, no shared origin with the 400-agent intro</li>
+                        <li>San Francisco and Chicago confirmed as organic beachheads &mdash; surfaced through contact density, not chosen top-down. SF flagged as a boutique, high-sophistication market requiring distinct product nuance.</li>
+                        <li>Harrison Cohen &mdash; encountered through a customer discovery interview &mdash; is reviewing the pitch deck that he requested with his business partner. He stopped the interview mid-conversation to ask if we were open to other investors. <span class="status progress">in review</span></li>
+                    </ul>
+
+                    <h3>Product &amp; Materials</h3>
+                    <ul>
+                        <li>California contractor database seeded from public licensing records <span class="status done">done</span></li>
+                        <li>All strategy documents updated: realtor-first distribution, inspector channel retired, two-city beachhead formalized <span class="status done">done</span></li>
+                    </ul>
+
+                    <div class="quote">
+                        &ldquo;Talk to my broker. He will want to try this.&rdquo;
+                        <cite>&mdash; Alina Pisiecka, Real Estate Agent &mdash; unprompted, to her broker</cite>
+                    </div>
+
+
+                </div>
+            </details>
+
+        </div>
+    </details>
+
+    <footer>
+        <p>InspectConnect &middot; Investor Brief &middot; Antler Residency &middot; Updated March 25, 2026<br>
+        <a href="https://www.inspectconnect.app">inspectconnect.app</a></p>
+    </footer>
+
+</div>
+</body>
+</html>
