@@ -418,33 +418,37 @@
       }
 
       #deck {
-        width: auto;
-        height: auto;
-        position: static;
+        width: 100%;
+        height: auto !important;
+        position: static !important;
+        overflow: visible !important;
+        display: block !important;
       }
 
-      .slide {
+      .slide,
+      .slide.exit,
+      .slide.active {
         position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        right: auto !important;
+        bottom: auto !important;
         inset: auto !important;
         opacity: 1 !important;
         visibility: visible !important;
         pointer-events: auto !important;
         display: flex !important;
+        flex-direction: column;
         page-break-after: always;
         break-after: page;
         page-break-inside: avoid;
         break-inside: avoid;
         width: 100%;
-        min-height: 100vh;
-        height: auto;
-        overflow: visible;
+        height: 100vh;
+        overflow: hidden;
         box-sizing: border-box;
         padding: 36px 56px;
-      }
-
-      .slide.exit {
-        opacity: 1 !important;
-        display: flex !important;
+        transition: none !important;
       }
 
       .slide:last-child {
