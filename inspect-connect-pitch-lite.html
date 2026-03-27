@@ -435,14 +435,34 @@
         break-inside: avoid;
         width: 100%;
         height: 100vh;
-        overflow: visible;
+        overflow: hidden;
         box-sizing: border-box;
+        padding: 36px 56px;
       }
 
       .slide:last-child {
         page-break-after: auto;
         break-after: auto;
       }
+
+      /* Slide 11 (Traction) — dense content, scale down to fit one page */
+      #s11 {
+        padding: 28px 48px;
+      }
+      #s11 h2 { font-size: 28px; margin-bottom: 12px; }
+      #s11 .rule { margin-bottom: 10px; }
+      #s11 .traction-hero { margin-bottom: 8px; }
+      #s11 .hero-label { font-size: 12px; }
+      #s11 .strike-stat { font-size: 22px; }
+      #s11 .traction-arrow { font-size: 18px; }
+      #s11 .traction-big { font-size: 48px; }
+      #s11 .traction-context { font-size: 10px; }
+      #s11 .tam-row { margin-top: 8px; gap: 10px; }
+      #s11 .tam-box { padding: 8px 12px; }
+      #s11 .tnum { font-size: 24px; }
+      #s11 .tlabel { font-size: 10px; }
+      #s11 .q-block p { font-size: 9px !important; margin-bottom: 2px; }
+      #s11 .q-block cite { font-size: 8px !important; }
 
       /* Hide navigation UI */
       #progress,
