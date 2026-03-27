@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InspectConnect — Interactive Financial Model</title>
+  <style>
+    :root {
+      --bg: #0f1419;
+      --card: #1a2332;
+      --border: #2d3748;
+      --text: #e2e8f0;
+      --muted: #8899aa;
+      --accent: #7B61FD;
+      --mint: #4ade80;
+      --red: #f87171;
+      --blue: #60a5fa;
+      --input-bg: #0d1520;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .container { max-width: 1400px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+    header { text-align: center; margin-bottom: 2rem; }
+    header h1 { font-size: 1.8rem; font-weight: 800; letter-spacing: -.02em; }
+    header h1 span { color: var(--accent); }
+    header p { color: var(--muted); font-size: 0.9rem; margin-top: .25rem; }
+
+    .tabs {
+      display: flex; gap: 4px; margin-bottom: 1.5rem;
+      border-bottom: 2px solid var(--border); padding-bottom: 0;
+    }
+    .tab {
+      padding: .6rem 1.2rem; cursor: pointer;
+      font-size: .85rem; font-weight: 600;
+      color: var(--muted); border: none; background: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px; transition: all .2s;
+    }
+    .tab:hover { color: var(--text); }
+    .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+    .panel { display: none; }
+    .panel.active { display: block; }
+
+    .card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 10px; padding: 1.25rem; margin-bottom: 1rem;
+    }
+    .card h3 {
+      font-size: .8rem; text-transform: uppercase; letter-spacing: .08em;
+      color: var(--accent); margin-bottom: .75rem;
+    }
+
+    .input-grid {
+      display: grid; grid-template-columns: 1fr 120px auto;
+      gap: .4rem .75rem; align-items: center;
+    }
+    .input-grid label {
+      font-size: .85rem; color: var(--text);
+    }
+    .input-grid input {
+      background: var(--input-bg); border: 1px solid var(--border);
+      color: var(--blue); font-size: .85rem; font-weight: 600;
+      padding: .35rem .5rem; border-radius: 6px; text-align: right;
+      width: 100%;
+    }
+    .input-grid input:focus {
+      outline: none; border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(123,97,253,.2);
+    }
+    .input-grid .source {
+      font-size: .72rem; color: var(--muted); white-space: nowrap;
+      overflow: hidden; text-overflow: ellipsis; max-width: 250px;
+    }
+
+    /* Summary cards */
+    .summary-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: .75rem; margin-bottom: 1.5rem;
+    }
+    .summary-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 10px; padding: 1rem; text-align: center;
+    }
+    .summary-card .label { font-size: .7rem; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+    .summary-card .value { font-size: 1.4rem; font-weight: 800; margin-top: .25rem; }
+    .summary-card .value.green { color: var(--mint); }
+    .summary-card .value.purple { color: var(--accent); }
+    .summary-card .value.red { color: var(--red); }
+    .summary-card .sub { font-size: .72rem; color: var(--muted); margin-top: .15rem; }
+
+    /* Model table */
+    .model-wrap { overflow-x: auto; margin-top: .5rem; }
+    .model-table {
+      border-collapse: collapse; font-size: .78rem;
+      width: max-content; min-width: 100%;
+    }
+    .model-table th, .model-table td {
+      padding: .35rem .6rem; border: 1px solid var(--border);
+      white-space: nowrap; text-align: right;
+    }
+    .model-table th {
+      background: rgba(123,97,253,.1); color: var(--accent);
+      font-weight: 600; position: sticky; top: 0; z-index: 2;
+    }
+    .model-table td:first-child {
+      text-align: left; font-weight: 500; position: sticky;
+      left: 0; background: var(--card); z-index: 1;
+      min-width: 200px;
+    }
+    .model-table tr.section td {
+      background: rgba(123,97,253,.08); font-weight: 700;
+      color: var(--accent); border-bottom: 2px solid var(--accent);
+    }
+    .model-table tr.total td {
+      font-weight: 700; border-top: 2px solid var(--border);
+    }
+    .model-table tr.total td:not(:first-child) { color: var(--mint); }
+    .model-table .neg { color: var(--red); }
+
+    /* Sensitivity table */
+    .sens-table { border-collapse: collapse; width: 100%; font-size: .85rem; }
+    .sens-table th, .sens-table td { padding: .5rem .75rem; border: 1px solid var(--border); text-align: left; }
+    .sens-table th { background: rgba(123,97,253,.1); color: var(--accent); font-weight: 600; }
+    .sens-table td:nth-child(4) { color: var(--mint); font-weight: 600; }
+
+    /* Scenario table */
+    .scenario-table { border-collapse: collapse; width: 100%; font-size: .85rem; }
+    .scenario-table th, .scenario-table td { padding: .5rem .75rem; border: 1px solid var(--border); text-align: right; }
+    .scenario-table th { background: rgba(123,97,253,.1); color: var(--accent); font-weight: 600; text-align: right; }
+    .scenario-table td:first-child, .scenario-table th:first-child { text-align: left; }
+    .scenario-table .neg { color: var(--red); }
+
+    .note { font-size: .75rem; color: var(--muted); margin-top: .5rem; font-style: italic; }
+    .reset-btn {
+      background: none; border: 1px solid var(--border); color: var(--muted);
+      padding: .4rem .8rem; border-radius: 6px; cursor: pointer; font-size: .78rem;
+      margin-left: auto; display: block; margin-top: .5rem;
+    }
+    .reset-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    @media (max-width: 768px) {
+      .container { padding: 1rem; }
+      .input-grid { grid-template-columns: 1fr 100px; }
+      .input-grid .source { display: none; }
+      .summary-grid { grid-template-columns: repeat(2, 1fr); }
+      .tabs { overflow-x: auto; flex-wrap: nowrap; }
+      .tab { white-space: nowrap; font-size: .75rem; padding: .5rem .8rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>Inspect<span>Connect</span> — Financial Model</h1>
+    <p>Adjust any blue input to see the 36-month projection update in real time</p>
+  </header>
+
+  <!-- Summary cards -->
+  <div class="summary-grid" id="summaryCards"></div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('assumptions')">Assumptions</button>
+    <button class="tab" onclick="showTab('model')">36-Month Model</button>
+    <button class="tab" onclick="showTab('scenario')">Scenario Summary</button>
+    <button class="tab" onclick="showTab('sensitivity')">Sensitivity</button>
+  </div>
+
+  <!-- Assumptions panel -->
+  <div class="panel active" id="assumptions">
+    <div class="card">
+      <h3>Acquisition Assumptions</h3>
+      <div class="input-grid" id="acqInputs"></div>
+    </div>
+    <div class="card">
+      <h3>Revenue Assumptions</h3>
+      <div class="input-grid" id="revInputs"></div>
+    </div>
+    <div class="card">
+      <h3>Operating Cost Assumptions</h3>
+      <div class="input-grid" id="costInputs"></div>
+    </div>
+    <button class="reset-btn" onclick="resetDefaults()">Reset to defaults</button>
+  </div>
+
+  <!-- 36-Month Model panel -->
+  <div class="panel" id="model">
+    <div class="card">
+      <div class="model-wrap">
+        <table class="model-table" id="modelTable"></table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scenario Summary panel -->
+  <div class="panel" id="scenario">
+    <div class="card">
+      <table class="scenario-table" id="scenarioTable"></table>
+    </div>
+  </div>
+
+  <!-- Sensitivity panel -->
+  <div class="panel" id="sensitivity">
+    <div class="card">
+      <table class="sens-table">
+        <thead><tr><th>Lever</th><th>Base Case</th><th>Optimistic</th><th>Impact on M36 Rev</th></tr></thead>
+        <tbody>
+          <tr><td>Homeowners per realtor / quarter</td><td>3</td><td>7 (top-20% agents)</td><td>~2.3x revenue</td></tr>
+          <tr><td>Realtors acquired / month (Yr 3)</td><td>50</td><td>100</td><td>~1.8x revenue</td></tr>
+          <tr><td>Contractor lead conversion rate</td><td>15%</td><td>25%</td><td>~1.7x revenue</td></tr>
+          <tr><td>Contractor lead fee</td><td>$75</td><td>$120</td><td>~1.6x revenue</td></tr>
+          <tr><td>Homeowner churn rate</td><td>8%/yr</td><td>5%/yr</td><td>~1.3x compounding</td></tr>
+          <tr><td>DIY affiliate conversion rate</td><td>10%</td><td>20%</td><td>~1.2x on affiliate line</td></tr>
+          <tr><td>Broker premium conversion</td><td>3%</td><td>8%</td><td>~1.1x (small line item)</td></tr>
+        </tbody>
+      </table>
+      <p class="note">Impact estimates are approximate and assume other variables held constant.</p>
+    </div>
+    <div class="card">
+      <h3>Marketing Strategy Notes</h3>
+      <p style="font-size:.85rem;color:var(--muted);margin-bottom:.5rem;"><strong style="color:var(--text)">Realtor Acquisition:</strong> Content marketing (inspection tips blog), local RE meetups, inspector partnerships, broker intros</p>
+      <p style="font-size:.85rem;color:var(--muted);margin-bottom:.5rem;"><strong style="color:var(--text)">Direct-to-Consumer:</strong> SEO (home maintenance keywords), App Store ASO, referral program</p>
+      <p style="font-size:.85rem;color:var(--muted);margin-bottom:.5rem;"><strong style="color:var(--text)">Dual-channel advantage:</strong> Realtor channel has higher CAC ($150) but massive LTV amplification via homeowner funnel</p>
+      <p style="font-size:.85rem;color:var(--muted);margin-bottom:.5rem;"><strong style="color:var(--text)">RESPA compliance:</strong> Platform is a technology tool, not a settlement service — no kickback risk</p>
+      <p style="font-size:.85rem;color:var(--muted);"><strong style="color:var(--text)">Smart home integration (v2):</strong> Proactive maintenance alerts drive higher contractor lead conversion and retention</p>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Default assumptions ──
+const DEFAULTS = {
+  realtorCAC: 150, homeownerCAC: 25,
+  realtorsYr1: 250, realtorsYr2: 750, realtorsYr3: 1500,
+  homeownersPerRealtorQtr: 8, directSignups: 20,
+  realtorChurn: 0.05, homeownerChurnAnnual: 0.08, avgTenure: 13,
+  leadFee: 75, leadsPerHOYr: 1, leadConversion: 0.15,
+  diyAOV: 85, diyCommission: 0.05, diyPurchases: 3, diyConversion: 0.10,
+  warrantyCPL: 25, warrantyConversion: 0.08,
+  insuranceCommission: 40, insuranceConversion: 0.05,
+  brokerPremium: 199, brokerConversion: 0.03,
+  dataLicensingRev: 500, dataLicensingMin: 5000,
+  fixedCosts: 2500, varCostPer1k: 150,
+  marketingYr1: 3000, marketingYr2: 8000, marketingYr3: 15000,
+  headcountYr1: 0, headcountYr2: 8000, headcountYr3: 25000
+};
+
+let A = { ...DEFAULTS };
+
+// ── Input definitions ──
+const acqDefs = [
+  ['realtorCAC', 'Realtor CAC (content + outreach)', '$', 'Est. based on content marketing + events'],
+  ['homeownerCAC', 'Homeowner CAC (direct/organic)', '$', 'SEO + referral, low-touch'],
+  ['realtorsYr1', 'Realtors acquired / month (Yr 1)', '#', 'Parameterized — adjust by market'],
+  ['realtorsYr2', 'Realtors acquired / month (Yr 2)', '#', 'Growth from referrals + broker partnerships'],
+  ['realtorsYr3', 'Realtors acquired / month (Yr 3)', '#', 'Channel expansion'],
+  ['homeownersPerRealtorQtr', 'Homeowners per realtor per quarter', '#', "Conservative: your '3 heard' data point"],
+  ['directSignups', 'Direct homeowner signups / month', '#', 'SEO, word-of-mouth, app store'],
+  ['realtorChurn', 'Realtor monthly churn rate', '%', '5% monthly = ~46% annual'],
+  ['homeownerChurnAnnual', 'Homeowner annual churn rate', '%', '~8% = avg move rate'],
+  ['avgTenure', 'Avg home tenure (years)', '#', 'Source: NAR median'],
+];
+const revDefs = [
+  ['leadFee', 'Contractor lead fee (avg)', '$', 'Range: $25-150, Avg from HomeAdvisor/Angi'],
+  ['leadsPerHOYr', 'Contractor leads per homeowner / year', '#', 'Conservative'],
+  ['leadConversion', 'Lead conversion (homeowner to lead sent)', '%', '15% of homeowners generate a lead/yr'],
+  ['diyAOV', 'DIY affiliate avg order value', '$', 'Filters, salt, seasonal supplies'],
+  ['diyCommission', 'DIY affiliate commission rate', '%', '5% avg (Amazon 1-4%, HD/Lowes 2-8%)'],
+  ['diyPurchases', 'DIY affiliate purchases / HO / yr', '#', 'Seasonal triggered purchases'],
+  ['diyConversion', 'DIY affiliate conversion rate', '%', '10% of homeowners click through & buy'],
+  ['warrantyCPL', 'Home warranty CPL', '$', 'Source: Cinch ~$30, avg ~$20-30'],
+  ['warrantyConversion', 'Warranty conversion rate', '%', '8% of new homeowners in first year'],
+  ['insuranceCommission', 'Insurance affiliate avg commission', '$', 'Per policy lead'],
+  ['insuranceConversion', 'Insurance conversion rate', '%', '5% of homeowners/year'],
+  ['brokerPremium', 'Broker premium subscription / month', '$', 'SSO, branding, exclusivity features'],
+  ['brokerConversion', 'Broker conversion rate', '%', "3% of realtors' offices upgrade"],
+  ['dataLicensingRev', 'Data licensing rev / 1000 HO / quarter', '$', 'Aspirational — depends on density'],
+  ['dataLicensingMin', 'Data licensing min HO threshold', '#', 'Need critical mass before viable'],
+];
+const costDefs = [
+  ['fixedCosts', 'Monthly fixed costs (infra, tools)', '$', 'AWS, analytics, email, etc.'],
+  ['varCostPer1k', 'Cost per additional 1000 HO / month', '$', 'Marginal infra cost'],
+  ['marketingYr1', 'Marketing spend / month (Yr 1)', '$', 'Content, events, outreach'],
+  ['marketingYr2', 'Marketing spend / month (Yr 2)', '$', 'Scaled channels'],
+  ['marketingYr3', 'Marketing spend / month (Yr 3)', '$', 'Full multi-channel'],
+  ['headcountYr1', 'Headcount cost / month (Yr 1)', '$', 'Solo founder'],
+  ['headcountYr2', 'Headcount cost / month (Yr 2)', '$', '1 hire'],
+  ['headcountYr3', 'Headcount cost / month (Yr 3)', '$', 'Small team'],
+];
+
+function buildInputs(container, defs) {
+  const el = document.getElementById(container);
+  el.innerHTML = '';
+  defs.forEach(([key, label, fmt, src]) => {
+    const val = A[key];
+    const display = fmt === '%' ? (val * 100).toFixed(1) : val;
+    el.innerHTML += `
+      <label>${label}</label>
+      <input type="number" step="any" value="${display}" data-key="${key}" data-fmt="${fmt}" onchange="updateInput(this)">
+      <span class="source">${src}</span>
+    `;
+  });
+}
+
+function updateInput(el) {
+  const key = el.dataset.key;
+  let val = parseFloat(el.value);
+  if (el.dataset.fmt === '%') val /= 100;
+  if (!isNaN(val)) { A[key] = val; recalc(); }
+}
+
+function resetDefaults() {
+  A = { ...DEFAULTS };
+  buildInputs('acqInputs', acqDefs);
+  buildInputs('revInputs', revDefs);
+  buildInputs('costInputs', costDefs);
+  recalc();
+}
+
+// ── Model calculation ──
+function calcModel() {
+  const months = 36;
+  const data = { newRealtors: [], cumRealtors: [], newHOViaRealtors: [], directHO: [],
+    totalNewHO: [], hoChurn: [], cumHO: [],
+    leadRev: [], diyRev: [], warrantyRev: [], brokerRev: [], dataRev: [], totalRev: [],
+    realtorAcqCost: [], fixedCost: [], varCost: [], marketing: [], headcount: [], totalCost: [],
+    netIncome: [], cumNetIncome: [], revPerHO: [], cacPayback: [], ltvPerHO: [], ltvCACRatio: [] };
+
+  for (let m = 0; m < months; m++) {
+    const yr = m < 12 ? 1 : m < 24 ? 2 : 3;
+    const newR = yr === 1 ? A.realtorsYr1 : yr === 2 ? A.realtorsYr2 : A.realtorsYr3;
+    data.newRealtors.push(newR);
+
+    const prevCumR = m === 0 ? 0 : data.cumRealtors[m - 1];
+    const cumR = prevCumR * (1 - A.realtorChurn) + newR;
+    data.cumRealtors.push(cumR);
+
+    const newHOViaR = cumR * A.homeownersPerRealtorQtr / 3;
+    data.newHOViaRealtors.push(newHOViaR);
+    data.directHO.push(A.directSignups);
+    const totalNewHO = newHOViaR + A.directSignups;
+    data.totalNewHO.push(totalNewHO);
+
+    const prevCumHO = m === 0 ? 0 : data.cumHO[m - 1];
+    const churn = m === 0 ? 0 : prevCumHO * A.homeownerChurnAnnual / 12;
+    data.hoChurn.push(churn);
+    const cumHO = prevCumHO + totalNewHO - churn;
+    data.cumHO.push(cumHO);
+
+    // Revenue
+    const leadRev = cumHO * A.leadConversion * A.leadFee;
+    const diyRev = cumHO * A.diyConversion / 12 * A.diyAOV * A.diyCommission * A.diyPurchases;
+    const warrantyRev = totalNewHO * A.warrantyConversion * A.warrantyCPL +
+                        cumHO * A.insuranceConversion / 12 * A.insuranceCommission;
+    const brokerRev = cumR * A.brokerConversion * A.brokerPremium;
+    const dataRev = cumHO >= A.dataLicensingMin ? cumHO / 1000 * A.dataLicensingRev / 3 : 0;
+    const totalRev = leadRev + diyRev + warrantyRev + brokerRev + dataRev;
+
+    data.leadRev.push(leadRev); data.diyRev.push(diyRev);
+    data.warrantyRev.push(warrantyRev); data.brokerRev.push(brokerRev);
+    data.dataRev.push(dataRev); data.totalRev.push(totalRev);
+
+    // Costs
+    const racCost = newR * A.realtorCAC;
+    const mktg = yr === 1 ? A.marketingYr1 : yr === 2 ? A.marketingYr2 : A.marketingYr3;
+    const hc = yr === 1 ? A.headcountYr1 : yr === 2 ? A.headcountYr2 : A.headcountYr3;
+    const varC = cumHO / 1000 * A.varCostPer1k;
+    const totalCost = racCost + A.fixedCosts + varC + mktg + hc;
+
+    data.realtorAcqCost.push(racCost); data.fixedCost.push(A.fixedCosts);
+    data.varCost.push(varC); data.marketing.push(mktg);
+    data.headcount.push(hc); data.totalCost.push(totalCost);
+
+    // Unit economics
+    const net = totalRev - totalCost;
+    const prevCumNet = m === 0 ? 0 : data.cumNetIncome[m - 1];
+    data.netIncome.push(net);
+    data.cumNetIncome.push(prevCumNet + net);
+
+    const revPerHO = cumHO > 0 ? totalRev / cumHO : 0;
+    data.revPerHO.push(revPerHO);
+    const cacPayback = revPerHO > 0 ? A.realtorCAC / revPerHO / A.homeownersPerRealtorQtr * 3 : 0;
+    data.cacPayback.push(cacPayback);
+    const ltv = revPerHO * 12 * A.avgTenure;
+    data.ltvPerHO.push(ltv);
+    data.ltvCACRatio.push(A.homeownerCAC > 0 ? ltv / A.homeownerCAC : 0);
+  }
+  return data;
+}
+
+function fmt(v, type) {
+  if (type === '$') return (v < 0 ? '-' : '') + '$' + Math.abs(Math.round(v)).toLocaleString();
+  if (type === '$k') { const k = v / 1000; return (k < 0 ? '-' : '') + '$' + Math.abs(k).toFixed(1) + 'K'; }
+  if (type === '#') return Math.round(v).toLocaleString();
+  if (type === '#.1') return v.toFixed(1);
+  if (type === 'x') return v.toFixed(1) + 'x';
+  if (type === '$m') return '$' + (v / 1000000).toFixed(2) + 'M';
+  return v.toFixed(2);
+}
+
+function recalc() {
+  const d = calcModel();
+
+  // Summary cards
+  const m5 = 5, m11 = 11, m23 = 23, m35 = 35;
+  document.getElementById('summaryCards').innerHTML = `
+    <div class="summary-card"><div class="label">M36 Monthly Revenue</div><div class="value green">${fmt(d.totalRev[m35], '$k')}</div></div>
+    <div class="summary-card"><div class="label">M36 Active Homeowners</div><div class="value purple">${fmt(d.cumHO[m35], '#')}</div></div>
+    <div class="summary-card"><div class="label">M36 Active Realtors</div><div class="value purple">${fmt(d.cumRealtors[m35], '#')}</div></div>
+    <div class="summary-card"><div class="label">Cumulative Net Income</div><div class="value ${d.cumNetIncome[m35] >= 0 ? 'green' : 'red'}">${fmt(d.cumNetIncome[m35], '$m')}</div></div>
+    <div class="summary-card"><div class="label">LTV per Homeowner</div><div class="value green">${fmt(d.ltvPerHO[m35], '$')}</div></div>
+    <div class="summary-card"><div class="label">LTV:CAC Ratio</div><div class="value purple">${fmt(d.ltvCACRatio[m35], 'x')}</div></div>
+  `;
+
+  // 36-Month model table
+  const rows = [
+    { label: '— ACQUISITION —', section: true },
+    { label: 'New realtors acquired', data: d.newRealtors, fmt: '#' },
+    { label: 'Cumulative active realtors', data: d.cumRealtors, fmt: '#' },
+    { label: 'New homeowners via realtors', data: d.newHOViaRealtors, fmt: '#' },
+    { label: 'Direct homeowner signups', data: d.directHO, fmt: '#' },
+    { label: 'Total new homeowners', data: d.totalNewHO, fmt: '#' },
+    { label: 'Homeowner churn (monthly)', data: d.hoChurn, fmt: '#' },
+    { label: 'Cumulative active homeowners', data: d.cumHO, fmt: '#' },
+    { label: '— REVENUE STREAMS —', section: true },
+    { label: 'Contractor lead revenue', data: d.leadRev, fmt: '$' },
+    { label: 'DIY affiliate revenue', data: d.diyRev, fmt: '$' },
+    { label: 'Warranty/insurance revenue', data: d.warrantyRev, fmt: '$' },
+    { label: 'Broker premium revenue', data: d.brokerRev, fmt: '$' },
+    { label: 'Data licensing revenue', data: d.dataRev, fmt: '$' },
+    { label: 'TOTAL MONTHLY REVENUE', data: d.totalRev, fmt: '$', total: true },
+    { label: '— COSTS —', section: true },
+    { label: 'Realtor acquisition cost', data: d.realtorAcqCost, fmt: '$' },
+    { label: 'Fixed operating costs', data: d.fixedCost, fmt: '$' },
+    { label: 'Variable infra costs', data: d.varCost, fmt: '$' },
+    { label: 'Marketing spend', data: d.marketing, fmt: '$' },
+    { label: 'Headcount', data: d.headcount, fmt: '$' },
+    { label: 'TOTAL MONTHLY COSTS', data: d.totalCost, fmt: '$', total: true },
+    { label: '— UNIT ECONOMICS —', section: true },
+    { label: 'Monthly net income', data: d.netIncome, fmt: '$' },
+    { label: 'Cumulative net income', data: d.cumNetIncome, fmt: '$' },
+    { label: 'Revenue per active homeowner', data: d.revPerHO, fmt: '#.1' },
+    { label: 'CAC payback (months of rev)', data: d.cacPayback, fmt: '#.1' },
+    { label: 'LTV per homeowner (annualized)', data: d.ltvPerHO, fmt: '$' },
+    { label: 'LTV:CAC ratio', data: d.ltvCACRatio, fmt: '#.1' },
+  ];
+
+  let html = '<thead><tr><th>Metric</th>';
+  for (let m = 1; m <= 36; m++) html += `<th>M${m}</th>`;
+  html += '</tr></thead><tbody>';
+  rows.forEach(r => {
+    if (r.section) {
+      html += `<tr class="section"><td colspan="37">${r.label}</td></tr>`;
+    } else {
+      html += `<tr class="${r.total ? 'total' : ''}"><td>${r.label}</td>`;
+      for (let m = 0; m < 36; m++) {
+        const v = r.data[m];
+        const cls = v < 0 ? ' class="neg"' : '';
+        html += `<td${cls}>${fmt(v, r.fmt)}</td>`;
+      }
+      html += '</tr>';
+    }
+  });
+  html += '</tbody>';
+  document.getElementById('modelTable').innerHTML = html;
+
+  // Scenario summary
+  const snapshots = [5, 11, 23, 35];
+  const scenarioRows = [
+    ['Active Realtors', d.cumRealtors, '#'],
+    ['Active Homeowners', d.cumHO, '#'],
+    ['Monthly Revenue', d.totalRev, '$'],
+    ['Monthly Costs', d.totalCost, '$'],
+    ['Monthly Net Income', d.netIncome, '$'],
+    ['Cumulative Net Income', d.cumNetIncome, '$'],
+    ['Rev / Homeowner / Month', d.revPerHO, '#.1'],
+    ['LTV per Homeowner', d.ltvPerHO, '$'],
+    ['LTV:CAC Ratio', d.ltvCACRatio, '#.1'],
+  ];
+  let shtml = '<thead><tr><th>Metric</th><th>Month 6</th><th>Month 12</th><th>Month 24</th><th>Month 36</th></tr></thead><tbody>';
+  scenarioRows.forEach(([label, data, f]) => {
+    shtml += `<tr><td>${label}</td>`;
+    snapshots.forEach(i => {
+      const v = data[i];
+      shtml += `<td${v < 0 ? ' class="neg"' : ''}>${fmt(v, f)}</td>`;
+    });
+    shtml += '</tr>';
+  });
+  shtml += '</tbody>';
+  document.getElementById('scenarioTable').innerHTML = shtml;
+}
+
+function showTab(id) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// Init
+buildInputs('acqInputs', acqDefs);
+buildInputs('revInputs', revDefs);
+buildInputs('costInputs', costDefs);
+recalc();
+</script>
+</body>
+</html>
