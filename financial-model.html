@@ -6,16 +6,16 @@
   <title>InspectConnect — Interactive Financial Model</title>
   <style>
     :root {
-      --bg: #0f1419;
-      --card: #1a2332;
-      --border: #2d3748;
-      --text: #e2e8f0;
-      --muted: #8899aa;
-      --accent: #7B61FD;
-      --mint: #4ade80;
-      --red: #f87171;
-      --blue: #60a5fa;
-      --input-bg: #0d1520;
+      --bg: #f8f9fa;
+      --card: #ffffff;
+      --border: #e0e0e0;
+      --text: #1a1a2e;
+      --muted: #6c757d;
+      --accent: #5a3fd6;
+      --mint: #16a34a;
+      --red: #dc2626;
+      --blue: #2563eb;
+      --input-bg: #f0f4ff;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -106,7 +106,7 @@
       white-space: nowrap; text-align: right;
     }
     .model-table th {
-      background: rgba(123,97,253,.1); color: var(--accent);
+      background: #eef0f8; color: var(--accent);
       font-weight: 600; position: sticky; top: 0; z-index: 2;
     }
     .model-table td:first-child {
@@ -115,7 +115,7 @@
       min-width: 200px;
     }
     .model-table tr.section td {
-      background: rgba(123,97,253,.08); font-weight: 700;
+      background: #eef0f8; font-weight: 700;
       color: var(--accent); border-bottom: 2px solid var(--accent);
     }
     .model-table tr.total td {
@@ -127,13 +127,13 @@
     /* Sensitivity table */
     .sens-table { border-collapse: collapse; width: 100%; font-size: .85rem; }
     .sens-table th, .sens-table td { padding: .5rem .75rem; border: 1px solid var(--border); text-align: left; }
-    .sens-table th { background: rgba(123,97,253,.1); color: var(--accent); font-weight: 600; }
+    .sens-table th { background: #eef0f8; color: var(--accent); font-weight: 600; }
     .sens-table td:nth-child(4) { color: var(--mint); font-weight: 600; }
 
     /* Scenario table */
     .scenario-table { border-collapse: collapse; width: 100%; font-size: .85rem; }
     .scenario-table th, .scenario-table td { padding: .5rem .75rem; border: 1px solid var(--border); text-align: right; }
-    .scenario-table th { background: rgba(123,97,253,.1); color: var(--accent); font-weight: 600; text-align: right; }
+    .scenario-table th { background: #eef0f8; color: var(--accent); font-weight: 600; text-align: right; }
     .scenario-table td:first-child, .scenario-table th:first-child { text-align: left; }
     .scenario-table .neg { color: var(--red); }
 
