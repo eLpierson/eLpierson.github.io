@@ -44,7 +44,8 @@
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-display: 'Space Grotesk', 'Inter', sans-serif;
 
-  /* Spacing */
+  /* Spacing — fixed fallback then clamp() */
+  --section-padding: 6rem;
   --section-padding: clamp(4rem, 10vw, 8rem);
   --container-max: 1200px;
   --container-narrow: 800px;
@@ -129,6 +130,7 @@ ul {
 
 .section__title {
   font-family: var(--font-display);
+  font-size: 2.25rem;
   font-size: clamp(1.75rem, 4vw, 2.75rem);
   font-weight: 700;
   line-height: 1.15;
@@ -218,11 +220,19 @@ ul {
   left: 0;
   right: 0;
   z-index: 1000;
-  background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(16px);
+  /* Solid fallback for browsers without backdrop-filter */
+  background: rgba(0, 0, 0, 0.95);
   -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   transition: background var(--duration) var(--ease);
+}
+
+/* If backdrop-filter is supported, use translucent background */
+@supports (backdrop-filter: blur(16px)) or (-webkit-backdrop-filter: blur(16px)) {
+  .nav {
+    background: rgba(0, 0, 0, 0.85);
+  }
 }
 
 .nav__inner {
@@ -385,6 +395,7 @@ ul {
 
 .hero__title {
   font-family: var(--font-display);
+  font-size: 3.5rem;
   font-size: clamp(2.5rem, 6vw, 4.5rem);
   font-weight: 800;
   line-height: 1.05;
@@ -395,13 +406,17 @@ ul {
 
 .hero__title-accent {
   display: block;
+  /* Fallback color if background-clip: text is not supported */
+  color: #fbbe51;
   background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  color: transparent;
 }
 
 .hero__subtitle {
+  font-size: 1.125rem;
   font-size: clamp(1.0625rem, 2vw, 1.25rem);
   color: var(--gray-400);
   line-height: 1.7;
@@ -695,6 +710,9 @@ ul {
 }
 
 .coach__image-placeholder {
+  /* aspect-ratio fallback for older Safari (pre-15) */
+  height: 0;
+  padding-bottom: 133.33%; /* 4/3 * 100 = 133.33% for 3:4 ratio */
   aspect-ratio: 3 / 4;
   background: linear-gradient(135deg, var(--gray-800) 0%, var(--gray-900) 100%);
   border-radius: var(--radius-xl);
@@ -706,6 +724,14 @@ ul {
   border: 2px solid var(--gray-700);
   position: relative;
   overflow: hidden;
+}
+
+/* Remove padding-bottom hack when aspect-ratio is supported */
+@supports (aspect-ratio: 3 / 4) {
+  .coach__image-placeholder {
+    height: auto;
+    padding-bottom: 0;
+  }
 }
 
 .coach__image-placeholder::before {
@@ -1141,6 +1167,7 @@ ul {
 
 @media (max-width: 768px) {
   :root {
+    --section-padding: 4rem;
     --section-padding: clamp(3rem, 8vw, 6rem);
   }
 
@@ -1155,7 +1182,7 @@ ul {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.97);
+    background: rgba(0, 0, 0, 0.98);
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -1277,6 +1304,36 @@ ul {
   }
 }
 
+/* ----- Flexbox gap fallback (Safari < 14.1) ----- */
+@supports not (gap: 1rem) {
+  .nav__menu > * + * { margin-left: 0.25rem; }
+  .hero__badge > * + * { margin-left: 0.5rem; }
+  .hero__actions > * + * { margin-left: 1rem; }
+  .hero__stats > * + * { margin-left: 3rem; }
+  .hero__scroll > * + * { margin-top: 0.75rem; }
+  .coach__credentials > * + * { margin-left: 2rem; }
+  .faq__list > * + * { margin-top: 0.75rem; }
+  .contact__form > * + * { margin-top: 1.25rem; }
+  .testimonial-card__stars > * + * { margin-left: 2px; }
+  .btn > * + * { margin-left: 0.5rem; }
+  .contact__method-link > * + * { margin-left: 0.5rem; }
+  .nav__logo > * + * { margin-left: 0.75rem; }
+  .coach__credential > * + * { margin-top: 0.25rem; }
+  .form__group > * + * { margin-top: 0.375rem; }
+  .nav__toggle > * + * { margin-top: 5px; }
+
+  /* Vertical flex containers on mobile */
+  @media (max-width: 480px) {
+    .hero__stats > * + * { margin-left: 0; margin-top: 1.5rem; }
+    .hero__actions > * + * { margin-left: 0; margin-top: 1rem; }
+    .coach__credentials > * + * { margin-left: 0; margin-top: 1rem; }
+  }
+
+  @media (max-width: 768px) {
+    .nav__menu > * + * { margin-left: 0; margin-top: 0.5rem; }
+  }
+}
+
 /* ----- Accessibility ----- */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -1292,9 +1349,36 @@ ul {
   }
 }
 
+/* :focus fallback for browsers without :focus-visible */
+:focus {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* Remove :focus outline when :focus-visible is supported and element isn't focus-visible */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
 :focus-visible {
   outline: 2px solid var(--gold);
   outline-offset: 2px;
+}
+
+/* ----- No-JS: make everything visible without animations ----- */
+.no-js .animate-on-scroll {
+  opacity: 1;
+  transform: none;
+}
+
+.no-js .hero__badge,
+.no-js .hero__title,
+.no-js .hero__subtitle,
+.no-js .hero__actions,
+.no-js .hero__stats {
+  animation: none;
+  opacity: 1;
+  transform: none;
 }
 
 /* Screen reader only */

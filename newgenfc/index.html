@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -22,6 +22,25 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%E2%9A%BD</text></svg>" />
 
   <link rel="stylesheet" href="styles.css" />
+
+  <!-- Remove no-js class immediately if JS is available -->
+  <script>document.documentElement.classList.remove('no-js');</script>
+
+  <noscript>
+    <style>
+      /* Ensure all content is visible without JS */
+      .animate-on-scroll,
+      .hero__badge,
+      .hero__title,
+      .hero__subtitle,
+      .hero__actions,
+      .hero__stats {
+        opacity: 1 !important;
+        transform: none !important;
+        animation: none !important;
+      }
+    </style>
+  </noscript>
 </head>
 <body>
   <!-- ============================================ -->
@@ -117,28 +136,28 @@
         <div class="about__features">
           <div class="feature-card">
             <div class="feature-card__icon" aria-hidden="true">
-              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></svg>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></svg>
             </div>
             <h3 class="feature-card__title">Small Group Ratios</h3>
             <p class="feature-card__text">Max 6:1 player-to-coach ratio ensures every player gets meaningful attention and repetitions.</p>
           </div>
           <div class="feature-card">
             <div class="feature-card__icon" aria-hidden="true">
-              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
             </div>
             <h3 class="feature-card__title">European Methodology</h3>
             <p class="feature-card__text">Curriculum modeled after top European academies — La Masia, Ajax, and Premier League youth systems.</p>
           </div>
           <div class="feature-card">
             <div class="feature-card__icon" aria-hidden="true">
-              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
             </div>
             <h3 class="feature-card__title">Individual Development Plans</h3>
             <p class="feature-card__text">Every player receives a personalized roadmap with video analysis and progress tracking.</p>
           </div>
           <div class="feature-card">
             <div class="feature-card__icon" aria-hidden="true">
-              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
             </div>
             <h3 class="feature-card__title">Semi-Pro Coaching</h3>
             <p class="feature-card__text">Learn from a coach who plays at the semi-professional level and lives the game every day.</p>
@@ -475,14 +494,14 @@
           <div class="contact__method">
             <h3 class="contact__method-title">Email Us</h3>
             <a href="mailto:sfnewgensocceracademy@gmail.com" class="contact__method-link">
-              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
               sfnewgensocceracademy@gmail.com
             </a>
           </div>
           <div class="contact__method">
             <h3 class="contact__method-title">Follow Us</h3>
             <a href="https://www.instagram.com/sfnewgensocceracademy" target="_blank" rel="noopener noreferrer" class="contact__method-link">
-              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
               @sfnewgensocceracademy
             </a>
           </div>
