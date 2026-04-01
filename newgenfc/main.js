@@ -16,24 +16,40 @@
   var navToggle = document.getElementById('nav-toggle');
   var navMenu = document.getElementById('nav-menu');
 
+  function closeMenu() {
+    if (navMenu && navToggle) {
+      navMenu.classList.remove('is-open');
+      navToggle.classList.remove('is-active');
+      navToggle.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+  }
+
   if (navToggle && navMenu) {
-    navToggle.addEventListener('click', function () {
+    // Toggle button — use both click and touchend for reliable mobile
+    navToggle.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
       var isOpen = navMenu.classList.toggle('is-open');
       navToggle.classList.toggle('is-active');
-      navToggle.setAttribute('aria-expanded', isOpen);
+      navToggle.setAttribute('aria-expanded', String(isOpen));
       document.body.style.overflow = isOpen ? 'hidden' : '';
     });
 
-    // Close menu on link click
-    var navLinks = navMenu.querySelectorAll('.nav__link');
-    for (var i = 0; i < navLinks.length; i++) {
-      navLinks[i].addEventListener('click', function () {
-        navMenu.classList.remove('is-open');
-        navToggle.classList.remove('is-active');
-        navToggle.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
+    // Close menu when any nav link is tapped
+    var allLinks = navMenu.querySelectorAll('a');
+    for (var i = 0; i < allLinks.length; i++) {
+      allLinks[i].addEventListener('click', function () {
+        closeMenu();
       });
     }
+
+    // Close menu when tapping outside of it
+    document.addEventListener('click', function (e) {
+      if (navMenu.classList.contains('is-open') && !navMenu.contains(e.target) && !navToggle.contains(e.target)) {
+        closeMenu();
+      }
+    });
   }
 
   // ----- Scroll-triggered Animations -----
@@ -111,42 +127,51 @@
     });
   }
 
-  // ----- Smooth scroll for anchor links (JS fallback for browsers without CSS scroll-behavior) -----
+  // ----- Smooth scroll for anchor links -----
+  function smoothScrollTo(target) {
+    if (prefersReducedMotion) {
+      target.scrollIntoView();
+    } else if ('scrollBehavior' in document.documentElement.style) {
+      target.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      var targetY = target.getBoundingClientRect().top + window.pageYOffset - 80;
+      var startY = window.pageYOffset;
+      var diff = targetY - startY;
+      var startTime = null;
+      var duration = 500;
+
+      function step(timestamp) {
+        if (!startTime) startTime = timestamp;
+        var elapsed = timestamp - startTime;
+        var progress = Math.min(elapsed / duration, 1);
+        var ease = 1 - Math.pow(1 - progress, 3);
+        window.scrollTo(0, startY + diff * ease);
+        if (elapsed < duration) {
+          window.requestAnimationFrame(step);
+        }
+      }
+
+      window.requestAnimationFrame(step);
+    }
+  }
+
   document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
     anchor.addEventListener('click', function (e) {
       var href = anchor.getAttribute('href');
       var target = document.querySelector(href);
       if (target) {
         e.preventDefault();
-        if (prefersReducedMotion) {
-          // Jump instantly for users who prefer reduced motion
-          target.scrollIntoView();
-        } else if ('scrollBehavior' in document.documentElement.style) {
-          // Browser supports smooth scroll natively
-          target.scrollIntoView({ behavior: 'smooth' });
+
+        // If mobile menu is open, close it first then scroll after a delay
+        if (navMenu && navMenu.classList.contains('is-open')) {
+          closeMenu();
+          setTimeout(function () {
+            smoothScrollTo(target);
+          }, 100);
         } else {
-          // Manual smooth scroll fallback
-          var targetY = target.getBoundingClientRect().top + window.pageYOffset - 80;
-          var startY = window.pageYOffset;
-          var diff = targetY - startY;
-          var startTime = null;
-          var duration = 500;
-
-          function step(timestamp) {
-            if (!startTime) startTime = timestamp;
-            var elapsed = timestamp - startTime;
-            var progress = Math.min(elapsed / duration, 1);
-            // Ease out cubic
-            var ease = 1 - Math.pow(1 - progress, 3);
-            window.scrollTo(0, startY + diff * ease);
-            if (elapsed < duration) {
-              window.requestAnimationFrame(step);
-            }
-          }
-
-          window.requestAnimationFrame(step);
+          smoothScrollTo(target);
         }
-        // Update URL hash without jumping
+
         if (history.pushState) {
           history.pushState(null, null, href);
         }
