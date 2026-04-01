@@ -1177,17 +1177,19 @@ ul {
 
   .nav__menu {
     position: fixed;
-    top: 0;
+    top: 72px;
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: 1000;
+    z-index: 999;
     background: rgba(0, 0, 0, 0.98);
     display: none;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     gap: 0.5rem;
+    padding-top: 3rem;
+    overflow-y: auto;
   }
 
   .nav__menu.is-open {
