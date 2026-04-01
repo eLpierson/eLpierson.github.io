@@ -150,20 +150,69 @@
     });
   });
 
-  // ----- Form Enhancement -----
+  // ----- Google Sheets Form Submission -----
+  // Replace this URL with your deployed Google Apps Script web app URL
+  var GOOGLE_SHEETS_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+
   var form = document.getElementById('contact-form');
+  var submitBtn = document.getElementById('submit-btn');
+  var formSuccess = document.getElementById('form-success');
+  var formError = document.getElementById('form-error');
+
   if (form) {
-    form.addEventListener('submit', function () {
-      var btn = form.querySelector('button[type="submit"]');
-      if (btn) {
-        btn.textContent = 'Sending...';
-        btn.disabled = true;
-        // Re-enable after a delay in case FormSubmit redirects
-        setTimeout(function () {
-          btn.textContent = 'Send Message';
-          btn.disabled = false;
-        }, 5000);
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      // Honeypot check — if filled, it's a bot
+      var honeypot = form.querySelector('input[name="_honey"]');
+      if (honeypot && honeypot.value) return;
+
+      // Hide any previous status
+      if (formSuccess) formSuccess.hidden = true;
+      if (formError) formError.hidden = true;
+
+      // Disable button and show loading
+      if (submitBtn) {
+        submitBtn.textContent = 'Sending...';
+        submitBtn.disabled = true;
       }
+
+      // Gather form data
+      var data = {
+        name: form.querySelector('#name').value,
+        email: form.querySelector('#email').value,
+        phone: form.querySelector('#phone').value || '',
+        program: form.querySelector('#program').value,
+        message: form.querySelector('#message').value || '',
+        submitted: new Date().toLocaleString('en-US', { timeZone: 'America/Los_Angeles' })
+      };
+
+      // Send to Google Sheets via Apps Script
+      fetch(GOOGLE_SHEETS_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+      .then(function () {
+        // no-cors means we can't read the response, but if fetch didn't throw, it was sent
+        form.reset();
+        if (formSuccess) formSuccess.hidden = false;
+        if (submitBtn) {
+          submitBtn.textContent = 'Sent!';
+          setTimeout(function () {
+            submitBtn.textContent = 'Send Message';
+            submitBtn.disabled = false;
+          }, 3000);
+        }
+      })
+      .catch(function () {
+        if (formError) formError.hidden = false;
+        if (submitBtn) {
+          submitBtn.textContent = 'Send Message';
+          submitBtn.disabled = false;
+        }
+      });
     });
   }
 })();

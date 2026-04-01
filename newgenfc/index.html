@@ -511,11 +511,9 @@
           </div>
         </div>
 
-        <form class="contact__form" id="contact-form" action="https://formsubmit.co/sfnewgensocceracademy@gmail.com" method="POST">
-          <input type="hidden" name="_subject" value="New Gen FC Website Inquiry" />
-          <input type="hidden" name="_captcha" value="false" />
-          <input type="hidden" name="_next" value="#contact" />
-          <input type="text" name="_honey" style="display:none" />
+        <form class="contact__form" id="contact-form">
+          <!-- Honeypot spam trap (hidden from real users) -->
+          <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" />
 
           <div class="form__group">
             <label for="name" class="form__label">Full Name</label>
@@ -547,8 +545,18 @@
             <label for="message" class="form__label">Message</label>
             <textarea id="message" name="message" class="form__input form__textarea" rows="4" placeholder="Tell us about your player — age, experience, goals..."></textarea>
           </div>
-          <button type="submit" class="btn btn--primary btn--full btn--lg">Send Message</button>
+          <button type="submit" class="btn btn--primary btn--full btn--lg" id="submit-btn">Send Message</button>
           <p class="form__note">We typically respond within 24 hours.</p>
+
+          <!-- Success / Error states (hidden by default) -->
+          <div class="form__status form__status--success" id="form-success" hidden>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            <p><strong>Message sent!</strong> We'll get back to you within 24 hours. Check your inbox.</p>
+          </div>
+          <div class="form__status form__status--error" id="form-error" hidden>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+            <p><strong>Something went wrong.</strong> Please email us directly at <a href="mailto:sfnewgensocceracademy@gmail.com">sfnewgensocceracademy@gmail.com</a></p>
+          </div>
         </form>
       </div>
     </div>
