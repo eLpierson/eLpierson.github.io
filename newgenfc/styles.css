@@ -249,19 +249,10 @@ ul {
   z-index: 1001;
 }
 
-.nav__logo-mark {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  background: var(--gold);
-  color: var(--black);
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 0.875rem;
-  border-radius: var(--radius-sm);
-  letter-spacing: 0.02em;
+.nav__logo-img {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
 }
 
 .nav__logo-text {
