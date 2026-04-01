@@ -700,49 +700,12 @@ ul {
   position: relative;
 }
 
-.coach__image-placeholder {
-  /* aspect-ratio fallback for older Safari (pre-15) */
-  height: 0;
-  padding-bottom: 133.33%; /* 4/3 * 100 = 133.33% for 3:4 ratio */
-  aspect-ratio: 3 / 4;
-  background: linear-gradient(135deg, var(--gray-800) 0%, var(--gray-900) 100%);
+.coach__photo {
+  width: 100%;
+  height: auto;
   border-radius: var(--radius-xl);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
+  object-fit: cover;
   border: 2px solid var(--gray-700);
-  position: relative;
-  overflow: hidden;
-}
-
-/* Remove padding-bottom hack when aspect-ratio is supported */
-@supports (aspect-ratio: 3 / 4) {
-  .coach__image-placeholder {
-    height: auto;
-    padding-bottom: 0;
-  }
-}
-
-.coach__image-placeholder::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 50% 30%, rgba(251, 190, 81, 0.1) 0%, transparent 60%);
-}
-
-.coach__image-initials {
-  font-family: var(--font-display);
-  font-size: 4rem;
-  font-weight: 800;
-  color: var(--gold);
-  opacity: 0.3;
-}
-
-.coach__image-note {
-  font-size: 0.8125rem;
-  color: var(--gray-500);
 }
 
 .coach__role {
@@ -1189,7 +1152,7 @@ ul {
     gap: 2rem;
   }
 
-  .coach__image-placeholder {
+  .coach__photo {
     max-width: 400px;
     margin: 0 auto;
   }
