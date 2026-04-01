@@ -302,8 +302,14 @@ ul {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 8px;
+  padding: 12px;
   z-index: 1001;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  min-width: 44px;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
 }
 
 .nav__toggle-bar {
@@ -1175,19 +1181,17 @@ ul {
     left: 0;
     right: 0;
     bottom: 0;
+    z-index: 1000;
     background: rgba(0, 0, 0, 0.98);
+    display: none;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 0.5rem;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
   }
 
   .nav__menu.is-open {
-    opacity: 1;
-    pointer-events: all;
+    display: flex;
   }
 
   .nav__link {
