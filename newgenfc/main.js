@@ -5,6 +5,10 @@
 (function () {
   'use strict';
 
+  // ----- Auto-update copyright year -----
+  var yearEl = document.getElementById('footer-year');
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+
   // ----- Check prefers-reduced-motion -----
   var prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
