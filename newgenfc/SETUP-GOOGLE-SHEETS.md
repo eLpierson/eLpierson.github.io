@@ -1,13 +1,13 @@
 # Google Sheets Form Setup Guide
 
-The contact form on the New Gen FC site sends submissions directly to a Google Sheet — free forever, no third-party services.
+The contact form on the SF New Gen Soccer Academy site sends submissions directly to a Google Sheet — free forever, no third-party services.
 
 ## Setup (5 minutes, one time)
 
 ### Step 1: Create the Google Sheet
 
 1. Go to [sheets.google.com](https://sheets.google.com) and create a new spreadsheet
-2. Name it **"New Gen FC — Inquiries"**
+2. Name it **"SF New Gen Soccer Academy — Inquiries"**
 3. In **Row 1**, add these headers (exact spelling matters):
 
 | A | B | C | D | E | F |
@@ -68,7 +68,7 @@ function doPost(e) {
 ```
 
 4. Click **Save** (Ctrl+S / Cmd+S)
-5. Name the project **"New Gen FC Form Handler"**
+5. Name the project **"SF New Gen Soccer Academy Form Handler"**
 
 ### Step 3: Deploy as Web App
 
