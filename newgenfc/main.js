@@ -172,8 +172,8 @@
       if (honeypot && honeypot.value) return;
 
       // Hide any previous status
-      if (formSuccess) formSuccess.hidden = true;
-      if (formError) formError.hidden = true;
+      if (formSuccess) formSuccess.classList.remove('is-visible');
+      if (formError) formError.classList.remove('is-visible');
 
       // Disable button and show loading
       if (submitBtn) {
@@ -201,7 +201,7 @@
       .then(function () {
         // no-cors means we can't read the response, but if fetch didn't throw, it was sent
         form.reset();
-        if (formSuccess) formSuccess.hidden = false;
+        if (formSuccess) formSuccess.classList.add('is-visible');
         if (submitBtn) {
           submitBtn.textContent = 'Sent!';
           setTimeout(function () {
@@ -211,7 +211,7 @@
         }
       })
       .catch(function () {
-        if (formError) formError.hidden = false;
+        if (formError) formError.classList.add('is-visible');
         if (submitBtn) {
           submitBtn.textContent = 'Send Message';
           submitBtn.disabled = false;
