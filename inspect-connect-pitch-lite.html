@@ -447,9 +447,13 @@
         break-after: auto;
       }
 
-      /* Slide 11: hide quotes in print so metrics + chart fit one page */
-      #s11-quotes {
-        display: none !important;
+      /* Slide 11: allow natural page break — quotes spill to a second page */
+      #s11 {
+        height: auto;
+        max-height: none;
+        overflow: visible;
+        page-break-inside: auto;
+        break-inside: auto;
       }
 
       /* Hide navigation UI */
@@ -869,8 +873,9 @@
     document.querySelectorAll('.slide').forEach(s => {
       s.style.cssText += ';position:static!important;opacity:1!important;display:flex!important;height:100vh;max-height:100vh;overflow:hidden;box-sizing:border-box;';
     });
-    const quotes = document.getElementById('s11-quotes');
-    if (quotes) quotes.style.display = 'none';
+    // Allow slide 11 to break across pages naturally
+    const s11 = document.getElementById('s11');
+    if (s11) s11.style.cssText += ';height:auto!important;max-height:none!important;overflow:visible!important;';
   });
 
   window.addEventListener('afterprint', () => {
@@ -879,8 +884,6 @@
     document.querySelectorAll('.slide').forEach(s => {
       s.style.cssText = '';
     });
-    const quotes = document.getElementById('s11-quotes');
-    if (quotes) quotes.style.display = '';
   });
 </script>
 
