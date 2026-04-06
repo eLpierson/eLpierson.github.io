@@ -418,62 +418,31 @@
       }
 
       #deck {
-        width: 100%;
-        height: auto !important;
-        position: static !important;
-        overflow: visible !important;
-        display: block !important;
+        width: auto;
+        height: auto;
+        position: static;
       }
 
-      .slide,
-      .slide.exit,
-      .slide.active {
+      .slide {
         position: relative !important;
-        top: auto !important;
-        left: auto !important;
-        right: auto !important;
-        bottom: auto !important;
         inset: auto !important;
         opacity: 1 !important;
-        visibility: visible !important;
         pointer-events: auto !important;
         display: flex !important;
-        flex-direction: column;
         page-break-after: always;
         break-after: page;
         page-break-inside: avoid;
         break-inside: avoid;
         width: 100%;
         height: 100vh;
-        overflow: hidden;
+        overflow: visible;
         box-sizing: border-box;
-        padding: 36px 56px;
-        transition: none !important;
       }
 
       .slide:last-child {
         page-break-after: auto;
         break-after: auto;
       }
-
-      /* Slide 11 (Traction) — dense content, scale down to fit one page */
-      #s11 {
-        padding: 28px 48px;
-      }
-      #s11 h2 { font-size: 28px; margin-bottom: 12px; }
-      #s11 .rule { margin-bottom: 10px; }
-      #s11 .traction-hero { margin-bottom: 8px; }
-      #s11 .hero-label { font-size: 12px; }
-      #s11 .strike-stat { font-size: 22px; }
-      #s11 .traction-arrow { font-size: 18px; }
-      #s11 .traction-big { font-size: 48px; }
-      #s11 .traction-context { font-size: 10px; }
-      #s11 .tam-row { margin-top: 8px; gap: 10px; }
-      #s11 .tam-box { padding: 8px 12px; }
-      #s11 .tnum { font-size: 24px; }
-      #s11 .tlabel { font-size: 10px; }
-      #s11 .q-block p { font-size: 9px !important; margin-bottom: 2px; }
-      #s11 .q-block cite { font-size: 8px !important; }
 
       /* Hide navigation UI */
       #progress,
@@ -699,11 +668,11 @@
     <!-- Stat boxes -->
     <div class="tam-row">
       <div class="tam-box">
-        <div class="tnum">9</div>
+        <div class="tnum">10</div>
         <div class="tlabel">design partner agents<br/>committed to launch</div>
       </div>
       <div class="tam-box">
-        <div class="tnum">27</div>
+        <div class="tnum">28</div>
         <div class="tlabel">agents in active<br/>conversation</div>
       </div>
       <div class="tam-box">
@@ -719,41 +688,49 @@
     <!-- Bar chart: agents in conversation WoW -->
     <div style="margin: clamp(10px,1.5vh,16px) 0 clamp(8px,1.2vh,12px);">
       <div style="font-size:clamp(9px,0.9vw,12px); text-transform:uppercase; letter-spacing:.07em; color:rgba(0,0,0,.35); margin-bottom:clamp(5px,0.8vh,8px);">Agents in active conversation — week over week</div>
-      <svg viewBox="0 0 560 72" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">
-        <!-- bars: max value 25, bar height maps to 54px max, baseline at y=62 -->
-        <!-- labels at y=70 -->
+      <svg viewBox="0 0 720 72" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">
+        <!-- bars: max value 28, bar height maps to 54px max, baseline at y=62, scale=1.929px/unit -->
+        <!-- labels at y=71 -->
         <!-- Feb W1: 2 -->
-        <rect x="4"   y="57.7" width="52" height="4.3"  fill="#7B61FD" opacity="0.7" rx="2"/>
+        <rect x="4"   y="58.1" width="52" height="3.9"  fill="#7B61FD" opacity="0.7" rx="2"/>
         <!-- Feb W2: 4 -->
-        <rect x="84"  y="53.4" width="52" height="8.6"  fill="#7B61FD" opacity="0.75" rx="2"/>
+        <rect x="84"  y="54.3" width="52" height="7.7"  fill="#7B61FD" opacity="0.75" rx="2"/>
         <!-- Feb W3: 10 -->
-        <rect x="164" y="40.4" width="52" height="21.6" fill="#7B61FD" opacity="0.8" rx="2"/>
+        <rect x="164" y="42.7" width="52" height="19.3" fill="#7B61FD" opacity="0.8" rx="2"/>
         <!-- Feb W4: 15 -->
-        <rect x="244" y="29.6" width="52" height="32.4" fill="#7B61FD" opacity="0.85" rx="2"/>
+        <rect x="244" y="33.1" width="52" height="28.9" fill="#7B61FD" opacity="0.85" rx="2"/>
         <!-- Mar W1: 18 -->
-        <rect x="324" y="23.1" width="52" height="38.9" fill="var(--mint,#2d8a4e)" opacity="0.7" rx="2"/>
+        <rect x="324" y="27.3" width="52" height="34.7" fill="var(--mint,#2d8a4e)" opacity="0.65" rx="2"/>
         <!-- Mar W2: 24 -->
-        <rect x="404" y="10.1" width="52" height="51.9" fill="var(--mint,#2d8a4e)" opacity="0.85" rx="2"/>
+        <rect x="404" y="15.7" width="52" height="46.3" fill="var(--mint,#2d8a4e)" opacity="0.8" rx="2"/>
         <!-- Mar W3: 25 -->
-        <rect x="484" y="8"    width="52" height="54"   fill="var(--mint,#2d8a4e)" opacity="1"    rx="2"/>
+        <rect x="484" y="13.8" width="52" height="48.2" fill="var(--mint,#2d8a4e)" opacity="0.9" rx="2"/>
+        <!-- Mar W4: 27 -->
+        <rect x="564" y="9.9"  width="52" height="52.1" fill="var(--mint,#2d8a4e)" opacity="0.95" rx="2"/>
+        <!-- Apr W1: 28 -->
+        <rect x="644" y="8"    width="52" height="54"   fill="var(--mint,#2d8a4e)" opacity="1"    rx="2"/>
         <!-- value labels -->
-        <text x="30"  y="55"  text-anchor="middle" fill="rgba(0,0,0,.45)" font-size="9">2</text>
-        <text x="110" y="51"  text-anchor="middle" fill="rgba(0,0,0,.45)" font-size="9">4</text>
-        <text x="190" y="38"  text-anchor="middle" fill="rgba(0,0,0,.55)" font-size="9">10</text>
-        <text x="270" y="27"  text-anchor="middle" fill="rgba(0,0,0,.6)"  font-size="9">15</text>
-        <text x="350" y="21"  text-anchor="middle" fill="rgba(0,0,0,.7)"  font-size="9">18</text>
-        <text x="430" y="8"   text-anchor="middle" fill="rgba(0,0,0,.85)" font-size="9">24</text>
-        <text x="510" y="6"   text-anchor="middle" fill="#2d8a4e"               font-size="9" font-weight="700">25</text>
+        <text x="30"  y="56"  text-anchor="middle" fill="rgba(0,0,0,.4)"  font-size="9">2</text>
+        <text x="110" y="52"  text-anchor="middle" fill="rgba(0,0,0,.4)"  font-size="9">4</text>
+        <text x="190" y="40"  text-anchor="middle" fill="rgba(0,0,0,.5)"  font-size="9">10</text>
+        <text x="270" y="31"  text-anchor="middle" fill="rgba(0,0,0,.55)" font-size="9">15</text>
+        <text x="350" y="25"  text-anchor="middle" fill="rgba(0,0,0,.65)" font-size="9">18</text>
+        <text x="430" y="14"  text-anchor="middle" fill="rgba(0,0,0,.75)" font-size="9">24</text>
+        <text x="510" y="12"  text-anchor="middle" fill="rgba(0,0,0,.8)"  font-size="9">25</text>
+        <text x="590" y="8"   text-anchor="middle" fill="rgba(0,0,0,.85)" font-size="9">27</text>
+        <text x="670" y="6"   text-anchor="middle" fill="#2d8a4e" font-size="9" font-weight="700">28</text>
         <!-- x-axis labels -->
-        <text x="30"  y="71" text-anchor="middle" fill="rgba(0,0,0,.3)" font-size="8">Feb W1</text>
-        <text x="110" y="71" text-anchor="middle" fill="rgba(0,0,0,.3)" font-size="8">Feb W2</text>
-        <text x="190" y="71" text-anchor="middle" fill="rgba(0,0,0,.3)" font-size="8">Feb W3</text>
-        <text x="270" y="71" text-anchor="middle" fill="rgba(0,0,0,.3)" font-size="8">Feb W4</text>
-        <text x="350" y="71" text-anchor="middle" fill="rgba(0,0,0,.4)" font-size="8">Mar W1</text>
-        <text x="430" y="71" text-anchor="middle" fill="rgba(0,0,0,.4)" font-size="8">Mar W2</text>
-        <text x="510" y="71" text-anchor="middle" fill="rgba(0,0,0,.55)" font-size="8" font-weight="600">Mar W3</text>
+        <text x="30"  y="71" text-anchor="middle" fill="rgba(0,0,0,.3)"  font-size="8">Feb W1</text>
+        <text x="110" y="71" text-anchor="middle" fill="rgba(0,0,0,.3)"  font-size="8">Feb W2</text>
+        <text x="190" y="71" text-anchor="middle" fill="rgba(0,0,0,.3)"  font-size="8">Feb W3</text>
+        <text x="270" y="71" text-anchor="middle" fill="rgba(0,0,0,.3)"  font-size="8">Feb W4</text>
+        <text x="350" y="71" text-anchor="middle" fill="rgba(0,0,0,.4)"  font-size="8">Mar W1</text>
+        <text x="430" y="71" text-anchor="middle" fill="rgba(0,0,0,.4)"  font-size="8">Mar W2</text>
+        <text x="510" y="71" text-anchor="middle" fill="rgba(0,0,0,.45)" font-size="8">Mar W3</text>
+        <text x="590" y="71" text-anchor="middle" fill="rgba(0,0,0,.5)"  font-size="8">Mar W4</text>
+        <text x="670" y="71" text-anchor="middle" fill="#2d8a4e" font-size="8" font-weight="700">Apr W1</text>
         <!-- baseline -->
-        <line x1="0" y1="62" x2="560" y2="62" stroke="rgba(0,0,0,.1)" stroke-width="1"/>
+        <line x1="0" y1="62" x2="720" y2="62" stroke="rgba(0,0,0,.1)" stroke-width="1"/>
       </svg>
     </div>
 
