@@ -424,12 +424,10 @@
         overflow: visible !important;
       }
 
+      /* position: static removes absolute positioning entirely —
+         slides flow vertically in document order, one per page */
       .slide {
-        position: relative !important;
-        top: auto !important;
-        right: auto !important;
-        bottom: auto !important;
-        left: auto !important;
+        position: static !important;
         opacity: 1 !important;
         pointer-events: auto !important;
         display: flex !important;
@@ -449,11 +447,9 @@
         break-after: auto;
       }
 
-      /* Traction slide — scale down so all content fits one landscape page */
-      #s11 {
-        zoom: 0.82;
-        height: calc(100vh / 0.82);
-        max-height: calc(100vh / 0.82);
+      /* Slide 11: hide quotes in print so metrics + chart fit one page */
+      #s11-quotes {
+        display: none !important;
       }
 
       /* Hide navigation UI */
@@ -747,7 +743,7 @@
     </div>
 
     <!-- Quote strip — 4 quotes in 2x2 grid -->
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:clamp(6px,1vw,12px); margin-top:clamp(8px,1.2vh,12px);">
+    <div id="s11-quotes" style="display:grid; grid-template-columns:1fr 1fr; gap:clamp(6px,1vw,12px); margin-top:clamp(8px,1.2vh,12px);">
       <div class="q-block" style="border-left:2px solid var(--purple); padding-left:.75rem;">
         <p style="font-size:clamp(10px,1.05vw,13px);">&ldquo;I can tell this thing really has legs. Is it open for investment? My partner might be interested as well.&rdquo;</p>
         <cite style="font-size:clamp(9px,0.85vw,11px);">Harrison Cohen &middot; Real Estate Agent &middot; stopped a discovery interview to ask</cite>
@@ -869,40 +865,22 @@
   // ── Print / PDF: forcibly unstack slides before printing ──
   window.addEventListener('beforeprint', () => {
     const deck = document.getElementById('deck');
-    deck.style.position = 'static';
-    deck.style.height = 'auto';
-    deck.style.overflow = 'visible';
+    deck.style.cssText = 'position:static!important;height:auto!important;overflow:visible!important;';
     document.querySelectorAll('.slide').forEach(s => {
-      s.style.position = 'relative';
-      s.style.top = 'auto';
-      s.style.right = 'auto';
-      s.style.bottom = 'auto';
-      s.style.left = 'auto';
-      s.style.opacity = '1';
-      s.style.display = 'flex';
-      s.style.height = '100vh';
-      s.style.maxHeight = '100vh';
-      s.style.overflow = 'hidden';
+      s.style.cssText += ';position:static!important;opacity:1!important;display:flex!important;height:100vh;max-height:100vh;overflow:hidden;box-sizing:border-box;';
     });
+    const quotes = document.getElementById('s11-quotes');
+    if (quotes) quotes.style.display = 'none';
   });
 
   window.addEventListener('afterprint', () => {
     const deck = document.getElementById('deck');
-    deck.style.position = '';
-    deck.style.height = '';
-    deck.style.overflow = '';
+    deck.style.cssText = '';
     document.querySelectorAll('.slide').forEach(s => {
-      s.style.position = '';
-      s.style.top = '';
-      s.style.right = '';
-      s.style.bottom = '';
-      s.style.left = '';
-      s.style.opacity = '';
-      s.style.display = '';
-      s.style.height = '';
-      s.style.maxHeight = '';
-      s.style.overflow = '';
+      s.style.cssText = '';
     });
+    const quotes = document.getElementById('s11-quotes');
+    if (quotes) quotes.style.display = '';
   });
 </script>
 
