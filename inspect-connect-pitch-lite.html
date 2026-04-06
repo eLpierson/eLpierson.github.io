@@ -449,11 +449,19 @@
 
       /* Slide 11: allow natural page break — quotes spill to a second page */
       #s11 {
-        height: auto;
-        max-height: none;
-        overflow: visible;
-        page-break-inside: auto;
-        break-inside: auto;
+        height: auto !important;
+        max-height: none !important;
+        overflow: visible !important;
+        page-break-inside: auto !important;
+        break-inside: auto !important;
+      }
+
+      /* Explicitly show quotes in print regardless of overflow/height constraints */
+      #s11-quotes {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        visibility: visible !important;
+        opacity: 1 !important;
       }
 
       /* Hide navigation UI */
