@@ -418,14 +418,18 @@
       }
 
       #deck {
-        width: auto;
-        height: auto;
-        position: static;
+        width: 100%;
+        height: auto !important;
+        position: static !important;
+        overflow: visible !important;
       }
 
       .slide {
         position: relative !important;
-        inset: auto !important;
+        top: auto !important;
+        right: auto !important;
+        bottom: auto !important;
+        left: auto !important;
         opacity: 1 !important;
         pointer-events: auto !important;
         display: flex !important;
@@ -435,6 +439,7 @@
         break-inside: avoid;
         width: 100%;
         height: 100vh;
+        max-height: 100vh;
         overflow: hidden;
         box-sizing: border-box;
       }
@@ -444,41 +449,11 @@
         break-after: auto;
       }
 
-      /* Traction slide — compact spacing so all content fits within one page */
+      /* Traction slide — scale down so all content fits one landscape page */
       #s11 {
-        padding-top: clamp(16px, 2vh, 24px);
-        padding-bottom: clamp(12px, 1.5vh, 20px);
-        gap: 0;
-      }
-
-      #s11 .rule {
-        margin: clamp(4px, 0.6vh, 8px) 0;
-      }
-
-      #s11 .traction-hero {
-        margin-bottom: clamp(6px, 0.8vh, 10px);
-      }
-
-      #s11 .tam-row {
-        gap: clamp(6px, 0.8vw, 10px);
-        margin-bottom: clamp(4px, 0.6vh, 8px);
-      }
-
-      #s11 .tam-box {
-        padding: clamp(8px, 1vh, 12px) clamp(6px, 0.8vw, 10px);
-      }
-
-      #s11 svg {
-        max-height: 52px;
-      }
-
-      #s11 > div:last-child {
-        margin-top: clamp(4px, 0.6vh, 8px);
-        gap: clamp(4px, 0.6vw, 8px);
-      }
-
-      #s11 .q-block {
-        padding: clamp(4px, 0.5vh, 7px) 0 clamp(4px, 0.5vh, 7px) .6rem;
+        zoom: 0.82;
+        height: calc(100vh / 0.82);
+        max-height: calc(100vh / 0.82);
       }
 
       /* Hide navigation UI */
@@ -889,6 +864,45 @@
   });
   document.getElementById('deck').addEventListener('click', e => {
     go(e.clientX > window.innerWidth / 2 ? c + 1 : c - 1);
+  });
+
+  // ── Print / PDF: forcibly unstack slides before printing ──
+  window.addEventListener('beforeprint', () => {
+    const deck = document.getElementById('deck');
+    deck.style.position = 'static';
+    deck.style.height = 'auto';
+    deck.style.overflow = 'visible';
+    document.querySelectorAll('.slide').forEach(s => {
+      s.style.position = 'relative';
+      s.style.top = 'auto';
+      s.style.right = 'auto';
+      s.style.bottom = 'auto';
+      s.style.left = 'auto';
+      s.style.opacity = '1';
+      s.style.display = 'flex';
+      s.style.height = '100vh';
+      s.style.maxHeight = '100vh';
+      s.style.overflow = 'hidden';
+    });
+  });
+
+  window.addEventListener('afterprint', () => {
+    const deck = document.getElementById('deck');
+    deck.style.position = '';
+    deck.style.height = '';
+    deck.style.overflow = '';
+    document.querySelectorAll('.slide').forEach(s => {
+      s.style.position = '';
+      s.style.top = '';
+      s.style.right = '';
+      s.style.bottom = '';
+      s.style.left = '';
+      s.style.opacity = '';
+      s.style.display = '';
+      s.style.height = '';
+      s.style.maxHeight = '';
+      s.style.overflow = '';
+    });
   });
 </script>
 
