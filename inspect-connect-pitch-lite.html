@@ -869,20 +869,42 @@
   // ── Print / PDF: forcibly unstack slides before printing ──
   window.addEventListener('beforeprint', () => {
     const deck = document.getElementById('deck');
-    deck.style.cssText = 'position:static!important;height:auto!important;overflow:visible!important;';
+    deck.style.position = 'static';
+    deck.style.height = 'auto';
+    deck.style.overflow = 'visible';
+
     document.querySelectorAll('.slide').forEach(s => {
-      s.style.cssText += ';position:static!important;opacity:1!important;display:flex!important;height:100vh;max-height:100vh;overflow:hidden;box-sizing:border-box;';
+      s.style.position = 'static';
+      s.style.opacity = '1';
+      s.style.display = 'flex';
+      s.style.height = '100vh';
+      s.style.maxHeight = '100vh';
+      s.style.overflow = 'hidden';
+      s.style.boxSizing = 'border-box';
     });
-    // Allow slide 11 to break across pages naturally
+
+    // Slide 11: allow natural overflow so quotes spill to next page
     const s11 = document.getElementById('s11');
-    if (s11) s11.style.cssText += ';height:auto!important;max-height:none!important;overflow:visible!important;';
+    if (s11) {
+      s11.style.height = 'auto';
+      s11.style.maxHeight = 'none';
+      s11.style.overflow = 'visible';
+    }
   });
 
   window.addEventListener('afterprint', () => {
     const deck = document.getElementById('deck');
-    deck.style.cssText = '';
+    deck.style.position = '';
+    deck.style.height = '';
+    deck.style.overflow = '';
     document.querySelectorAll('.slide').forEach(s => {
-      s.style.cssText = '';
+      s.style.position = '';
+      s.style.opacity = '';
+      s.style.display = '';
+      s.style.height = '';
+      s.style.maxHeight = '';
+      s.style.overflow = '';
+      s.style.boxSizing = '';
     });
   });
 </script>
