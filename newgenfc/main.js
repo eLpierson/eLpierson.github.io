@@ -56,7 +56,7 @@
   var animateElements = document.querySelectorAll(
     '.section__header, .about__content, .about__features, .feature-card, ' +
     '.program-card, .method__step, .coach__image-wrapper, .coach__content, ' +
-    '.testimonial-card, .faq__item, .contact__info, .contact__form'
+    '.testimonial-card, .partner-tile, .faq__item, .contact__info, .contact__form'
   );
 
   if ('IntersectionObserver' in window && !prefersReducedMotion) {

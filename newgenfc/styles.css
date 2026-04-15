@@ -810,6 +810,212 @@ ul {
 }
 
 /* ============================================
+   PARTNERSHIPS & AFFILIATIONS
+   ============================================ */
+.partners {
+  background: var(--gray-50);
+  background: linear-gradient(180deg, var(--white) 0%, var(--gray-50) 100%);
+}
+
+.partners__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 3rem;
+}
+
+@media (min-width: 560px) {
+  .partners__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .partners__grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .partners__grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+.partner-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1 / 1;
+  /* Fallback for browsers without aspect-ratio support */
+  min-height: 140px;
+  padding: 1.25rem 1rem;
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  transition: transform var(--duration) var(--ease),
+              box-shadow var(--duration) var(--ease),
+              border-color var(--duration) var(--ease);
+  text-decoration: none;
+  color: inherit;
+  overflow: hidden;
+}
+
+@supports (aspect-ratio: 1 / 1) {
+  .partner-tile {
+    min-height: 0;
+  }
+}
+
+a.partner-tile {
+  cursor: pointer;
+}
+
+a.partner-tile:hover,
+a.partner-tile:focus-visible {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.12),
+              0 4px 8px -2px rgba(0, 0, 0, 0.06);
+  border-color: var(--gold);
+  outline: none;
+}
+
+.partner-tile__logo {
+  max-width: 80%;
+  max-height: 68%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  filter: grayscale(100%);
+  opacity: 0.75;
+  transition: filter var(--duration) var(--ease),
+              opacity var(--duration) var(--ease);
+}
+
+.partner-tile__logo--wide {
+  max-width: 90%;
+  max-height: 50%;
+}
+
+a.partner-tile:hover .partner-tile__logo,
+a.partner-tile:focus-visible .partner-tile__logo {
+  filter: grayscale(0);
+  opacity: 1;
+}
+
+/* Invert white-on-dark logos so they render dark on our light tile */
+.partner-tile--invert .partner-tile__logo {
+  filter: grayscale(100%) invert(1) contrast(0.85);
+  opacity: 0.8;
+}
+
+a.partner-tile--invert:hover .partner-tile__logo,
+a.partner-tile--invert:focus-visible .partner-tile__logo {
+  filter: grayscale(0) invert(1) contrast(0.9);
+  opacity: 1;
+}
+
+/* Text badge tiles (for partners without available logos) */
+.partner-tile--text {
+  background: var(--gray-900);
+  color: var(--white);
+  border-color: var(--gray-900);
+}
+
+.partner-tile--text .partner-tile__badge {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.15;
+  letter-spacing: 0.02em;
+  text-align: center;
+  color: var(--gold);
+  padding: 0 0.25rem;
+}
+
+@media (min-width: 768px) {
+  .partner-tile--text .partner-tile__badge {
+    font-size: 1.125rem;
+  }
+}
+
+a.partner-tile--text:hover,
+a.partner-tile--text:focus-visible {
+  background: var(--black);
+  border-color: var(--gold);
+}
+
+/* Partner name shown below the logo on hover / on mobile */
+.partner-tile__name {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0.75rem;
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.01em;
+  padding: 0 0.5rem;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity var(--duration) var(--ease),
+              transform var(--duration) var(--ease);
+  pointer-events: none;
+}
+
+.partner-tile--text .partner-tile__name {
+  color: var(--gray-400);
+}
+
+a.partner-tile:hover .partner-tile__name,
+a.partner-tile:focus-visible .partner-tile__name {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Always show name on touch devices (no hover) */
+@media (hover: none) {
+  .partner-tile__name {
+    opacity: 1;
+    transform: translateY(0);
+    position: static;
+    margin-top: 0.5rem;
+  }
+
+  .partner-tile {
+    aspect-ratio: auto;
+    min-height: 140px;
+    padding-bottom: 1rem;
+  }
+
+  .partner-tile__logo,
+  .partner-tile--invert .partner-tile__logo {
+    filter: grayscale(0);
+    opacity: 1;
+  }
+
+  .partner-tile--invert .partner-tile__logo {
+    filter: invert(1);
+  }
+}
+
+.partners__note {
+  text-align: center;
+  margin-top: 2.5rem;
+  font-size: 0.8125rem;
+  color: var(--gray-400);
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ============================================
    FAQ
    ============================================ */
 .faq__list {
