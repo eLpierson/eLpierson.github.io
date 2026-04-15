@@ -876,8 +876,8 @@ a.partner-tile {
   cursor: pointer;
 }
 
-a.partner-tile:hover,
-a.partner-tile:focus-visible {
+.partner-tile:hover,
+.partner-tile:focus-visible {
   transform: translateY(-4px);
   box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.12),
               0 4px 8px -2px rgba(0, 0, 0, 0.06);
@@ -921,36 +921,6 @@ a.partner-tile--invert:focus-visible {
   color: var(--gray-400);
 }
 
-/* Text badge tiles (for partners without available logos) */
-.partner-tile--text {
-  background: var(--gray-900);
-  color: var(--white);
-  border-color: var(--gray-900);
-}
-
-.partner-tile--text .partner-tile__badge {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 1rem;
-  line-height: 1.15;
-  letter-spacing: 0.02em;
-  text-align: center;
-  color: var(--gold);
-  padding: 0 0.25rem;
-}
-
-@media (min-width: 768px) {
-  .partner-tile--text .partner-tile__badge {
-    font-size: 1.125rem;
-  }
-}
-
-a.partner-tile--text:hover,
-a.partner-tile--text:focus-visible {
-  background: var(--black);
-  border-color: var(--gold);
-}
-
 /* Partner name shown below the logo on hover / on mobile */
 .partner-tile__name {
   position: absolute;
@@ -970,12 +940,12 @@ a.partner-tile--text:focus-visible {
   pointer-events: none;
 }
 
-.partner-tile--text .partner-tile__name {
+.partner-tile--invert .partner-tile__name {
   color: var(--gray-400);
 }
 
-a.partner-tile:hover .partner-tile__name,
-a.partner-tile:focus-visible .partner-tile__name {
+.partner-tile:hover .partner-tile__name,
+.partner-tile:focus-visible .partner-tile__name {
   opacity: 1;
   transform: translateY(0);
 }
