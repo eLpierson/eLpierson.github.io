@@ -891,10 +891,7 @@ a.partner-tile:focus-visible {
   width: auto;
   height: auto;
   object-fit: contain;
-  filter: grayscale(100%);
-  opacity: 0.75;
-  transition: filter var(--duration) var(--ease),
-              opacity var(--duration) var(--ease);
+  transition: transform var(--duration) var(--ease);
 }
 
 .partner-tile__logo--wide {
@@ -904,20 +901,24 @@ a.partner-tile:focus-visible {
 
 a.partner-tile:hover .partner-tile__logo,
 a.partner-tile:focus-visible .partner-tile__logo {
-  filter: grayscale(0);
-  opacity: 1;
+  transform: scale(1.04);
 }
 
-/* Invert white-on-dark logos so they render dark on our light tile */
-.partner-tile--invert .partner-tile__logo {
-  filter: grayscale(100%) invert(1) contrast(0.85);
-  opacity: 0.8;
+/* Partners whose only available logo is white-on-dark — give them a dark tile
+   so the logo reads properly at full color */
+.partner-tile--invert {
+  background: var(--gray-900);
+  border-color: var(--gray-900);
 }
 
-a.partner-tile--invert:hover .partner-tile__logo,
-a.partner-tile--invert:focus-visible .partner-tile__logo {
-  filter: grayscale(0) invert(1) contrast(0.9);
-  opacity: 1;
+a.partner-tile--invert:hover,
+a.partner-tile--invert:focus-visible {
+  background: var(--black);
+  border-color: var(--gold);
+}
+
+.partner-tile--invert .partner-tile__name {
+  color: var(--gray-400);
 }
 
 /* Text badge tiles (for partners without available logos) */
@@ -992,16 +993,6 @@ a.partner-tile:focus-visible .partner-tile__name {
     aspect-ratio: auto;
     min-height: 140px;
     padding-bottom: 1rem;
-  }
-
-  .partner-tile__logo,
-  .partner-tile--invert .partner-tile__logo {
-    filter: grayscale(0);
-    opacity: 1;
-  }
-
-  .partner-tile--invert .partner-tile__logo {
-    filter: invert(1);
   }
 }
 
