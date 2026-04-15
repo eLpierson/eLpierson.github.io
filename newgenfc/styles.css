@@ -647,6 +647,80 @@ ul {
   color: var(--gold-light);
 }
 
+.program-card__pricing {
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.125rem;
+  background: rgba(251, 190, 81, 0.06);
+  border: 1px solid rgba(251, 190, 81, 0.18);
+  border-radius: var(--radius);
+}
+
+.program-card--featured .program-card__pricing {
+  background: rgba(251, 190, 81, 0.1);
+  border-color: rgba(251, 190, 81, 0.3);
+}
+
+.program-card__price {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--gold);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.program-card__price-unit {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--gray-400);
+  margin-left: 0.25rem;
+}
+
+.program-card__price--tbd {
+  font-size: 1.25rem;
+  color: var(--gold-light);
+}
+
+.program-card__price-fine {
+  margin-top: 0.5rem;
+  font-size: 0.8125rem;
+  color: var(--gray-400);
+  line-height: 1.5;
+}
+
+.program-card__price-list {
+  margin-top: 0.875rem;
+  padding-top: 0.875rem;
+  border-top: 1px solid rgba(251, 190, 81, 0.15);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.375rem;
+}
+
+.program-card__price-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 0.8125rem;
+  color: var(--gray-300);
+}
+
+.program-card__price-list li span {
+  color: var(--gray-400);
+}
+
+.program-card__price-list li strong {
+  color: var(--white);
+  font-weight: 600;
+}
+
+.program-card__price-list li em {
+  font-style: normal;
+  color: var(--gray-400);
+  font-weight: 400;
+  font-size: 0.75rem;
+}
+
 /* ============================================
    METHOD
    ============================================ */
