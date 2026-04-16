@@ -603,8 +603,6 @@ ul {
 }
 
 /* Per-image focal-point tuning so faces stay in-frame after cropping */
-.program-card__image--dev { object-position: center 30%; }
-.program-card__image--elite { object-position: center 40%; }
 .program-card__image--private { object-position: center 22%; }
 
 .program-card__badge {
@@ -945,6 +943,12 @@ ul {
   height: 100%;
   object-fit: cover;
   transition: transform 600ms var(--ease);
+}
+
+/* Portrait source photos displayed in the 4:3 landscape tiles — pull the
+   focal point up so faces (upper third) survive the crop. */
+.moments__item .moments__img--portrait {
+  object-position: center 28%;
 }
 
 .moments__item:hover img {
