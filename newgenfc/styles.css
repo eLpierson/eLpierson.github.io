@@ -604,6 +604,9 @@ ul {
 
 /* Per-image focal-point tuning so faces stay in-frame after cropping */
 .program-card__image--private { object-position: center 22%; }
+/* Generic helper for any portrait (3:4) source shown in the 3:2 card slot —
+   biases the crop toward the upper third so heads/faces are preserved. */
+.program-card__image--portrait { object-position: center 32%; }
 
 .program-card__badge {
   display: inline-flex;
