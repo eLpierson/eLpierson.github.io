@@ -1475,13 +1475,24 @@ a.partner-tile--invert:focus-visible {
 /* Scroll-triggered animations */
 .animate-on-scroll {
   opacity: 0;
-  transform: translateY(32px);
-  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+  transform: translateY(20px);
+  transition: opacity 0.45s var(--ease), transform 0.45s var(--ease);
 }
 
 .animate-on-scroll.is-visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Safety net: if JS reveal hasn't landed within ~1s of the section
+   coming into view (e.g. observer callback lags, fast scroll past a
+   stagger delay), force-show everything so the site never looks
+   broken. Respects prefers-reduced-motion via the no-js fallback above. */
+html.reveal-all .animate-on-scroll {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
+  transition-delay: 0s !important;
 }
 
 /* ============================================

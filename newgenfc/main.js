@@ -66,34 +66,74 @@
       animateElements[j].classList.add('animate-on-scroll');
     }
 
+    // Track which siblings inside a parent have already revealed so the
+    // stagger index stays small (e.g. the 3rd visible item has delay 2,
+    // not "position 9 of 12 in the DOM"). Also cap the delay so users
+    // never wait more than ~0.18s for content to appear.
+    var revealCounts = new WeakMap();
+    var MAX_STAGGER_STEPS = 3;
+    var STAGGER_STEP = 0.06;
+
     var observer = new IntersectionObserver(
       function (entries) {
         entries.forEach(function (entry) {
           if (entry.isIntersecting) {
-            // Stagger children if they are in a grid
             var parent = entry.target.parentElement;
-            if (parent) {
-              var siblings = parent.querySelectorAll('.animate-on-scroll');
-              siblings.forEach(function (sib, idx) {
-                if (sib === entry.target) {
-                  entry.target.style.transitionDelay = idx * 0.08 + 's';
-                }
-              });
-            }
+            var count = parent ? revealCounts.get(parent) || 0 : 0;
+            var step = Math.min(count, MAX_STAGGER_STEPS);
+            entry.target.style.transitionDelay = step * STAGGER_STEP + 's';
+            if (parent) revealCounts.set(parent, count + 1);
+
             entry.target.classList.add('is-visible');
             observer.unobserve(entry.target);
           }
         });
       },
       {
-        threshold: 0.1,
-        rootMargin: '0px 0px -40px 0px',
+        threshold: 0,
+        // Expand the viewport 15% below the fold so content animates in
+        // BEFORE the user scrolls to it — by the time the section is in
+        // view, the reveal is already finished or mid-flight.
+        rootMargin: '0px 0px 15% 0px',
       }
     );
 
     for (var k = 0; k < animateElements.length; k++) {
       observer.observe(animateElements[k]);
     }
+
+    // Safety net: if anything is still hidden after the user has clearly
+    // reached it (e.g. fast scroll, observer hiccup, tab was backgrounded),
+    // force-show every remaining item. Re-checks on scroll with a throttle.
+    var safetyTimer = null;
+    function revealStuck() {
+      var stuck = document.querySelectorAll('.animate-on-scroll:not(.is-visible)');
+      for (var m = 0; m < stuck.length; m++) {
+        var rect = stuck[m].getBoundingClientRect();
+        // If any part of the element is within the viewport, reveal it.
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          stuck[m].style.transitionDelay = '0s';
+          stuck[m].classList.add('is-visible');
+          observer.unobserve(stuck[m]);
+        }
+      }
+    }
+    window.addEventListener('scroll', function () {
+      if (safetyTimer) return;
+      safetyTimer = setTimeout(function () {
+        safetyTimer = null;
+        revealStuck();
+      }, 150);
+    }, { passive: true });
+
+    // Nuclear fallback: 2s after load, reveal anything still hidden anywhere.
+    // This guarantees the page never looks broken even if IntersectionObserver
+    // silently fails on some browser/configuration.
+    window.addEventListener('load', function () {
+      setTimeout(function () {
+        document.documentElement.classList.add('reveal-all');
+      }, 2000);
+    });
   }
   // If IntersectionObserver is not available or reduced motion is preferred,
   // elements remain fully visible (no animate-on-scroll class added)
