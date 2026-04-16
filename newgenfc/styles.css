@@ -1537,18 +1537,22 @@ html.reveal-all .animate-on-scroll {
   }
 
   .nav__menu {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
+    /* Use absolute (not fixed) because .nav has backdrop-filter which
+       creates a containing block — position:fixed would be relative to
+       the 72px nav, not the viewport. Absolute + 100dvh avoids that. */
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100vh;
+    height: 100dvh; /* iOS safe-area aware */
     z-index: 999;
     background: rgba(0, 0, 0, 0.98);
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: center !important;
-    align-items: center !important;
-    gap: 0.75rem !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.75rem;
     padding: 0;
     visibility: hidden;
     opacity: 0;
